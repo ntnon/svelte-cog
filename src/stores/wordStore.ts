@@ -1,30 +1,58 @@
-import { settingsStore } from './settingsStore';
 import { SessionStorageManager as ssm } from './sessionStorage';
 import dict from './words.json'
+import { writable } from 'svelte/store';
 
-function getRandomSubset(words: string[], size: number): string[] {
+interface Dict {
+    [key: string]: string[];
+}
+
+const dictionaries: Dict = dict;
+const words: string[] = ssm.getItem("words") || [];
+const lang = "norsk"
+const sampleSize = 3;
+
+if (words.length === 0) {
+
+    ssm.setItem("words", getRandomSubset(dictionaries[lang], sampleSize));
+}
+
+export const wordStore = writable(words);
+
+function getRandomSubset(wordList: string[], size: number): string[] {
     const sample = [];
-    console.log(words)
-    const totalWords = words.length;
+    const totalWords = wordList.length;
     for (let i = 0; i < size; i++) {
         const randomIndex = Math.floor(Math.random() * totalWords);
-        sample.push(words[randomIndex]);
+        sample.push(wordList[randomIndex]);
     }
     return sample;
 }
 
+export function resetWords() {
+    const newWords = getRandomSubset(dictionaries[lang], sampleSize)
+    wordStore.set(newWords)
+    ssm.setItem("words", newWords)
+}
+
+/* 
+
+import { settingsStore } from './settingsStore';
+
 function updateWords(lang: string, sampleSize: number) {
     try {
-        const words: string[] = dict[lang as keyof typeof dict]; // Access the correct property based on the language parameter
-        console.log("words: ", words)
-        const newWords = getRandomSubset(words, sampleSize)
+        const newWords = getRandomSubset(dictionaries[lang], sampleSize);
         ssm.setState("words", newWords);
-        return
+        return newWords;
     }
     catch (err) {
-        console.error("Language not supported");
+        console.error(err);
         return;
     }
+}
+
+export async function resetWords() {
+    ssm.clearState("words");
+    getWords();
 }
 
 export async function getWords() {
@@ -38,3 +66,4 @@ export async function getWords() {
     }
     return ssm.getState("words");
 }
+*/
