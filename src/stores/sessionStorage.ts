@@ -12,7 +12,7 @@ export const SessionStorageManager = {
             window.sessionStorage.setItem(key, JSON.stringify(value));
         }
     },
-    clearState(key: string) {
+    clearItem(key: string) {
         if (browser) {
             window.sessionStorage.removeItem(key);
         }
