@@ -1,11 +1,6 @@
 import Routes from '$lib/routes.json';
-import { onMount } from 'svelte';
 import { SessionStorageManager as ssm } from './sessionStorage';
 import type { IRoute, IStatus } from '$lib/interfaces';
-
-onMount(() => {
-    ssm.getItem("progress") || ssm.setItem("progress", initialize());
-})
 
 function initialize(): IStatus[] {
     const tracker: IStatus[] = []
@@ -16,18 +11,32 @@ function initialize(): IStatus[] {
             path: route.path,
             status: "incomplete"
         })
-    }
-    )
+    })
     return tracker
 }
 
+function ensureProgress() {
+    ssm.clearItem("progress") // gotta fix this foreal - we don't want to clear the progress every time
+    if (!ssm.getItem("progress")) {
+        const newProgress = initialize()
+        ssm.setItem("progress", newProgress)
+        return newProgress
+    }
+    return ssm.getItem("progress")
+}
+
 export function updateProgress(route: IRoute, status: IStatus["status"]) {
-    const progress: IStatus[] = ssm.getItem("progress")
-    const index = progress.findIndex((r: IStatus) => r.id === route.id)
-    progress[index].status = status
+    const progress: IStatus[] = ensureProgress();
+    const indexToUpdate = progress.findIndex((item: IRoute) => item.id === route.id);
+    if (indexToUpdate !== -1) {
+        progress[indexToUpdate].status = status;
+    }
     ssm.setItem("progress", progress)
 }
 
 export function getProgress(route: IRoute): IStatus {
+    ensureProgress();
+    console.log(ssm.getItem("progress"))
     return ssm.getItem("progress").find((r: IStatus) => r.id === route.id)
+
 }
