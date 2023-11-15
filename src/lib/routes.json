@@ -20,11 +20,6 @@
         "path": "/tasks/wordregistration"
     },
     {
-        "id": 3,
-        "name": "Word Registration",
-        "path": "/tasks/wordregistration"
-    },
-    {
         "id": 4,
         "name": "Clock Draw",
         "path": "/tasks/clockdraw"
