@@ -1,5 +1,18 @@
 <script>
+	import { getContext } from 'svelte';
 	import { wordStore, resetWords } from '../../../stores/wordStore';
+	import { page } from '$app/stores';
+
+	const updateProgress = getContext('updateProgress');
+	const getProgress = getContext('getProgress');
+
+	function sharedGetProgress() {
+		getProgress();
+	}
+
+	function sharedUpdateProgress() {
+		updateProgress();
+	}
 </script>
 
 <h1>Word Registration</h1>
@@ -8,3 +21,5 @@
 {/each}
 
 <button on:click={() => resetWords()}>reset</button>
+<button on:click={() => sharedGetProgress()}>see current progress</button>
+<button on:click={() => sharedUpdateProgress()}>update progress</button>
