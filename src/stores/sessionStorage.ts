@@ -1,15 +1,25 @@
+import { browser } from "$app/environment"
+
 export const SessionStorageManager = {
-    getState(key: string) {
-        const item = sessionStorage.getItem(key);
-        return item ? JSON.parse(item) : null;
+    getItem(key: string) {
+        if (browser) {
+            const item = window.sessionStorage.getItem(key);
+            return item ? JSON.parse(item) : null;
+        }
     },
-    setState(key: string, value: string) {
-        sessionStorage.setItem(key, JSON.stringify(value));
+    setItem(key: string, value: unknown) {
+        if (browser) {
+            window.sessionStorage.setItem(key, JSON.stringify(value));
+        }
     },
     clearState(key: string) {
-        sessionStorage.removeItem(key);
+        if (browser) {
+            window.sessionStorage.removeItem(key);
+        }
     },
     clearAll() {
-        sessionStorage.clear();
+        if (browser) {
+            window.sessionStorage.clear();
+        }
     }
 };
