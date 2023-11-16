@@ -1,5 +1,5 @@
 import Routes from '$lib/routes.json';
-import { SessionStorageManager as ssm } from './sessionStorage';
+import { sessionStateManager as ssm } from './sessionStateManager';
 import type { IRoute, IStatus } from '$lib/interfaces';
 
 function initialize(): IStatus[] {
@@ -36,7 +36,5 @@ export function updateProgress(route: IRoute, status: IStatus["status"]) {
 
 export function getProgress(route: IRoute): IStatus {
     ensureProgress();
-    console.log(ssm.getItem("progress"))
     return ssm.getItem("progress").find((r: IStatus) => r.id === route.id)
-
 }

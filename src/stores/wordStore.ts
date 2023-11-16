@@ -1,4 +1,4 @@
-import { SessionStorageManager as ssm } from './sessionStorage';
+import { sessionStateManager as ssm } from './sessionStateManager';
 import dict from './words.json'
 import { writable } from 'svelte/store';
 
