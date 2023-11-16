@@ -8,7 +8,7 @@
 
 	const currentPage: IRoute | undefined = Routes.find((r: IRoute) => r.path === $page.route.id);
 	if (!currentPage) throw new Error('current page not found');
-
+	/* 
 	const sharedUpdateProgress = () => {
 		updateProgress(currentPage, 'complete');
 	};
@@ -17,6 +17,7 @@
 	};
 	setContext('updateProgress', sharedUpdateProgress);
 	setContext('getProgress', sharedGetProgress);
+	*/
 </script>
 
 <Navbar />
