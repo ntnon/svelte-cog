@@ -4,7 +4,7 @@
 	import type { IRoute } from '$lib/interfaces';
 	// Create a writable store to keep track of the current path
 	const location = $page.route.id;
-
+	// regex for for later if I need it ^((\/\w*)*)
 	function isNextRoute(route: IRoute) {
 		if (location === null) return false;
 		const currentIndex = routes.findIndex((route) => route.path === location);
