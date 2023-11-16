@@ -1,6 +1,6 @@
 import { browser } from "$app/environment"
 
-export const SessionStorageManager = {
+export const SessionStateManager = {
     getItem(key: string) {
         if (browser) {
             const item = window.sessionStorage.getItem(key);
