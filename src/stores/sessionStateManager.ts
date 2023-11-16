@@ -1,14 +1,16 @@
 import { browser } from "$app/environment"
 
-export const SessionStateManager = {
+export const sessionStateManager = {
     getItem(key: string) {
         if (browser) {
-            const item = window.sessionStorage.getItem(key);
-            return item ? JSON.parse(item) : null;
+            console.log("from storage you got: ", window.sessionStorage.getItem(key))
+            return window.sessionStorage.getItem(key);
         }
+        return null
     },
     setItem(key: string, value: unknown) {
         if (browser) {
+            console.log("setting item: ", key, " to: ", value, " in session storage")
             window.sessionStorage.setItem(key, JSON.stringify(value));
         }
     },
@@ -20,6 +22,11 @@ export const SessionStateManager = {
     clearAll() {
         if (browser) {
             window.sessionStorage.clear();
+        }
+    },
+    viewSessionState() {
+        if (browser) {
+            console.log("session storage: ", window.sessionStorage)
         }
     }
 };
