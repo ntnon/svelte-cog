@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import { getContext } from 'svelte';
 	import { wordStore, resetWords } from '../../../stores/wordStore';
 	import { page } from '$app/stores';
@@ -7,11 +7,11 @@
 	const getProgress = getContext('getProgress');
 
 	function sharedGetProgress() {
-		getProgress();
+		(getProgress as () => void)();
 	}
 
 	function sharedUpdateProgress() {
-		updateProgress();
+		(updateProgress as () => void)();
 	}
 </script>
 
