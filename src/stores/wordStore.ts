@@ -1,7 +1,6 @@
 import { writable } from 'svelte/store';
 import { sessionStateManager as ssm } from './sessionStateManager';
 import dict from './words.json'
-import { onMount } from 'svelte';
 
 interface Dict {
     [key: string]: string[];
@@ -12,6 +11,7 @@ const lang = "norsk"
 const sampleSize = 3;
 
 export const wordStore = writable<string[]>();
+
 wordStore.set(getWordsFromSessionStorage());
 
 wordStore.subscribe((value) => {
@@ -30,8 +30,14 @@ function getRandomSubset(wordList: string[], size: number): string[] {
 
 function getWordsFromSessionStorage() {
     const storedWords = ssm.getItem("words");
-    if (storedWords === null || storedWords === undefined || storedWords === "undefined") {
-        return getRandomSubset(dictionaries[lang], sampleSize)
+    const newWords = getRandomSubset(dictionaries[lang], sampleSize);
+    if (storedWords === null
+        || storedWords === undefined
+        || storedWords === "undefined") {
+        return newWords
+    }
+    if (JSON.parse(storedWords).length < sampleSize) {
+        return newWords
     }
     return JSON.parse(storedWords);
 }
