@@ -1,36 +1,21 @@
 [
     {
-        "id": 0,
         "name": "Home",
         "path": "/"
     },
     {
-        "id": 1,
-        "name": "About",
-        "path": "/about"
-    },
-    {
-        "id": 1,
-        "name": "About",
-        "path": "/about"
-    },
-    {
-        "id": 3,
         "name": "Word Registration",
         "path": "/tasks/wordregistration"
     },
     {
-        "id": 4,
         "name": "Clock Draw",
         "path": "/tasks/clockdraw"
     },
     {
-        "id": 5,
         "name": "Clock Point",
         "path": "/tasks/clockpoint"
     },
     {
-        "id": 6,
         "name": "Word Recall",
         "path": "/tasks/wordrecall"
     }
