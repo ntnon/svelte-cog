@@ -1,22 +1,13 @@
 <script lang="ts">
-	import { getContext, onMount } from 'svelte';
 	import { wordStore } from '../../../stores/wordStore';
-	import { sessionStateManager as ssm } from '../../../stores/sessionStateManager';
+	import { updateProgress } from '../../../stores/progressTracker';
+	import { page } from '$app/stores';
+	import { onMount } from 'svelte';
 
-	console.log('session storage: ', ssm.getItem('words')); // wth? why is this null?
-	console.log('word store f f: ', $wordStore);
-	const updateProgress = getContext('updateProgress');
-	const getProgress = getContext('getProgress');
-
-	function sharedGetProgress() {
-		(getProgress as () => void)();
-	}
-
-	function sharedUpdateProgress() {
-		(updateProgress as () => void)();
-	}
 	let f: string[] = [];
+
 	onMount(() => {
+		//ensures that the wordStore is populated before the component is mounted
 		f = $wordStore;
 	});
 </script>
@@ -25,5 +16,4 @@
 {#each f as w}
 	<p>{w}</p>
 {/each}
-<button on:click={() => sharedGetProgress()}>see current progress</button>
-<button on:click={() => sharedUpdateProgress()}>update progress</button>
+<button on:click={() => updateProgress($page.route.id, 'complete')}>update progress</button>
