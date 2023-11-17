@@ -1,16 +1,17 @@
 import { browser } from "$app/environment"
 
+/*
+All saving to session storage should be done through this class
+*/
 export const sessionStateManager = {
     getItem(key: string) {
         if (browser) {
-            console.log("from storage you got: ", window.sessionStorage.getItem(key))
             return window.sessionStorage.getItem(key);
         }
         return null
     },
     setItem(key: string, value: unknown) {
         if (browser) {
-            console.log("setting item: ", key, " to: ", value, " in session storage")
             window.sessionStorage.setItem(key, JSON.stringify(value));
         }
     },
@@ -28,5 +29,12 @@ export const sessionStateManager = {
         if (browser) {
             console.log("session storage: ", window.sessionStorage)
         }
-    }
+    },
+    getItemArray(key: string) { //if a key contains an array, this will return it
+        const storedWords = this.getItem(key);
+        if (storedWords && storedWords !== "undefined") {
+            const array = JSON.parse(storedWords) as [];
+            return array.length !== 0 ? array : undefined;
+        }
+    },
 };
