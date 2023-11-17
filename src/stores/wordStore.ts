@@ -5,20 +5,22 @@ import dict from './words.json'
 interface Dict {
     [key: string]: string[];
 }
-
+// collect these from a settings file
 const dictionaries: Dict = dict;
 const lang = "norsk"
+const dictionary = dictionaries[lang];
 const sampleSize = 3;
+// --
+const key = "words"
 
 export const wordStore = writable<string[]>();
-
-wordStore.set(getWordsFromSessionStorage());
+wordStore.set(initialize(dictionary, sampleSize));
 
 wordStore.subscribe((value) => {
-    ssm.setItem("words", value);
+    ssm.setItem(key, value);
 });
 
-function getRandomSubset(wordList: string[], size: number): string[] {
+function randomWords(wordList: string[], size: number): string[] {
     const totalWords = wordList.length;
     const sample: string[] = [];
     for (let i = 0; i < size; i++) {
@@ -27,17 +29,11 @@ function getRandomSubset(wordList: string[], size: number): string[] {
     }
     return sample;
 }
-
-function getWordsFromSessionStorage() {
-    const storedWords = ssm.getItem("words");
-    const newWords = getRandomSubset(dictionaries[lang], sampleSize);
-    if (storedWords === null
-        || storedWords === undefined
-        || storedWords === "undefined") {
-        return newWords
+//if the key is not set, initialize it with a random sample
+function initialize(dict: string[], size: number = sampleSize): string[] {
+    const currentValue = ssm.getItemArray(key);
+    if (currentValue === undefined) {
+        return randomWords(dict, size);
     }
-    if (JSON.parse(storedWords).length < sampleSize) {
-        return newWords
-    }
-    return JSON.parse(storedWords);
+    return currentValue;
 }
