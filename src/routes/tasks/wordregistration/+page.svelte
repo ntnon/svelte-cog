@@ -9,6 +9,7 @@
 	onMount(() => {
 		//ensures that the wordStore is populated before the component is mounted
 		f = $wordStore;
+		f = $wordStore ?? [];
 	});
 </script>
 
