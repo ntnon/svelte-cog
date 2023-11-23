@@ -1,3 +1,3 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
-<a href="/tasks/wordregistration">wordreg</a>
+<h1>Welcome to Svelte-Cog!</h1>
+<p>This is a web based cognitive test created with SvelteKit</p>
+<button><a href="/tasks/wordregistration">wordreg</a></button>
