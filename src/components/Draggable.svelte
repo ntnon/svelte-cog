@@ -1,38 +1,55 @@
 <script lang="ts">
-	export let left = 100;
-	export let top = 100;
+	export let onMouseUpFn = (e: MouseEvent | TouchEvent) => {};
 
 	let moving = false;
+	let offsetX = 0;
+	let offsetY = 0;
+	let left = 0;
+	let top = 0;
 
-	function onMouseDown() {
-		moving = true;
+	function getClientCoordinates(e: MouseEvent | TouchEvent) {
+		return e instanceof TouchEvent
+			? { clientX: e.touches[0].clientX, clientY: e.touches[0].clientY }
+			: { clientX: e.clientX, clientY: e.clientY };
 	}
 
-	function onMouseMove(e: MouseEvent) {
+	function onMouseDown(e: MouseEvent | TouchEvent) {
+		moving = true;
+		const { clientX, clientY } = getClientCoordinates(e);
+		offsetX = clientX - left;
+		offsetY = clientY - top;
+	}
+
+	function onMouseMove(e: MouseEvent | TouchEvent) {
 		if (moving) {
-			left += e.movementX;
-			top += e.movementY;
+			const { clientX, clientY } = getClientCoordinates(e);
+			left = clientX - offsetX;
+			top = clientY - offsetY;
 		}
 	}
 
-	function onMouseUp() {
-		moving = false;
+	function onMouseUp(e: MouseEvent | TouchEvent) {
+		if (moving) {
+			onMouseUpFn(e);
+			moving = false;
+		}
 	}
-
-	// 	$: console.log(moving);
 </script>
 
 <div
 	role="button"
 	on:mousedown={onMouseDown}
+	on:mousemove={onMouseMove}
+	on:mouseup={onMouseUp}
 	on:touchstart={onMouseDown}
-	style="left: {left}px; top: {top}px;"
+	on:touchmove={onMouseMove}
+	on:touchend={onMouseUp}
+	style={`position: relative; left: ${left}px; top: ${top}px;`}
 	class="draggable"
 	tabindex="0"
 >
 	<slot />
 </div>
-
 <svelte:window on:mouseup={onMouseUp} on:mousemove={onMouseMove} />
 
 <style>
@@ -40,6 +57,9 @@
 		user-select: none;
 		cursor: move;
 		border: solid 1px gray;
-		position: absolute;
+		position: relative;
+		z-index: 1;
+		width: 20px;
+		height: 20px;
 	}
 </style>
