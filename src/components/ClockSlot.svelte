@@ -35,7 +35,6 @@
 	data-id={slotId}
 	style={`transform: translate(${x}px, ${y}px) translate(-50%, -50%);`}
 >
-	{slotId}
 	<slot />
 </div>
 
