@@ -18,5 +18,13 @@
     {
         "name": "Word Recall",
         "path": "/tasks/wordrecall"
+    },
+    {
+        "name": "Feedback",
+        "path": "/feedback"
+    },
+    {
+        "name": "Consent",
+        "path": "/consent"
     }
 ]
