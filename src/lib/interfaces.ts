@@ -28,5 +28,5 @@ interface IPosition {
     y: number;
 }
 
-export type { IRoute, IStatus, IBlock, ISlot, IPosition, IResult };
+export type { IRoute, IStatus, IBlock, ISlot, IPosition };
 
