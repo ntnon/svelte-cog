@@ -3,8 +3,9 @@ interface IRoute {
     path: string;
 }
 
-interface IStatus extends IRoute {
+interface IStatus {
     status: 'incomplete' | 'complete' | 'current';
+    complete: boolean;
 }
 
 interface IBlock {
@@ -26,5 +27,6 @@ interface IPosition {
     x: number;
     y: number;
 }
-export type { IRoute, IStatus, IBlock, ISlot, IPosition };
+
+export type { IRoute, IStatus, IBlock, ISlot, IPosition, IResult };
 
