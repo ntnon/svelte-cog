@@ -1,7 +1,5 @@
 <script lang="ts">
 	import { wordStore } from '../../../stores/wordStore';
-	import { updateProgress } from '../../../stores/progressTracker';
-	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 
 	let f: string[] = [];
