@@ -1,0 +1,1 @@
+Sequalize makes it easy to interact with javascript object in sql database
