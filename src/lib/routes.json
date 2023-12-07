@@ -20,7 +20,15 @@
         "path": "/tasks/wordrecall"
     },
     {
-        "name": "Survey",
-        "path": "/survey"
+        "name": "User",
+        "path": "/survey/user"
+    },
+    {
+        "name": "SUS",
+        "path": "/survey/sus"
+    },
+    {
+        "name": "About",
+        "path": "/about"
     }
 ]
