@@ -1,10 +1,19 @@
 <script lang="ts">
-	//logic regarding session storage
-	//if session storage is empty, redirect to home
-	//redirect to consent if no consent is found
+	import ConsentForm from '../components/ConsentForm.svelte';
+	import Nav from '../components/Nav.svelte';
+	import { localStateManager as lsm } from '../stores/localStateManager';
+	import { onMount } from 'svelte';
+	let storedConsent: boolean;
+	onMount(() => {
+		storedConsent = lsm.getItem('consent') === 'true' ? true : false;
+	});
 </script>
 
 <div class="centered">
+	{#if !storedConsent}
+		<ConsentForm bind:storedConsent />
+	{/if}
+	<Nav />
 	<slot />
 </div>
 
