@@ -1,7 +1,7 @@
 import { browser } from "$app/environment"
 
 /*
-All saving to session storage should be done through this class
+All saving to session storage management should be done through this class
 */
 export const sessionStateManager = {
     getItem(key: string) {
