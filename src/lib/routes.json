@@ -20,11 +20,7 @@
         "path": "/tasks/wordrecall"
     },
     {
-        "name": "Feedback",
-        "path": "/feedback"
-    },
-    {
-        "name": "Consent",
-        "path": "/consent"
+        "name": "Survey",
+        "path": "/survey"
     }
 ]

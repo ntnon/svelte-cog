@@ -2,7 +2,7 @@
 	import SUS from '../../components/feedback/SUS.svelte';
 </script>
 
-<h2>Feedback!</h2>
+<h2>Survey!</h2>
 
 <form>
 	<label for="feedback">Hva synes du om oppgaven "Clock Draw?"</label>
