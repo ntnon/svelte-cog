@@ -1,6 +1,6 @@
 <script lang="ts">
-	import Clock from './Clock.svelte';
-	import BlockList from './BlockList.svelte';
+	import Clock from '../../../components/tasks/Clock.svelte';
+	import BlockList from '../../../components/tasks/BlockList.svelte';
 	import { createHourBlockStore } from '../../../scripts/createHourBlockStore';
 
 	const blocks = createHourBlockStore(12);

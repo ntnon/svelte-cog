@@ -1,9 +1,9 @@
 <script lang="ts">
 	import type { ISlot } from '$lib/interfaces';
 	import { get } from 'svelte/store';
-	import { getPagePosition } from '../scripts/getPagePosition';
-	import { slotLocations } from '../stores/clockSlotLocations';
-	import { getPosition } from '../stores/clockSlotLocations';
+	import { getPagePosition } from '../../scripts/getPagePosition';
+	import { slotLocations } from '../../stores/clockSlotLocations';
+	import { getPosition } from '../../stores/clockSlotLocations';
 
 	export let slotId: number;
 	export let offset: number;

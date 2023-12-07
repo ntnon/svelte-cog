@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { send, receive } from '../../../scripts/transition.js';
-	import Draggable from '../../../components/Draggable.svelte';
+	import { send, receive } from '../../scripts/transition.js';
+	import Draggable from '../Draggable.svelte';
 	import type { IBlock } from '$lib/interfaces.js';
 
 	export let blocks: any;
