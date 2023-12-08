@@ -9,7 +9,7 @@
 
 	onMount(() => {
 		// collect consent, if any, from local storage
-		storedConsent = lsm.getItem('consent') === true ? false : false;
+		storedConsent = lsm.getItem('consent') === true ? true : false;
 	});
 
 	const handleSelect = (radioId: string, value: string) => {
