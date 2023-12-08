@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Clock from '../../../components/tasks/Clock.svelte';
 	import BlockList from '../../../components/tasks/BlockList.svelte';
-	import { createHourBlockStore } from '../../../scripts/createHourBlockStore';
+	import { createHourBlockStore } from '../../../stores/blockStore';
 
 	const blocks = createHourBlockStore(12);
 	const offset = 130;
@@ -9,8 +9,7 @@
 
 <h2>Klokketesten</h2>
 <p>
-	Trykk på prikken hvor det grønne tallet hører hjemme. For å flytte et tall du allerede har
-	plassert, trykk på det igjen
+	Du skal nå tegne en klokke som viser klokken {$blocks[0].id}:{$blocks[0].id}
 </p>
 <div class="numberBlocks">
 	<BlockList {blocks} />

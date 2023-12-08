@@ -1,6 +1,6 @@
 import type { IBlock } from "$lib/interfaces";
 import { get, writable } from "svelte/store";
-import { slotLocations } from "../stores/clockSlotLocations";
+import { slotLocations } from "../scripts/clockSlotLocations";
 import type { ISlot } from "../lib/interfaces";
 
 export function createHourBlockStore(numberOfHours: number) {
