@@ -6,8 +6,7 @@
 	export let blocks: any;
 
 	const handleMouseUp = (e: MouseEvent | TouchEvent, block: IBlock) => {
-		let f = blocks.findClosestAvailableSlot(e, block);
-		console.log(f);
+		//blocks.findClosestAvailableSlot(e, block);
 	};
 </script>
 
