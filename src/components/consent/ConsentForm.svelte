@@ -1,20 +1,36 @@
 <script lang="ts">
 	import { localStateManager as lsm } from '../../stores/localStateManager';
+	import { onMount } from 'svelte';
+	import RadioPanel from '../survey/RadioPanel.svelte';
 
-	export let storedConsent: boolean; // boolean
+	let storedConsent: boolean;
+	const radioId = 'consent';
+	const radioContent = ['I consent', 'I do not consent'];
+
+	onMount(() => {
+		// collect consent, if any, from local storage
+		storedConsent = lsm.getItem('consent') === true ? false : false;
+	});
+
+	const handleSelect = (radioId: string, value: string) => {
+		//whenever the user selects a radio button, update storedConsent
+		console.log('handleSelect', radioId, value);
+		storedConsent = value === 'I consent' ? true : false;
+	};
+
+	const onSubmit = () => {
+		//on submit, store consent in local storage and close dialog
+		lsm.setItem('consent', storedConsent);
+		if (!storedConsent) {
+			alert('You must consent to participate in this study');
+			return;
+		}
+		dialog.close();
+	};
 
 	let dialog: HTMLDialogElement; // HTMLDialogElement
 
 	$: if (dialog && !storedConsent) dialog.showModal();
-
-	function onSubmit() {
-		if (storedConsent) {
-			dialog.close();
-			lsm.setItem('consent', true);
-		} else {
-			alert('You must consent to participate in the study');
-		}
-	}
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events a11y-no-noninteractive-element-interactions -->
@@ -79,11 +95,14 @@
 			</div>
 			<hr />
 
-			<label for="consent"
-				>I have read and understood the information above and consent to participate in the study</label
-			>
-			<input type="checkbox" bind:checked={storedConsent} />
-			<input type="submit" value="Send" />
+			<RadioPanel
+				on:select={(e) => handleSelect('consent', e.detail)}
+				{radioId}
+				{radioContent}
+				horizontal={false}
+				showInside={false}
+			/>
+			<button type="submit">submit</button>
 
 			<!-- svelte-ignore a11y-autofocus -->
 		</form>
