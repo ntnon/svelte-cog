@@ -22,6 +22,8 @@ interface IData {
 
 interface ISettings {
     version: string;
+    wordRegistrationCount: number;
+    language: "english" | "norsk";
 }
 
 interface IUser {
