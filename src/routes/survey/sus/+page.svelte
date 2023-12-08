@@ -1,6 +1,6 @@
 <script lang="ts">
 	import RadioPanel from '../../../components/survey/RadioPanel.svelte';
-	let content = ['1', '2', '3', '4', '5'];
+	let radioContent = ['1', '2', '3', '4', '5'];
 
 	const handleSelect = (radioId: string, value: string) => {
 		console.log(radioId, value);
@@ -18,7 +18,7 @@
 			<label for="frequency">I think that I would like to use this system frequently</label>
 			<RadioPanel
 				on:select={(e) => handleSelect('frequency', e.detail)}
-				{content}
+				{radioContent}
 				radioId={'frequency'}
 			/>
 		</li>
@@ -27,14 +27,18 @@
 			<label for="complex">I found the system unnecessarily complex</label>
 			<RadioPanel
 				on:select={(e) => handleSelect('complex', e.detail)}
-				{content}
+				{radioContent}
 				radioId={'complex'}
 			/>
 		</li>
 
 		<li>
 			<label for="easy">I thought the system was easy to use</label>
-			<RadioPanel on:select={(e) => handleSelect('easy', e.detail)} {content} radioId={'easy'} />
+			<RadioPanel
+				on:select={(e) => handleSelect('easy', e.detail)}
+				{radioContent}
+				radioId={'easy'}
+			/>
 		</li>
 
 		<li>
@@ -43,7 +47,7 @@
 			>
 			<RadioPanel
 				on:select={(e) => handleSelect('support', e.detail)}
-				{content}
+				{radioContent}
 				radioId={'support'}
 			/>
 		</li>
@@ -54,7 +58,7 @@
 			>
 			<RadioPanel
 				on:select={(e) => handleSelect('integrated', e.detail)}
-				{content}
+				{radioContent}
 				radioId={'integrated'}
 			/>
 		</li>
@@ -87,6 +91,6 @@
 		padding-bottom: 1rem;
 		padding-top: 1rem;
 		width: 100%;
-		justify-content: space-evenly;
+		justify-radiocontent: space-evenly;
 	}
 </style>

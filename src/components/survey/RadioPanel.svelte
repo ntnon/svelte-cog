@@ -3,7 +3,7 @@
 	const dispatch = createEventDispatcher();
 
 	export let radioId: string;
-	export let content: string[];
+	export let radioContent: string[];
 	export let showInside: boolean = true;
 	export let horizontal: boolean = true;
 
@@ -13,7 +13,7 @@
 </script>
 
 <div class={'horizontal-' + horizontal.toString()}>
-	{#each content as i}
+	{#each radioContent as i}
 		<!-- Use a unique ID for each input -->
 		<label for={radioId + i} class="radio-label">
 			<input
@@ -26,7 +26,9 @@
 			/>
 			<span class="radio-box"
 				>{#if showInside}{i}{/if}</span
-			>{#if !showInside}{i}{/if}
+			><span
+				>{#if !showInside}{i}{/if}</span
+			>
 		</label>
 	{/each}
 	<slot />
@@ -35,6 +37,11 @@
 <style>
 	.radio-label {
 		position: relative;
+	}
+
+	.horizontal-false > .radio-label {
+		margin-bottom: 8px;
+		flex-direction: row;
 	}
 
 	.radio-input {

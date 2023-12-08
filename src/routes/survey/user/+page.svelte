@@ -19,7 +19,7 @@
 			gender
 			<RadioPanel
 				on:select={(e) => handleSelect('gender', e.detail)}
-				content={genders}
+				radioContent={genders}
 				radioId={'gender'}
 				showInside={false}
 			/>
@@ -29,7 +29,7 @@
 			occupation
 			<RadioPanel
 				on:select={(e) => handleSelect('expertise', e.detail)}
-				content={expertise}
+				radioContent={expertise}
 				radioId={'expertise'}
 				showInside={false}
 			/>
