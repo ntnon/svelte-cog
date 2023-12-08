@@ -25,8 +25,6 @@
 		display: flex;
 		flex-direction: row;
 		justify-items: center;
-		width: 500px;
-		height: 40px;
 	}
 	.block {
 		margin-left: 5px;
