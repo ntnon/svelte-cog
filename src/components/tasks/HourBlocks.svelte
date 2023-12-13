@@ -1,9 +1,10 @@
 <script lang="ts">
-	import { send, receive } from '../../scripts/transition.js';
+	import { send, receive } from '../../scripts/transition';
 	import Draggable from '../Draggable.svelte';
 	import type { IBlock } from '$lib/interfaces.js';
+	import type { Readable, Writable } from 'svelte/store';
 
-	export let blocks: any;
+	export let blocks: Readable<IBlock[]> | Writable<IBlock[]>;
 
 	const handleMouseUp = (e: MouseEvent | TouchEvent, block: IBlock) => {
 		//blocks.findClosestAvailableSlot(e, block);
@@ -24,7 +25,6 @@
 	.blocklist {
 		display: flex;
 		flex-direction: row;
-		justify-items: center;
 	}
 	.block {
 		margin-left: 5px;
