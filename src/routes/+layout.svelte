@@ -5,8 +5,6 @@
 	import NextNav from '../components/navigation/NextNav.svelte';
 </script>
 
-<NextNav />
-
 <div class="centered">
 	<ConsentForm />
 	<Nav />
