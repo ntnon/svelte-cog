@@ -4,11 +4,12 @@
 
 <div class="navbar">
 	<ul class="navitems">
+		<li><NextNav val={-1} innerHTML={'Back'} /></li>
 		<li>Home</li>
 		<li>Tasks</li>
 		<li>Survey</li>
 		<li>About</li>
-		<li><NextNav /></li>
+		<li><NextNav innerHTML={'Next'} /></li>
 	</ul>
 	<slot />
 </div>
