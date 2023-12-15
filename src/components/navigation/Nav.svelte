@@ -1,4 +1,5 @@
 <script lang="ts">
+	import NextNav from './NextNav.svelte';
 </script>
 
 <div class="navbar">
@@ -7,6 +8,7 @@
 		<li>Tasks</li>
 		<li>Survey</li>
 		<li>About</li>
+		<li><NextNav /></li>
 	</ul>
 	<slot />
 </div>

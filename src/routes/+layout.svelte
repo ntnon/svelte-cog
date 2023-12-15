@@ -1,8 +1,6 @@
 <script lang="ts">
 	import ConsentForm from '../components/consent/ConsentForm.svelte';
 	import Nav from '../components/navigation/Nav.svelte';
-
-	import NextNav from '../components/navigation/NextNav.svelte';
 </script>
 
 <div class="centered">
