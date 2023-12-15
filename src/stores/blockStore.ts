@@ -51,6 +51,28 @@ export function createHourBlockStore(numberOfHours: number) {
             })
         },
         updateBlockSlot,
+        isInsideClock: (e: MouseEvent | TouchEvent, block: IBlock, clock: HTMLElement) => {
+            const blockElement = e.target as HTMLElement;
+            const blockPos = getPagePosition(blockElement);
+            const clockPos = getPagePosition(clock);
+            const clockRadius = clock.offsetWidth / 2;
+            const dx = clockPos.x - blockPos.x;
+            const dy = clockPos.y - blockPos.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            // Check if the rectangle and the circle overlap
+            const overlap = distance <= clockRadius;
+            return overlap;
+        },
+        reset: () => {
+            update(blocks => {
+                blocks.forEach((block) => {
+                    block.placed = false;
+                    block.active = false;
+                    block.slot = null;
+                })
+                return blocks
+            })
+        },
         findClosestAvailableSlot: (e: MouseEvent | TouchEvent, block: IBlock) => {
             const slots = get(slotLocations); // get the current value of the store
             const blockPos = getPagePosition(e.target as Element);
