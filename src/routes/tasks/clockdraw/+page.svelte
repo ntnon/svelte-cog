@@ -1,45 +1,92 @@
 <script lang="ts">
 	import type { IBlock } from '$lib/interfaces';
+	import { flip } from 'svelte/animate';
 
 	import HourBlocks from '../../../components/tasks/HourBlocks.svelte';
 	import { createHourBlockStore } from '../../../stores/blockStore';
+	import Draggable from '../../../components/Draggable.svelte';
+	import Block from '../../../components/tasks/Block.svelte';
 
 	const blocks = createHourBlockStore(12);
 	const offset = 130;
 	let clock: HTMLElement;
+	let activeBlock: IBlock | undefined;
+
+	let offsetX = 0;
+	let offsetY = 0;
+	let left = 0;
+	let top = 0;
+	let moving = false;
 
 	const restart = () => {
-		blocks.update((b) => b.map((b) => ({ ...b, placed: false })));
+		blocks.update((b) => b.map((b) => ({ ...b, placed: false, active: false })));
 	};
 
-	const handleMouseUpFn = (e: MouseEvent | TouchEvent, block: IBlock) => {
-		//blocks.findClosestAvailableSlot(e, block);
-		//blocks.isInsideClock(e, block, clock);
-		block.placed = blocks.isInsideClock(e, block, clock);
-		blocks.update((b) => b.map((b) => (b.id === block.id ? block : b)));
+	const onMouseUp = (e: MouseEvent | TouchEvent) => {
+		moving = false;
+		/*
+		activeBlock.placed = blocks.isInsideClock(e, activeBlock, clock);
+		blocks.update((b) => b.map((b) => (b.id === activeBlock.id ? activeBlock : b)));
+		*/
 	};
 
-	const handleMouseDownFn = (e: MouseEvent | TouchEvent, block: IBlock) => {
-		console.log('handleMouseDownFn');
-		let newBlock = { ...block, active: true };
-		blocks.update((b) => b.map((b) => (b.id === block.id ? newBlock : b)));
+	function tetherToMouse(block: IBlock) {}
+
+	const onMouseDown = (e: MouseEvent | TouchEvent, block: IBlock) => {
+		moving = true;
 	};
+
+	const onMouseMove = (e: MouseEvent | TouchEvent) => {
+		const { clientX, clientY } = getClientCoordinates(e);
+		offsetX = clientX - left;
+		offsetY = clientY - top;
+	};
+
+	function getClientCoordinates(e: MouseEvent | TouchEvent) {
+		return e instanceof TouchEvent
+			? { clientX: e.touches[0].clientX, clientY: e.touches[0].clientY }
+			: { clientX: e.clientX, clientY: e.clientY };
+	}
+
+	// Ensures that the active block is linked to the block store
+	$: {
+		activeBlock = $blocks.find((b) => b.active);
+	}
 </script>
 
 <h2>Klokketesten</h2>
 <p>Gjenskap klokken! Dra tallene til riktig plassering på klokken.</p>
 <button on:click={() => restart}>Restart</button>
+{activeBlock?.id ? activeBlock.id : 'ingen'}
 <div class="numberBlocks">
-	<HourBlocks {handleMouseDownFn} {handleMouseUpFn} {clock} {blocks} placedCondition={false} />
+	<div class="hour-block-list">
+		{#each $blocks.filter((b) => b.placed === false) as block (block.id)}
+			<div animate:flip={{ duration: 200 }}>
+				<Block onPress={(e) => onMouseDown(e, block)} {block} anchored={true}>{block.id}</Block>
+			</div>
+		{/each}
+	</div>
 	<div bind:this={clock} class="clock">
 		<div class="dial"></div>
 		<div class="hand hour"></div>
 		<div class="hand minute"></div>
-		<HourBlocks {handleMouseDownFn} {handleMouseUpFn} {clock} {blocks} placedCondition={true} />
+		<div class="hour-block-list placed">
+			{#each $blocks.filter((block) => block.position !== undefined) as block (block.id)}
+				<div animate:flip={{ duration: 200 }}>
+					<Block onPress={(e) => onMouseDown(e, block)} {block} anchored={false}>{block.id}</Block>
+				</div>
+			{/each}
+		</div>
 	</div>
 </div>
+<svelte:window on:mouseup={onMouseUp} on:mousemove={onMouseMove} />
 
 <style>
+	.placed {
+		position: absolute;
+		width: max-content;
+		height: max-content;
+	}
 	:global(.hour-block-list) {
 		display: flex;
 		flex-direction: row;

@@ -8,35 +8,20 @@
 	export let placedCondition: boolean;
 	export let blocks: Readable<IBlock[]> | Writable<IBlock[]>;
 
-	export let handleMouseUpFn: (
-		e: MouseEvent | TouchEvent,
-		block: IBlock,
-		clock: HTMLElement
-	) => void;
+	export let onMouseUpFn: (e: MouseEvent | TouchEvent, block: IBlock, clock: HTMLElement) => void;
 
-	export let handleMouseDownFn: (
-		e: MouseEvent | TouchEvent,
-		block: IBlock,
-		clock: HTMLElement
-	) => void;
+	export let onMouseDownFn: (e: MouseEvent | TouchEvent, block: IBlock, clock: HTMLElement) => void;
 
 	export let clock: HTMLElement;
 </script>
 
 <div class="hour-block-list">
-	{#each $blocks.filter((block) => block.placed === placedCondition && block.active === false) as block (block.id)}
-		<div
-			class="block"
-			animate:flip={{ duration: 200 }}
-			in:receive={{ key: block.id }}
-			out:send={{ key: block.id }}
-		>
+	{#each $blocks.filter((block) => block.placed === placedCondition) as block (block.id)}
+		<div animate:flip={{ duration: 200 }}>
 			<Draggable
-				onMouseDownFn={(e) => handleMouseDownFn(e, block, clock)}
-				onMouseUpFn={(e) => handleMouseUpFn(e, block, clock)}
+				onMouseDownFn={(e) => onMouseDownFn(e, block, clock)}
+				onMouseUpFn={(e) => onMouseUpFn(e, block, clock)}>f</Draggable
 			>
-				{block.id}{block.placed ? 't' : 'f'}
-			</Draggable>
 		</div>
 	{/each}
 </div>
