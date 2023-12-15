@@ -1,12 +1,10 @@
 <script lang="ts">
 	import type { IPosition } from '$lib/interfaces';
-	import { get } from 'svelte/store';
 
 	export let onMouseUpFn: (...args: any[]) => void;
 	export let onMouseDownFn: (...args: any[]) => void;
-
+	export let onMouseMoveFn: (...args: any[]) => void = () => {};
 	export let item: any;
-
 	export let position: IPosition | undefined;
 
 	let moving = false;
@@ -18,6 +16,14 @@
 			return { clientX: e.touches[0].clientX, clientY: e.touches[0].clientY };
 		} else {
 			return { clientX: e.clientX, clientY: e.clientY };
+		}
+	}
+
+	function onMouseUp(e: MouseEvent | TouchEvent) {
+		if (moving) {
+			onMouseUpFn(e, position);
+
+			moving = false;
 		}
 	}
 
@@ -37,15 +43,8 @@
 				left: clientX - offsetX,
 				top: clientY - offsetY
 			};
+			onMouseMoveFn(e, position);
 			e.preventDefault();
-		}
-	}
-
-	function onMouseUp(e: MouseEvent | TouchEvent) {
-		if (moving) {
-			onMouseUpFn(e, position);
-
-			moving = false;
 		}
 	}
 </script>
