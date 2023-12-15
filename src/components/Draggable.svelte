@@ -1,40 +1,50 @@
 <script lang="ts">
-	export let onMouseUpFn = (e: MouseEvent | TouchEvent) => {};
+	import type { IPosition } from '$lib/interfaces';
+	import { get } from 'svelte/store';
 
-	export let onMouseDownFn = (e: MouseEvent | TouchEvent) => {};
+	export let onMouseUpFn: (...args: any[]) => void;
+	export let onMouseDownFn: (...args: any[]) => void;
+
+	export let item: any;
+
+	export let position: IPosition | undefined;
 
 	let moving = false;
 	let offsetX = 0;
 	let offsetY = 0;
-	let left = 0;
-	let top = 0;
 
 	function getClientCoordinates(e: MouseEvent | TouchEvent) {
-		return e instanceof TouchEvent
-			? { clientX: e.touches[0].clientX, clientY: e.touches[0].clientY }
-			: { clientX: e.clientX, clientY: e.clientY };
+		if (e instanceof TouchEvent && e.touches.length > 0) {
+			return { clientX: e.touches[0].clientX, clientY: e.touches[0].clientY };
+		} else {
+			return { clientX: e.clientX, clientY: e.clientY };
+		}
 	}
 
 	function onMouseDown(e: MouseEvent | TouchEvent) {
 		moving = true;
 		const { clientX, clientY } = getClientCoordinates(e);
-		offsetX = clientX - left;
-		offsetY = clientY - top;
+		offsetX = clientX - (position?.left || 0);
+		offsetY = clientY - (position?.top || 0);
+		onMouseDownFn();
 	}
 
 	function onMouseMove(e: MouseEvent | TouchEvent) {
 		if (moving) {
 			const { clientX, clientY } = getClientCoordinates(e);
-			left = clientX - offsetX;
-			top = clientY - offsetY;
+			position = {
+				...position,
+				left: clientX - offsetX,
+				top: clientY - offsetY
+			};
 			e.preventDefault();
-			onMouseDownFn(e);
 		}
 	}
 
 	function onMouseUp(e: MouseEvent | TouchEvent) {
 		if (moving) {
-			onMouseUpFn(e);
+			onMouseUpFn(e, position);
+
 			moving = false;
 		}
 	}
@@ -48,7 +58,7 @@
 	on:touchstart={onMouseDown}
 	on:touchmove={onMouseMove}
 	on:touchend={onMouseUp}
-	style={`position: relative; left: ${left}px; top: ${top}px;`}
+	style={`position: relative; left: ${position?.left}px; top: ${position?.top}px;`}
 	class="draggable"
 	tabindex="0"
 >
@@ -63,11 +73,11 @@
 		border: solid 1px gray;
 		position: relative;
 		z-index: 1;
-		width: 2rem;
-		height: 2rem;
+		width: 3rem;
+		height: 3rem;
 		border-radius: 50%;
 		text-align: center;
-		line-height: 2rem;
+		line-height: 3rem;
 		/*TODO: MAKE PRETTY???**/
 	}
 </style>
