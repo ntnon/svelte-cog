@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { send, receive } from '../../scripts/transition.js';
-	import ClockSlot from './ClockSlot.svelte';
+	import ClockSlot from './ClockSlotOld.svelte';
 
 	export let blocks: any;
 	export let offset: number;
