@@ -1,8 +1,8 @@
 <script lang="ts">
 	import type { IPosition } from '$lib/interfaces';
 
-	export let onMouseUpFn: (...args: any[]) => void;
-	export let onMouseDownFn: (...args: any[]) => void;
+	export let onMouseUpFn: (...args: any[]) => void = () => {};
+	export let onMouseDownFn: (...args: any[]) => void = () => {};
 	export let onMouseMoveFn: (...args: any[]) => void = () => {};
 	export let item: any;
 	export let position: IPosition | undefined;
