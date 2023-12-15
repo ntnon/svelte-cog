@@ -24,8 +24,8 @@ interface ISlot {
 }
 
 interface IPosition {
-    x: number;
-    y: number;
+    top: number;
+    left: number;
 }
 
 export type { IRoute, IStatus, IBlock, ISlot, IPosition };
