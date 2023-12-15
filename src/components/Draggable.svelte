@@ -1,6 +1,8 @@
 <script lang="ts">
 	export let onMouseUpFn = (e: MouseEvent | TouchEvent) => {};
 
+	export let onMouseDownFn = (e: MouseEvent | TouchEvent) => {};
+
 	let moving = false;
 	let offsetX = 0;
 	let offsetY = 0;
@@ -25,6 +27,8 @@
 			const { clientX, clientY } = getClientCoordinates(e);
 			left = clientX - offsetX;
 			top = clientY - offsetY;
+			e.preventDefault();
+			onMouseDownFn(e);
 		}
 	}
 
