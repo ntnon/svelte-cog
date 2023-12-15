@@ -62,6 +62,51 @@
 				radioId={'integrated'}
 			/>
 		</li>
+
+		<li>
+			<label for="inconsistency">I thought there was too much inconsistency in this system.</label>
+			<RadioPanel
+				on:select={(e) => handleSelect('inconsistency', e.detail)}
+				{radioContent}
+				radioId={'inconsistency'}
+			/>
+		</li>
+		<li>
+			<label for="learn-quickly"
+				>I would imagine that most people would learn to use this system very quickly.</label
+			>
+			<RadioPanel
+				on:select={(e) => handleSelect('learn-quickly', e.detail)}
+				{radioContent}
+				radioId={'learn-quickly'}
+			/>
+		</li>
+		<li>
+			<label for="cumbersome">I found the system very cumbersome to use.</label>
+			<RadioPanel
+				on:select={(e) => handleSelect('cumbersome', e.detail)}
+				{radioContent}
+				radioId={'cumbersome'}
+			/>
+		</li>
+		<li>
+			<label for="confident">I felt very confident using the system.</label>
+			<RadioPanel
+				on:select={(e) => handleSelect('confident', e.detail)}
+				{radioContent}
+				radioId={'confident'}
+			/>
+		</li>
+		<li>
+			<label for="learn-lot"
+				>I needed to learn a lot of things before I could get going with this system.</label
+			>
+			<RadioPanel
+				on:select={(e) => handleSelect('learn-lot', e.detail)}
+				{radioContent}
+				radioId={'learn-lot'}
+			/>
+		</li>
 	</ol>
 </form>
 
