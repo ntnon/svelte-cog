@@ -1,8 +1,9 @@
 <script lang="ts">
-	import type { IPosition } from '$lib/interfaces';
+	import type { IBlock, IPosition } from '$lib/interfaces';
 	import { afterUpdate, onMount } from 'svelte';
 	import Draggable from '../../../components/Draggable.svelte';
 	import Clock from '../../../components/tasks/Clock.svelte';
+	import { getPosition } from '../../../scripts/clockSlotLocations';
 
 	let clockElement: HTMLElement;
 
@@ -26,35 +27,30 @@
 
 	interface IHand {
 		id: string;
-		position: { top: number; left: number };
+		angle: number;
 	}
 
-	let hourBlock = {
-		id: 'hourHand',
+	let hourBlock: IBlock = {
+		id: 1,
+		name: 'hour',
 		position: { top: 0, left: 0 }
 	};
 
-	let minuteBlock = {
-		id: 'hourHand',
+	let minuteBlock: IBlock = {
+		id: 2,
+		name: 'minute',
 		position: { top: 0, left: 0 }
 	};
 
-	let hourHand = {
+	let hourHand: IHand = {
 		id: 'hour',
 		angle: 15
 	};
 
-	let minuteHand = {
+	let minuteHand: IHand = {
 		id: 'minute',
 		angle: 90
 	};
-
-	$: {
-		if (clockCenter) {
-			hourHand.angle = calculateAngle(hourBlock.position);
-			minuteHand.angle = calculateAngle(minuteBlock.position);
-		}
-	}
 
 	// Function to calculate the angle between the center of the clock and a position
 	function calculateAngle(position: IPosition) {
@@ -65,6 +61,7 @@
 			const deg = rad * (180 / Math.PI);
 			return deg;
 		}
+		console.log('clock center isnt yet set!');
 		return 90;
 	}
 
@@ -72,14 +69,23 @@
 
 	const onMouseMove = (e: MouseEvent | TouchEvent) => {};
 
-	const draggableMouseDown = (e: MouseEvent | TouchEvent, hand: IHand) => {
+	const draggableMouseDown = (e: MouseEvent | TouchEvent, hand: IBlock) => {
 		moving = true;
 	};
 
-	const draggableMouseUp = (e: MouseEvent | TouchEvent, hand: IHand, position: IPosition) => {
+	const draggableMouseUp = (e: MouseEvent | TouchEvent, hand: IBlock, position: IPosition) => {
 		moving = false;
 	};
 </script>
+
+{#if clockCenter}
+	<div
+		class="item"
+		style={'position: absolute; top:' + clockCenter.top + 'px; left:' + clockCenter.left + 'px;'}
+	>
+		HELLOOOOOOO
+	</div>
+{/if}
 
 <Draggable
 	item={hourBlock}
@@ -92,18 +98,20 @@
 	item={minuteBlock}
 	position={minuteBlock.position}
 	onMouseMoveFn={(e, position) => {
-		console.log(position);
+		minuteHand.angle = calculateAngle(position);
 	}}
 	onMouseDownFn={(e) => draggableMouseDown(e, minuteBlock)}
 	onMouseUpFn={(e, position) => draggableMouseUp(e, minuteBlock, position)}>minute</Draggable
 >
-
+<p>{minuteHand.angle}</p>
 <div bind:this={clockElement}>
 	<Clock>
 		{#each [hourHand, minuteHand] as hand (hand.id)}
 			<div
 				class="hand"
-				style={'transform: translate(-50%, -50%) rotate(' + hand.angle + 'deg) '}
+				style={'transform: translate(-50%, -50%) rotate(' +
+					hand.angle +
+					'deg) translate(50%, 0%); '}
 			></div>
 		{/each}
 	</Clock>
