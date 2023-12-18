@@ -26,6 +26,7 @@
 	}
 </script>
 
+TODO: abstract guesser component to be used in word registartion and word recall
 <p>word recall</p>
 {#if complete}
 	GRATTIS!
