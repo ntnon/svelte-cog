@@ -24,6 +24,10 @@
         "path": "/survey/user"
     },
     {
+        "name": "Feedback",
+        "path": "/survey/tasks"
+    },
+    {
         "name": "SUS",
         "path": "/survey/sus"
     },
