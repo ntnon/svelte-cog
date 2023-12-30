@@ -29,5 +29,10 @@ interface IPosition {
     left: number;
 }
 
-export type { IRoute, IStatus, IBlock, ISlot, IPosition };
+interface IHand {
+    id: string;
+    angle: number;
+}
+
+export type { IRoute, IStatus, IBlock, ISlot, IPosition, IHand };
 

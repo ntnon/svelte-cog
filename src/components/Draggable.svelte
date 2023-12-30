@@ -1,11 +1,20 @@
 <script lang="ts">
 	import type { IPosition } from '$lib/interfaces';
+	import { getRectCenter } from '../scripts/getRectCenter';
 
-	export let onMouseUpFn: (...args: any[]) => void = () => {};
-	export let onMouseDownFn: (...args: any[]) => void = () => {};
-	export let onMouseMoveFn: (...args: any[]) => void = () => {};
-	export let item: any;
+	import { createEventDispatcher } from 'svelte';
+	const dispatch = createEventDispatcher();
+
+	function updatePosition(newPosition: IPosition) {
+		position = newPosition;
+		dispatch('positionChange', { newPosition });
+	}
+
 	export let position: IPosition | undefined;
+	let draggableElement: HTMLElement;
+
+	let elementTop: number;
+	let elementLeft: number;
 
 	let moving = false;
 	let offsetX = 0;
@@ -21,8 +30,6 @@
 
 	function onMouseUp(e: MouseEvent | TouchEvent) {
 		if (moving) {
-			onMouseUpFn(e, position);
-
 			moving = false;
 		}
 	}
@@ -30,26 +37,23 @@
 	function onMouseDown(e: MouseEvent | TouchEvent) {
 		moving = true;
 		const { clientX, clientY } = getClientCoordinates(e);
-		offsetX = clientX - (position?.left || 0);
-		offsetY = clientY - (position?.top || 0);
-		onMouseDownFn();
+		offsetX = clientX - (elementLeft || 0);
+		offsetY = clientY - (elementTop || 0);
 	}
 
 	function onMouseMove(e: MouseEvent | TouchEvent) {
 		if (moving) {
 			const { clientX, clientY } = getClientCoordinates(e);
-			position = {
-				...position,
-				left: clientX - offsetX,
-				top: clientY - offsetY
-			};
-			onMouseMoveFn(e, position);
+			elementLeft = clientX - offsetX;
+			elementTop = clientY - offsetY;
+			updatePosition(getRectCenter(draggableElement));
 			e.preventDefault();
 		}
 	}
 </script>
 
 <div
+	bind:this={draggableElement}
 	role="button"
 	on:mousedown={onMouseDown}
 	on:mousemove={onMouseMove}
@@ -57,7 +61,7 @@
 	on:touchstart={onMouseDown}
 	on:touchmove={onMouseMove}
 	on:touchend={onMouseUp}
-	style={`position: relative; left: ${position?.left}px; top: ${position?.top}px;`}
+	style={`position: relative; left: ${elementLeft}px; top: ${elementTop}px;`}
 	class="draggable"
 	tabindex="0"
 >
@@ -74,9 +78,13 @@
 		z-index: 1;
 		width: 3rem;
 		height: 3rem;
+		min-height: 3rem;
+		min-width: 3rem;
 		border-radius: 50%;
 		text-align: center;
-		line-height: 3rem;
-		/*TODO: MAKE PRETTY???**/
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		box-sizing: border-box;
 	}
 </style>
