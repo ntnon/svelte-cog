@@ -3,22 +3,23 @@
 	import { getRectCenter } from '../scripts/getRectCenter';
 
 	import { createEventDispatcher } from 'svelte';
-	const dispatch = createEventDispatcher();
 
-	function updatePosition(newPosition: IPosition) {
-		position = newPosition;
-		dispatch('positionChange', { newPosition });
-	}
+	export let position: IPosition;
 
-	export let position: IPosition | undefined;
 	let draggableElement: HTMLElement;
-
 	let elementTop: number;
 	let elementLeft: number;
-
 	let moving = false;
 	let offsetX = 0;
 	let offsetY = 0;
+
+	const dispatch = createEventDispatcher();
+
+	function dispatchPosition() {
+		let newPosition = getRectCenter(draggableElement);
+		position = newPosition;
+		dispatch('positionChange', { newPosition });
+	}
 
 	function getClientCoordinates(e: MouseEvent | TouchEvent) {
 		if (e instanceof TouchEvent && e.touches.length > 0) {
@@ -30,6 +31,7 @@
 
 	function onMouseUp(e: MouseEvent | TouchEvent) {
 		if (moving) {
+			dispatchPosition();
 			moving = false;
 		}
 	}
@@ -46,7 +48,7 @@
 			const { clientX, clientY } = getClientCoordinates(e);
 			elementLeft = clientX - offsetX;
 			elementTop = clientY - offsetY;
-			updatePosition(getRectCenter(draggableElement));
+			dispatchPosition();
 			e.preventDefault();
 		}
 	}
