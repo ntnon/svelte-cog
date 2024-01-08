@@ -7,8 +7,8 @@
 	let clockElement: HTMLElement;
 	let clockCenter: IPosition;
 
-	let hourHand: IHand = { id: 'hour', angle: 0 };
-	let minuteHand: IHand = { id: 'minute', angle: 0 };
+	let hourHand: IHand = { id: 'hour', angle: 90 };
+	let minuteHand: IHand = { id: 'minute', angle: 90 };
 
 	$: if (clockElement) {
 		clockCenter = getRectCenter(clockElement);
@@ -29,18 +29,28 @@
 	}
 </script>
 
+<h1>Ten minutes past 10</h1>
+<p>Adjust the clock by moving the circles</p>
+
 {#if minuteBlock && hourBlock}
-	<Draggable
-		position={hourBlock}
-		on:positionChange={(e) => (hourBlock = { ...hourBlock, ...e.detail.newPosition })}
-		>hour</Draggable
-	>
-	<Draggable
-		position={minuteBlock}
-		on:positionChange={(e) => (minuteBlock = { ...minuteBlock, ...e.detail.newPosition })}
-		>minute</Draggable
-	>
+	<div class="blocks">
+		<div>
+			<Draggable
+				position={hourBlock}
+				on:positionChange={(e) => (hourBlock = { ...hourBlock, ...e.detail.newPosition })}
+				>hour</Draggable
+			>
+		</div>
+		<div>
+			<Draggable
+				position={minuteBlock}
+				on:positionChange={(e) => (minuteBlock = { ...minuteBlock, ...e.detail.newPosition })}
+				>minute</Draggable
+			>
+		</div>
+	</div>
 {/if}
+
 <div bind:this={clockElement}>
 	<Clock>
 		{#each [hourHand, minuteHand] as hand (hand.id)}
@@ -70,5 +80,12 @@
 		left: 50%;
 		top: 50%;
 		transform: translate(0%, -50%);
+	}
+
+	.blocks {
+		display: flex;
+		flex-direction: row;
+		list-style-type: none;
+		justify-content: space-between;
 	}
 </style>

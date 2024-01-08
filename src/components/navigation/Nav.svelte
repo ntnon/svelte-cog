@@ -8,7 +8,6 @@
 		<li>Home</li>
 		<li>Tasks</li>
 		<li>Survey</li>
-		<li>About</li>
 		<li><NextNav innerHTML={'Next'} /></li>
 	</ul>
 	<slot />

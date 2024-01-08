@@ -4,7 +4,7 @@
 
 	import { createEventDispatcher } from 'svelte';
 
-	export let position: IPosition;
+	export let position: IPosition; // only used for lifting up the position, cannot be used to set the position of an item
 
 	let draggableElement: HTMLElement;
 	let elementTop: number;
@@ -12,6 +12,8 @@
 	let moving = false;
 	let offsetX = 0;
 	let offsetY = 0;
+
+	// dispatcher creates an on:positionChange that the parent component can actively listen to. This way, the draggable component need only broadcast the position of itself, and higher order functions are defined where used
 
 	const dispatch = createEventDispatcher();
 
@@ -21,21 +23,16 @@
 		dispatch('positionChange', { newPosition });
 	}
 
+	// Enables handling of mouse and touch events
 	function getClientCoordinates(e: MouseEvent | TouchEvent) {
 		if (e instanceof TouchEvent && e.touches.length > 0) {
 			return { clientX: e.touches[0].clientX, clientY: e.touches[0].clientY };
 		} else {
 			return { clientX: e.clientX, clientY: e.clientY };
-		}
+		} //TypeScript does not like that the event may not contain necessary properties.
 	}
 
-	function onMouseUp(e: MouseEvent | TouchEvent) {
-		if (moving) {
-			dispatchPosition();
-			moving = false;
-		}
-	}
-
+	// triggered when input event occurs
 	function onMouseDown(e: MouseEvent | TouchEvent) {
 		moving = true;
 		const { clientX, clientY } = getClientCoordinates(e);
@@ -43,6 +40,7 @@
 		offsetY = clientY - (elementTop || 0);
 	}
 
+	// when the mouse moves,something happens: the location of the draggable item is updated
 	function onMouseMove(e: MouseEvent | TouchEvent) {
 		if (moving) {
 			const { clientX, clientY } = getClientCoordinates(e);
@@ -50,6 +48,13 @@
 			elementTop = clientY - offsetY;
 			dispatchPosition();
 			e.preventDefault();
+		}
+	}
+
+	// triggered when inputevent is released
+	function onMouseUp(e: MouseEvent | TouchEvent) {
+		if (moving) {
+			moving = false;
 		}
 	}
 </script>
@@ -69,6 +74,7 @@
 >
 	<slot />
 </div>
+
 <svelte:window on:mouseup={onMouseUp} on:mousemove={onMouseMove} />
 
 <style>

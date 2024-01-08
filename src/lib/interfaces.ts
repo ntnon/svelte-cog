@@ -10,11 +10,8 @@ interface IStatus {
 
 interface IBlock {
     id: number;
-    name?: string,
-    placed?: boolean;
-    active?: boolean;
-    slot?: ISlot | null;
-    position?: IPosition;
+    name: string | number;
+    position: IPosition;
 }
 
 interface ISlot {

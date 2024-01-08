@@ -7,10 +7,14 @@
 	const radioId = 'consent';
 	const radioContent = ['I consent', 'I do not consent'];
 
-	onMount(() => {
-		// collect consent, if any, from local storage
+	$: console.log('storedConsent', lsm.getItem('consent'));
+
+	function updateConsent() {
 		storedConsent = lsm.getItem('consent') === true ? true : false;
-	});
+	}
+
+	// Call updateConsent whenever the component is mounted
+	onMount(updateConsent);
 
 	const handleSelect = (radioId: string, value: string) => {
 		//whenever the user selects a radio button, update storedConsent

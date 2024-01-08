@@ -19,4 +19,8 @@
 		height: 100vh;
 		align-items: center;
 	}
+
+	:global(button) {
+		cursor: pointer;
+	}
 </style>
