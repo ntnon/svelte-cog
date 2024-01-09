@@ -4,7 +4,7 @@
 
 	import { createEventDispatcher } from 'svelte';
 
-	export let position: IPosition; // only used for lifting up the position, cannot be used to set the position of an item
+	export let position: IPosition; // only used for lifting up the position, cannot be used to set the position of a draggable
 
 	let draggableElement: HTMLElement;
 	let elementTop: number;
@@ -16,12 +16,6 @@
 	// dispatcher creates an on:positionChange that the parent component can actively listen to. This way, the draggable component need only broadcast the position of itself, and higher order functions are defined where used
 
 	const dispatch = createEventDispatcher();
-
-	function dispatchPosition() {
-		let newPosition = getRectCenter(draggableElement);
-		position = newPosition;
-		dispatch('positionChange', { newPosition });
-	}
 
 	// Enables handling of mouse and touch events
 	function getClientCoordinates(e: MouseEvent | TouchEvent) {
@@ -46,7 +40,10 @@
 			const { clientX, clientY } = getClientCoordinates(e);
 			elementLeft = clientX - offsetX;
 			elementTop = clientY - offsetY;
-			dispatchPosition();
+
+			position = getRectCenter(draggableElement); // this is the position that is broadcasted to the parent component
+
+			dispatch('positionChange', { position }); //sends a message to the parent component that the position has changed
 			e.preventDefault();
 		}
 	}
@@ -55,6 +52,7 @@
 	function onMouseUp(e: MouseEvent | TouchEvent) {
 		if (moving) {
 			moving = false;
+			dispatch('mouseUp', { position, draggableElement }); //sends a message to the parent component that the mouse is up
 		}
 	}
 </script>
