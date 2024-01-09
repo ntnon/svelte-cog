@@ -32,6 +32,7 @@
 		const { clientX, clientY } = getClientCoordinates(e);
 		offsetX = clientX - (elementLeft || 0);
 		offsetY = clientY - (elementTop || 0);
+		dispatch('mouseDown', { e });
 	}
 
 	// when the mouse moves,something happens: the location of the draggable item is updated
