@@ -1,23 +1,31 @@
 import type { IRoute, IStatus } from "./interfaces";
 
 interface IResult {
-    consent: boolean;
-    version: string;
-    complete: boolean
+    id: string; // must be unique - check existing entries ? or create SHA256 based on timestamp
     settings: ISettings;
     date: Date;
-    sessionDurationInSeconds: number;
-    user: IUser;
-    data: IData[]
+    taskData: ITaskData[];
+    surveyData: ISurveyData[];
+    error: string[];
 }
 
 interface IData {
-    task: IRoute;
-    comment: string;
+    user: IUser;
     status: IStatus;
+}
+
+interface ITaskData extends IData {
+    task: IRoute;
+    complete: boolean
+    comment: string;
+    timeInSeconds: number;
     score: number;
-    maxScore: number;
-    resets: number;
+    [key: string]: unknown;
+}
+
+interface ISurveyData extends IData {
+    field: string;
+    response: string | number;
 }
 
 interface ISettings {
