@@ -1,14 +1,33 @@
 <script lang="ts">
 	import type { IBlock, IPosition } from '$lib/interfaces';
+	import type { SvelteComponent } from 'svelte';
 	import Draggable from '../../../components/Draggable.svelte';
 	import Clock from '../../../components/tasks/Clock.svelte';
-	import type { SvelteComponent } from 'svelte';
+	import { getPagePosition } from '../../../scripts/getPagePosition';
 
-	let blocks: IBlock[] = newBlocks(12);
+	// progress variables
+	let complete = false;
+	let score: number = 0;
+	let repositions: number = 0; // total number of repositioning attempts
+	let blocksIDsInsideClock = new Set<number>();
+	let placedBlockIDs = new Set<number>(); // this is used to check if the block has been placed before
 
-	let clock: SvelteComponent;
+	function calculateScore() {
+		//calculate score
+		//if score is 12, set complete to true
+		return 0;
+	}
 
-	function newBlocks(num: number): IBlock[] {
+	function calculateComplete() {
+		if (blocksIDsInsideClock.size === blockCount) {
+			complete = true;
+			score = calculateScore();
+		}
+	}
+
+	// "Block" is used to describe a draggable number
+	const blockCount = 12;
+	const newBlocks = (num: number) => {
 		return Array(num)
 			.fill(null)
 			.map((_, i) => ({
@@ -16,14 +35,51 @@
 				name: i + 1,
 				position: { top: 0, left: 0 }
 			}));
+	};
+	let blocks: IBlock[] = newBlocks(blockCount);
+
+	// clock variables
+	let clock: SvelteComponent;
+	let clockHTMLElement: HTMLElement;
+
+	// event handlers
+	function handleMouseUp(block: IBlock, draggableElement: HTMLElement) {
+		placedBlockIDs = new Set([...placedBlockIDs, block.id]);
+		if (isBlockInCircle(draggableElement)) {
+			blocksIDsInsideClock = new Set([...blocksIDsInsideClock, block.id]);
+		}
+		calculateComplete();
 	}
 
 	function handlePositionChange(block: IBlock, newPos: IPosition) {
 		blocks[block.id].position = newPos;
-		//update position block's position in blockstore?
+		calculateComplete();
+		calculateScore();
+	}
+
+	function handleMouseDown(block: IBlock, draggableElement: HTMLElement) {
+		if (placedBlockIDs.has(block.id)) {
+			console.log("block's been placed before");
+			repositions++;
+		}
+	}
+
+	// logic
+	function isBlockInCircle(draggableElement: HTMLElement) {
+		const blockPos = getPagePosition(draggableElement);
+		const clockPos = getPagePosition(clockHTMLElement);
+		const clockRadius = clockHTMLElement.offsetWidth / 2;
+		const dx = clockPos.x - blockPos.x;
+		const dy = clockPos.y - blockPos.y;
+		const distance = Math.sqrt(dx * dx + dy * dy);
+		const overlap = distance <= clockRadius;
+		console.log('overlap: ', overlap);
+		return overlap;
 	}
 </script>
 
+{repositions}
+blocks inside clock: {blocksIDsInsideClock.size}
 <h2>The Clock Test</h2>
 <p>Drag the numbers to their right place on the clock</p>
 <div class="numberBlocks">
@@ -31,16 +87,20 @@
 		{#each blocks as block (block.id)}
 			<Draggable
 				position={block.position}
-				on:positionChange={(e) => handlePositionChange(block, e.detail.newPosition)}
+				on:positionChange={(e) => handlePositionChange(block, e.detail.position)}
+				on:mouseUp={(e) => handleMouseUp(block, e.detail.draggableElement)}
+				on:mouseDown={(e) => handleMouseDown(block, e.detail.draggableElement)}
 				>{block.name}</Draggable
 			>
 		{/each}
 	</div>
-	<Clock bind:this={clock}></Clock>
+	<div bind:this={clockHTMLElement}>
+		<Clock bind:this={clock} />
+	</div>
 </div>
 
 <style>
-	:global(.hour-block-list) {
+	.hour-block-list {
 		display: flex;
 		flex-direction: row;
 		flex-wrap: wrap;
