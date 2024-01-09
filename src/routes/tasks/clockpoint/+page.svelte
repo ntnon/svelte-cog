@@ -4,17 +4,26 @@
 	import Draggable from '../../../components/Draggable.svelte';
 	import Clock from '../../../components/tasks/Clock.svelte';
 
+	let complete = false;
+	let score: number = 0;
+	let attempts: number = 0; // increase whenever a block is placed
+
+	function calculateScore() {
+		//calculate score
+		//if score is 12, set complete to true
+		return 0;
+	}
+
+	const addAttempt = () => {
+		attempts++;
+	};
+
 	let clockElement: HTMLElement;
 	let clockCenter: IPosition;
-
 	let hourHand: IHand = { id: 'hour', angle: 90 };
 	let minuteHand: IHand = { id: 'minute', angle: 90 };
-
-	$: if (clockElement) {
-		clockCenter = getRectCenter(clockElement);
-	}
-	let hourBlock: IPosition = { top: 0, left: 0 };
-	let minuteBlock: IPosition = { top: 0, left: 0 };
+	let hourBlock = { id: 'hour', position: { top: 0, left: 0 } };
+	let minuteBlock = { id: 'minute', position: { top: 0, left: 0 } };
 
 	function calculateAngleToCircle(position: IPosition) {
 		const x = position.left - clockCenter.left;
@@ -24,31 +33,28 @@
 	}
 
 	$: if (clockCenter) {
-		hourHand.angle = calculateAngleToCircle(hourBlock);
-		minuteHand.angle = calculateAngleToCircle(minuteBlock);
+		hourHand.angle = calculateAngleToCircle(hourBlock.position);
+		minuteHand.angle = calculateAngleToCircle(minuteBlock.position);
+	}
+
+	$: if (clockElement) {
+		clockCenter = getRectCenter(clockElement);
 	}
 </script>
 
 <h1>Ten minutes past 10</h1>
 <p>Adjust the clock by moving the circles</p>
-
+{attempts}
 {#if minuteBlock && hourBlock}
-	<div class="blocks">
-		<div>
+	{#each [hourBlock, minuteBlock] as block (block.id)}
+		<div class="blocks">
 			<Draggable
-				position={hourBlock}
-				on:positionChange={(e) => (hourBlock = { ...hourBlock, ...e.detail.newPosition })}
-				>hour</Draggable
+				position={block.position}
+				on:positionChange={(e) => (block.position = e.detail.newPosition)}
+				on:mouseUp={addAttempt}>{block.id}</Draggable
 			>
 		</div>
-		<div>
-			<Draggable
-				position={minuteBlock}
-				on:positionChange={(e) => (minuteBlock = { ...minuteBlock, ...e.detail.newPosition })}
-				>minute</Draggable
-			>
-		</div>
-	</div>
+	{/each}
 {/if}
 
 <div bind:this={clockElement}>
