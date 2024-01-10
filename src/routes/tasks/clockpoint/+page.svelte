@@ -3,23 +3,52 @@
 	import { getRectCenter } from '../../../scripts/getRectCenter';
 	import Draggable from '../../../components/Draggable.svelte';
 	import Clock from '../../../components/tasks/Clock.svelte';
+	import timestamps from '../../../lib/timestamps.json';
+
+	import { onMount } from 'svelte';
+
+	let time: { name: string; hour: number; minute: number } = { name: '', hour: 0, minute: 0 };
+
+	onMount(() => {
+		time = timestamps[Math.floor(Math.random() * timestamps.length)];
+	}); // defining the time here prevents the time from changing on every re-render due to server changes
 
 	let complete = false;
 	let score: number = 0;
-	let attempts: number = 0; // increase whenever a block is placed
 	let placedBlocks = new Set<number>();
-	let repositions: number = 0; // increase whenever a block is moved more than once
+	let corrections: number = 0; // increase whenever a block is moved more than once
 
 	function calculateScore() {
-		//calculate score
-		//if score is 12, set complete to true
-		return 0;
+		score = 0;
+		let targetMinuteNumber = time.minute / 5; // 5 minutes per block
+		let targetHour = time.hour;
+
+		if (!minuteHand.closestNumber || !hourHand.closestNumber) return;
+
+		let minuteDifference = Math.abs(targetMinuteNumber - minuteHand.closestNumber);
+
+		let hourDifference = Math.abs(targetHour - hourHand.closestNumber);
+
+		if (minuteDifference <= 0.5) {
+			score++;
+		}
+
+		if (hourDifference <= 0.5) {
+			score++;
+		}
+	}
+
+	function calculateComplete() {
+		if (placedBlocks.size == 2) {
+			complete = true;
+		}
 	}
 
 	let clockElement: HTMLElement;
 	let clockCenter: IPosition;
 	let hourHand: IHand = { id: 'hour', angle: 90 };
 	let minuteHand: IHand = { id: 'minute', angle: 90 };
+	let hands = [hourHand, minuteHand];
 
 	let hourBlock: IBlock = { id: 0, name: 'hour', position: { top: 0, left: 0 } };
 	let minuteBlock: IBlock = { id: 1, name: 'minute', position: { top: 0, left: 0 } };
@@ -33,9 +62,10 @@
 
 	function handleMouseUp(block: IBlock) {
 		if (placedBlocks.has(block.id)) {
-			repositions++;
+			corrections++;
 		}
 		placedBlocks.add(block.id);
+		calculateComplete();
 	}
 
 	function handlePositionChange(block: IBlock, position: IPosition) {
@@ -43,13 +73,22 @@
 		hands = hands.map((hand) => {
 			if (hand.id === block.name) {
 				hand.angle = calculateAngleToCircle(position);
+				hand.closestNumber = ((Math.round(((hand.angle + 360) % 360) / 15) + 6) % 24) / 2; // Divides the circle into 24 slices, one slice for each half hour in a day. The slices are divided by two, which then accounts for all full and half hours, for instance, 1.5 is 1:30, 2.5 is 2:30, etc.
+				// +6 is added to mitigate the offset caused by CSS axis rotation differing from the mathematical axis rotation. The offset is 90 degrees, which is 6 slices of 15 degrees.
+				if (hand.closestNumber === 0) {
+					hand.closestNumber = 12;
+				}
+				console.log('closest number: ' + hand.closestNumber);
 			}
 			return hand;
 		});
+
+		calculateScore();
 	}
 
 	function updateClockCenter() {
 		//triggered by window resize and when clockElement is set
+
 		clockCenter = getRectCenter(clockElement); //instantiate clockCenter - required for calculating the angle of the hands
 	}
 
@@ -58,29 +97,28 @@
 	}
 </script>
 
-<h1>Ten minutes past 10</h1>
+<h1>{time.name}</h1>
 <p>Adjust the clock by moving the circles</p>
-{#if minuteBlock && hourBlock}
-	{#each [hourBlock, minuteBlock] as block (block.id)}
-		<div class="blocks">
-			<Draggable
-				position={block.position}
-				on:positionChange={(e) => handlePositionChange(block, e.detail.position)}
-				on:mouseUp={(e) => handleMouseUp(block)}
-			>
-				{block.name}
-			</Draggable>
-		</div>
-	{/each}
-{/if}
+{score}
+{#each [hourBlock, minuteBlock] as block (block.id)}
+	<div class="blocks">
+		<Draggable
+			position={block.position}
+			on:positionChange={(e) => handlePositionChange(block, e.detail.position)}
+			on:mouseUp={(e) => handleMouseUp(block)}
+		>
+			{block.name}
+		</Draggable>
+	</div>
+{/each}
 
 <div bind:this={clockElement}>
 	<Clock>
-		{#each [minuteHand, hourHand] as hand (hand.id)}
+		{#each hands as hand (hand.id)}
 			<div
 				class={'hand-' + hand.id}
 				style={'transform: translate(-50%, -50%) rotate(' + hand.angle + 'deg) translate(50%, 0%);'}
-			></div>
+			/>
 		{/each}
 	</Clock>
 </div>
