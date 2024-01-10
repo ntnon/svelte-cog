@@ -3,33 +3,22 @@ interface IRoute {
     path: string;
 }
 
-interface IStatus {
-    status: 'incomplete' | 'complete' | 'current';
-    complete: boolean;
-}
-
 interface IBlock {
     id: number;
     name: string | number;
     position: IPosition;
 }
 
-interface ISlot {
-    id: number;
-    position: IPosition;
-    absolutePosition: IPosition;
-    block?: IBlock;
-}
-
 interface IPosition {
     top: number;
     left: number;
+    angle?: number;
 }
 
 interface IHand {
     id: string;
     angle: number;
+    closestNumber?: number;
 }
 
-export type { IRoute, IStatus, IBlock, ISlot, IPosition, IHand };
-
+export type { IRoute, IBlock, IPosition, IHand };
