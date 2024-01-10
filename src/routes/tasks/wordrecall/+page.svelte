@@ -6,6 +6,11 @@
 	import { page } from '$app/stores';
 	import type { ITaskData } from '$lib/dataInterfaces';
 
+	$: taskDataComplete = taskData.complete;
+	$: if (taskDataComplete) {
+		console.log('Task completed!');
+	}
+
 	let taskData: ITaskData = {
 		id: $page.data.id,
 		complete: false,
@@ -15,7 +20,6 @@
 	let words: string[];
 
 	onMount(() => {
-		console.log('mount');
 		words = ssm.getWords();
 		guessStore.clear();
 	});

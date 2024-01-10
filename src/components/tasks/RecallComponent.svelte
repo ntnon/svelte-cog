@@ -1,27 +1,45 @@
 <script lang="ts">
-	import type { IData, IResult, ITaskData } from '$lib/dataInterfaces';
-	import { writable } from 'svelte/store';
+	import type { ITaskData } from '$lib/dataInterfaces';
 	import { validateInput } from '../../scripts/validateInput';
 	import { sessionStateManager as ssm } from '../../stores/sessionStateManager';
-	import Clock from './Clock.svelte';
+
 	import { guessStore } from '../../stores/guessStore';
-	import { onMount } from 'svelte';
+	import { createEventDispatcher } from 'svelte';
+	const dispatch = createEventDispatcher();
 
 	export let taskData: ITaskData;
 	export let words: string[] = ssm.getWords();
 
-	function checkWords() {
+	function checkSuccess() {
+		if ($guessStore.length !== words.length) {
+			taskData.success = false;
+			return;
+		}
 		for (let i = 0; i < words.length; i++) {
-			if ($guessStore.length !== words.length) {
-				taskData.complete = false;
-				return;
-			}
 			if (words[i].toLowerCase() !== $guessStore[i].toLowerCase()) {
-				taskData.complete = false;
+				taskData.success = false;
 				return;
 			}
 		}
-		taskData.complete = true;
+		taskData.success = true;
+	}
+
+	function calculateScore() {
+		taskData.score = 0;
+		let guesses = new Set($guessStore.map((v) => v.toLowerCase())); //ensures the same guess is not counted twice
+		let correctWords = words.map((v) => v.toLowerCase());
+
+		let correctGuesses = Array.from(correctWords).filter((v) => guesses.has(v));
+
+		taskData.score += correctGuesses.length;
+	}
+
+	function checkComplete() {
+		if ($guessStore.every((v) => v !== '' && v.length >= 3)) {
+			// if every input is filled and has more than 3 characters
+			taskData.complete = true;
+			dispatch('taskDataChange', { taskData });
+		}
 	}
 	//triggered whenever a user make changes
 	function handleInput(e: Event, index: number) {
@@ -31,19 +49,22 @@
 			return value.map((v, i) => (i === index ? validatedInput : v));
 		});
 
-		checkWords();
+		checkSuccess();
+		calculateScore();
+		checkComplete();
 	}
 
 	function handleBlur(e: Event) {
 		const target = e.target as HTMLInputElement;
+		//if the input is correct, automatically "activate" the next input
 	}
 </script>
 
-{taskData.complete}
+{taskData.success}
 {#each words as w, index}
 	<p>
 		<input
-			class={$guessStore[index] === w.toLowerCase() ? 'correct' : 'incorrect'}
+			class={$guessStore[index].toLowerCase() === w.toLowerCase() ? 'correct' : 'incorrect'}
 			type="text"
 			value={$guessStore[index]}
 			on:input={(e) => handleInput(e, index)}

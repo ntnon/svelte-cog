@@ -2,18 +2,21 @@
 	import { onMount } from 'svelte';
 	import { sessionStateManager as ssm } from '../../../stores/sessionStateManager';
 	import RecallComponent from '../../../components/tasks/RecallComponent.svelte';
-
 	import { guessStore } from '../../../stores/guessStore';
 	import { page } from '$app/stores';
 	import type { ITaskData } from '$lib/dataInterfaces';
 
 	let taskData: ITaskData = {
-		id: $page.data.id,
+		id: $page.route.id || '',
 		complete: false,
 		score: 0,
 		corrections: 0
 	};
 	let words: string[];
+
+	function handleTaskDataChange(td: ITaskData) {
+		console.log(td);
+	}
 
 	onMount(() => {
 		words = ssm.getWords();
@@ -27,7 +30,11 @@
 	>{recallMode ? 'Show words' : 'Guess'}</button
 >
 {#if recallMode}
-	<RecallComponent {taskData} {words} />
+	<RecallComponent
+		on:taskDataChange={(e) => handleTaskDataChange(e.detail.taskData)}
+		{taskData}
+		{words}
+	/>
 {/if}
 
 {#if words && !recallMode}
