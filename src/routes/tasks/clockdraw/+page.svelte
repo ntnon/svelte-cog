@@ -8,7 +8,7 @@
 	// progress variables
 	let complete = false;
 	let score: number = 0;
-	let repositions: number = 0; // total number of repositioning attempts
+	let corrections: number = 0; // total number of repositioning attempts
 	let blocksIDsInsideClock = new Set<number>();
 	let placedBlockIDs = new Set<number>(); // this is used to check if the block has been placed before
 
@@ -59,8 +59,7 @@
 
 	function handleMouseDown(block: IBlock, draggableElement: HTMLElement) {
 		if (placedBlockIDs.has(block.id)) {
-			console.log("block's been placed before");
-			repositions++;
+			corrections++;
 		}
 	}
 
@@ -78,8 +77,6 @@
 	}
 </script>
 
-{repositions}
-blocks inside clock: {blocksIDsInsideClock.size}
 <h2>The Clock Test</h2>
 <p>Drag the numbers to their right place on the clock</p>
 <div class="numberBlocks">
