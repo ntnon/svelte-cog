@@ -1,0 +1,72 @@
+[
+    {
+        "name": "ten past elleven",
+        "hour": 11,
+        "minute": 10
+    },
+    {
+        "name": "a quarter past twelve",
+        "hour": 12,
+        "minute": 15
+    },
+    {
+        "name": "five past one",
+        "hour": 1,
+        "minute": 30
+    },
+    {
+        "name": "ten minutes to two",
+        "hour": 1,
+        "minute": 50
+    },
+    {
+        "name": "ten past three",
+        "hour": 3,
+        "minute": 10
+    },
+    {
+        "name": "twenty-five past four",
+        "hour": 4,
+        "minute": 25
+    },
+    {
+        "name": "five past five",
+        "hour": 5,
+        "minute": 5
+    },
+    {
+        "name": "forty minutes past six",
+        "hour": 6,
+        "minute": 40
+    },
+    {
+        "name": "fifty-five minutes past seven",
+        "hour": 7,
+        "minute": 55
+    },
+    {
+        "name": "quarter past eight",
+        "hour": 8,
+        "minute": 15
+    },
+    {
+        "name": "five minutes to nine",
+        "hour": 8,
+        "minute": 55
+    },
+    {
+        "name": "twenty past ten",
+        "hour": 10,
+        "minute": 20
+    },
+    {
+        "name": "fifteen minutes past eleven",
+        "hour": 11,
+        "minute": 15
+    },
+    {
+        "name": "ten minutes to twelve",
+        "hour": 11,
+        "minute": 50
+    }
+]
