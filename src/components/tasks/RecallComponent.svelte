@@ -1,38 +1,53 @@
 <script lang="ts">
+	import type { IData, IResult, ITaskData } from '$lib/dataInterfaces';
+	import { writable } from 'svelte/store';
+	import { validateInput } from '../../scripts/validateInput';
 	import { sessionStateManager as ssm } from '../../stores/sessionStateManager';
-	export let success: boolean = false;
+	import Clock from './Clock.svelte';
+	import { guessStore } from '../../stores/guessStore';
+	import { onMount } from 'svelte';
 
-	const words = ssm.getItemArray('words');
-	let guesses: string[] = [];
-	export let complete = false;
+	export let taskData: ITaskData;
+	export let words: string[] = ssm.getWords();
 
 	function checkWords() {
 		for (let i = 0; i < words.length; i++) {
-			if (guesses.length !== words.length) {
-				return false;
+			if ($guessStore.length !== words.length) {
+				taskData.complete = false;
+				return;
 			}
-			if (words[i].toLowerCase() !== guesses[i].toLowerCase()) {
-				return false;
+			if (words[i].toLowerCase() !== $guessStore[i].toLowerCase()) {
+				taskData.complete = false;
+				return;
 			}
 		}
-		return true;
+		taskData.complete = true;
 	}
 	//triggered whenever a user make changes
 	function handleInput(e: Event, index: number) {
-		guesses[index] = (e.target as HTMLInputElement).value;
-		if (checkWords()) {
-			complete = true;
-		}
+		const input = (e.target as HTMLInputElement).value;
+		let validatedInput = validateInput(input) ? input : '';
+		guessStore.update((value) => {
+			return value.map((v, i) => (i === index ? validatedInput : v));
+		});
+
+		checkWords();
+	}
+
+	function handleBlur(e: Event) {
+		const target = e.target as HTMLInputElement;
 	}
 </script>
 
-{complete}
+{taskData.complete}
 {#each words as w, index}
 	<p>
 		<input
-			class={guesses[index] === w.toLowerCase() ? 'correct' : 'incorrect'}
+			class={$guessStore[index] === w.toLowerCase() ? 'correct' : 'incorrect'}
 			type="text"
+			value={$guessStore[index]}
 			on:input={(e) => handleInput(e, index)}
+			on:blur={(e) => handleBlur(e)}
 		/>
 	</p>
 {/each}
