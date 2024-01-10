@@ -1,4 +1,4 @@
-import type { IRoute, IStatus } from "./interfaces";
+import type { IRoute } from "./interfaces";
 
 interface IResult {
     id: string; // must be unique - check existing entries ? or create SHA256 based on timestamp
@@ -11,19 +11,17 @@ interface IResult {
 
 interface IData {
     user: IUser;
-    status: IStatus;
 }
 
-interface ITaskData extends IData {
-    task: IRoute;
-    complete: boolean
-    comment: string;
-    timeInSeconds: number;
+interface ITaskData {
+    route: IRoute;
+    complete: boolean;
+    corrections: number;
     score: number;
     [key: string]: unknown;
 }
 
-interface ISurveyData extends IData {
+interface ISurveyData {
     field: string;
     response: string | number;
 }
@@ -42,4 +40,4 @@ interface IUser {
     expertise?: "design / UX" | "programming" | "games" | "psychology" | "other" | string;
 }
 
-export type { IResult, IData, ISettings, IUser }
+export type { IResult, IData, ISettings, IUser, ITaskData, ISurveyData }
