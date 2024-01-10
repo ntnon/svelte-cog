@@ -24,9 +24,7 @@ export const sessionStateManager = {
     getWords() {
         if (!browser) return null;
         const storageObject = JSON.parse(window.sessionStorage.getItem(SESSION_STORAGE_KEY) || '{}');
-        console.log("storage object: ", storageObject)
-        if (storageObject.words.length !== wordCount) {
-            console.log("hi")
+        if (!storageObject.words || storageObject.words.length !== wordCount) {
             storageObject.words = randomWords(dictionary);
             window.sessionStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(storageObject));
         }
