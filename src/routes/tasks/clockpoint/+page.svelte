@@ -8,7 +8,10 @@
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
 	import type { ITaskData } from '$lib/dataInterfaces';
-
+	$: taskDataComplete = taskData.complete;
+	$: if (taskDataComplete) {
+		console.log('Task completed!');
+	}
 	let taskData: ITaskData = {
 		id: $page.data.id,
 		complete: false,
@@ -27,17 +30,12 @@
 		taskData.score = 0;
 		let targetMinuteNumber = time.minute / 5; // 5 minutes per block
 		let targetHour = time.hour;
-
 		if (!minuteHand.closestNumber || !hourHand.closestNumber) return;
-
 		let minuteDifference = Math.abs(targetMinuteNumber - minuteHand.closestNumber);
-
 		let hourDifference = Math.abs(targetHour - hourHand.closestNumber);
-
 		if (minuteDifference <= 0.5) {
 			taskData.score++;
 		}
-
 		if (hourDifference <= 0.5) {
 			taskData.score++;
 		}
@@ -83,17 +81,14 @@
 				if (hand.closestNumber === 0) {
 					hand.closestNumber = 12;
 				}
-				console.log('closest number: ' + hand.closestNumber);
 			}
 			return hand;
 		});
-
 		calculateScore();
 	}
 
 	function updateClockCenter() {
 		//triggered by window resize and when clockElement is set
-
 		clockCenter = getRectCenter(clockElement); //instantiate clockCenter - required for calculating the angle of the hands
 	}
 

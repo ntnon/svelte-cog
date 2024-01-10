@@ -7,6 +7,10 @@
 	import { getPagePosition } from '../../../scripts/getPagePosition';
 	import { page } from '$app/stores';
 
+	$: taskDataComplete = taskData.complete;
+	$: if (taskDataComplete) {
+		console.log('Task completed!');
+	}
 	let taskData: ITaskData = {
 		id: $page.data.id,
 		complete: false,
@@ -77,7 +81,6 @@
 		const dy = clockPos.y - blockPos.y;
 		const distance = Math.sqrt(dx * dx + dy * dy);
 		const overlap = distance <= clockRadius;
-		console.log('overlap: ', overlap);
 		return overlap;
 	}
 </script>
