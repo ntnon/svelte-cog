@@ -1,5 +1,3 @@
-import type { IRoute } from "./interfaces";
-
 interface IResult {
     id: string; // must be unique - check existing entries ? or create SHA256 based on timestamp
     settings: ISettings;
@@ -14,7 +12,7 @@ interface IData {
 }
 
 interface ITaskData {
-    route: IRoute;
+    id: string;
     complete: boolean;
     corrections: number;
     score: number;

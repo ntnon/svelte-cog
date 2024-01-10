@@ -2,10 +2,17 @@
 	import { onMount } from 'svelte';
 	import { sessionStateManager as ssm } from '../../../stores/sessionStateManager';
 	import RecallComponent from '../../../components/tasks/RecallComponent.svelte';
-	import type { ITaskData } from '$lib/dataInterfaces';
-	import type { IRoute } from '$lib/interfaces';
-	import { guessStore } from '../../../stores/guessStore';
 
+	import { guessStore } from '../../../stores/guessStore';
+	import { page } from '$app/stores';
+	import type { ITaskData } from '$lib/dataInterfaces';
+
+	let taskData: ITaskData = {
+		id: $page.data.id,
+		complete: false,
+		score: 0,
+		corrections: 0
+	};
 	let words: string[];
 
 	onMount(() => {
@@ -13,18 +20,6 @@
 		guessStore.clear();
 	});
 	let recallMode = false;
-
-	let route: IRoute = {
-		name: 'Word Registration',
-		path: '/tasks/wordregistration'
-	};
-
-	let taskData: ITaskData = {
-		route: route,
-		complete: false,
-		score: 0,
-		corrections: 0
-	};
 </script>
 
 <h1>Word Registration</h1>

@@ -1,14 +1,19 @@
 <script lang="ts">
 	import type { IBlock, IPosition } from '$lib/interfaces';
+	import type { ITaskData } from '$lib/dataInterfaces';
 	import type { SvelteComponent } from 'svelte';
 	import Draggable from '../../../components/Draggable.svelte';
 	import Clock from '../../../components/tasks/Clock.svelte';
 	import { getPagePosition } from '../../../scripts/getPagePosition';
+	import { page } from '$app/stores';
 
-	// progress variables
-	let complete = false;
-	let score: number = 0;
-	let corrections: number = 0; // total number of repositioning attempts
+	let taskData: ITaskData = {
+		id: $page.data.id,
+		complete: false,
+		score: 0,
+		corrections: 0
+	};
+
 	let blocksIDsInsideClock = new Set<number>();
 	let placedBlockIDs = new Set<number>(); // this is used to check if the block has been placed before
 
@@ -20,8 +25,8 @@
 
 	function calculateComplete() {
 		if (blocksIDsInsideClock.size === blockCount) {
-			complete = true;
-			score = calculateScore();
+			taskData.complete = true;
+			taskData.score = calculateScore();
 		}
 	}
 
@@ -59,7 +64,7 @@
 
 	function handleMouseDown(block: IBlock, draggableElement: HTMLElement) {
 		if (placedBlockIDs.has(block.id)) {
-			corrections++;
+			taskData.corrections++;
 		}
 	}
 

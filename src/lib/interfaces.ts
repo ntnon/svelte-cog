@@ -1,7 +1,3 @@
-interface IRoute {
-    name: string;
-    path: string;
-}
 
 interface IBlock {
     id: number;
@@ -21,4 +17,4 @@ interface IHand {
     closestNumber?: number;
 }
 
-export type { IRoute, IBlock, IPosition, IHand };
+export type { IBlock, IPosition, IHand };

@@ -6,20 +6,25 @@
 	import timestamps from '../../../lib/timestamps.json';
 
 	import { onMount } from 'svelte';
+	import { page } from '$app/stores';
+	import type { ITaskData } from '$lib/dataInterfaces';
 
+	let taskData: ITaskData = {
+		id: $page.data.id,
+		complete: false,
+		score: 0,
+		corrections: 0
+	};
 	let time: { name: string; hour: number; minute: number } = { name: '', hour: 0, minute: 0 };
 
 	onMount(() => {
 		time = timestamps[Math.floor(Math.random() * timestamps.length)];
 	}); // defining the time here prevents the time from changing on every re-render due to server changes
 
-	let complete = false;
-	let score: number = 0;
 	let placedBlocks = new Set<number>();
-	let corrections: number = 0; // increase whenever a block is moved more than once
 
 	function calculateScore() {
-		score = 0;
+		taskData.score = 0;
 		let targetMinuteNumber = time.minute / 5; // 5 minutes per block
 		let targetHour = time.hour;
 
@@ -30,17 +35,17 @@
 		let hourDifference = Math.abs(targetHour - hourHand.closestNumber);
 
 		if (minuteDifference <= 0.5) {
-			score++;
+			taskData.score++;
 		}
 
 		if (hourDifference <= 0.5) {
-			score++;
+			taskData.score++;
 		}
 	}
 
 	function calculateComplete() {
 		if (placedBlocks.size == 2) {
-			complete = true;
+			taskData.complete = true;
 		}
 	}
 
@@ -62,7 +67,7 @@
 
 	function handleMouseUp(block: IBlock) {
 		if (placedBlocks.has(block.id)) {
-			corrections++;
+			taskData.corrections++;
 		}
 		placedBlocks.add(block.id);
 		calculateComplete();
@@ -99,7 +104,6 @@
 
 <h1>{time.name}</h1>
 <p>Adjust the clock by moving the circles</p>
-{score}
 {#each [hourBlock, minuteBlock] as block (block.id)}
 	<div class="blocks">
 		<Draggable
