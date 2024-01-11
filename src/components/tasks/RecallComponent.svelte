@@ -2,7 +2,6 @@
 	import type { ITaskData } from '$lib/dataInterfaces';
 	import { validateInput } from '../../scripts/validateInput';
 	import { sessionStateManager as ssm } from '../../stores/sessionStateManager';
-
 	import { guessStore } from '../../stores/guessStore';
 	import { createEventDispatcher } from 'svelte';
 	const dispatch = createEventDispatcher();
@@ -10,7 +9,7 @@
 	export let taskData: ITaskData;
 	export let words: string[] = ssm.getWords();
 
-	function checkSuccess() {
+	const checkSuccess = () => {
 		if ($guessStore.length !== words.length) {
 			taskData.success = false;
 			return;
@@ -22,9 +21,9 @@
 			}
 		}
 		taskData.success = true;
-	}
+	};
 
-	function calculateScore() {
+	const calculateScore = () => {
 		taskData.score = 0;
 		let guesses = new Set($guessStore.map((v) => v.toLowerCase())); //ensures the same guess is not counted twice
 		let correctWords = words.map((v) => v.toLowerCase());
@@ -32,32 +31,30 @@
 		let correctGuesses = Array.from(correctWords).filter((v) => guesses.has(v));
 
 		taskData.score += correctGuesses.length;
-	}
+	};
 
-	function checkComplete() {
+	const checkComplete = () => {
 		if ($guessStore.every((v) => v !== '' && v.length >= 3)) {
 			// if every input is filled and has more than 3 characters
 			taskData.complete = true;
-			dispatch('taskDataChange', { taskData });
 		}
-	}
+	};
 	//triggered whenever a user make changes
-	function handleInput(e: Event, index: number) {
+	const handleInput = (e: Event, index: number) => {
 		const input = (e.target as HTMLInputElement).value;
 		let validatedInput = validateInput(input) ? input : '';
 		guessStore.update((value) => {
 			return value.map((v, i) => (i === index ? validatedInput : v));
 		});
-
 		checkSuccess();
 		calculateScore();
 		checkComplete();
-	}
+	};
 
-	function handleBlur(e: Event) {
+	const handleBlur = (e: Event) => {
 		const target = e.target as HTMLInputElement;
 		//if the input is correct, automatically "activate" the next input
-	}
+	};
 </script>
 
 {taskData.success}

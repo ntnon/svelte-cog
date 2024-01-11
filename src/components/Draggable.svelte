@@ -18,25 +18,25 @@
 	const dispatch = createEventDispatcher();
 
 	// Enables handling of mouse and touch events
-	function getClientCoordinates(e: MouseEvent | TouchEvent) {
+	const getClientCoordinates = (e: MouseEvent | TouchEvent) => {
 		if (e instanceof TouchEvent && e.touches.length > 0) {
 			return { clientX: e.touches[0].clientX, clientY: e.touches[0].clientY };
 		} else {
 			return { clientX: e.clientX, clientY: e.clientY };
 		} //TypeScript does not like that the event may not contain necessary properties.
-	}
+	};
 
 	// triggered when input event occurs
-	function onMouseDown(e: MouseEvent | TouchEvent) {
+	const onMouseDown = (e: MouseEvent | TouchEvent) => {
 		moving = true;
 		const { clientX, clientY } = getClientCoordinates(e);
 		offsetX = clientX - (elementLeft || 0);
 		offsetY = clientY - (elementTop || 0);
 		dispatch('mouseDown', { e, draggableElement });
-	}
+	};
 
 	// when the mouse moves,something happens: the location of the draggable item is updated
-	function onMouseMove(e: MouseEvent | TouchEvent) {
+	const onMouseMove = (e: MouseEvent | TouchEvent) => {
 		if (moving) {
 			const { clientX, clientY } = getClientCoordinates(e);
 			elementLeft = clientX - offsetX;
@@ -47,15 +47,15 @@
 			dispatch('positionChange', { position }); //sends a message to the parent component that the position has changed
 			e.preventDefault();
 		}
-	}
+	};
 
 	// triggered when inputevent is released
-	function onMouseUp(e: MouseEvent | TouchEvent) {
+	const onMouseUp = (e: MouseEvent | TouchEvent) => {
 		if (moving) {
 			moving = false;
 			dispatch('mouseUp', { position, draggableElement }); //sends a message to the parent component that the mouse is up
 		}
-	}
+	};
 </script>
 
 <div
@@ -93,5 +93,6 @@
 		align-items: center;
 		justify-content: center;
 		box-sizing: border-box;
+		margin: 0.1rem;
 	}
 </style>
