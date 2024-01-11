@@ -20,6 +20,10 @@
         "path": "/tasks/wordrecall"
     },
     {
+        "name": "Completed",
+        "path": "/tasks/completed"
+    },
+    {
         "name": "User",
         "path": "/survey/user"
     },
