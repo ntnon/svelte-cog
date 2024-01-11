@@ -6,8 +6,7 @@
 	import { page } from '$app/stores';
 	import type { ITaskData } from '$lib/dataInterfaces';
 
-	$: taskDataComplete = taskData.complete;
-	$: if (taskDataComplete) {
+	$: if (taskData.complete) {
 		console.log('Task completed!');
 	}
 
