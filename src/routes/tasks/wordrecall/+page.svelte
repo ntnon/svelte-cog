@@ -25,5 +25,5 @@
 	});
 </script>
 
-<h1>Word recall</h1>
+<h2>Word recall</h2>
 <RecallComponent {taskData} />

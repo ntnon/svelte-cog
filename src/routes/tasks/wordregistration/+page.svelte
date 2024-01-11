@@ -6,37 +6,34 @@
 	import { page } from '$app/stores';
 	import type { ITaskData } from '$lib/dataInterfaces';
 
+	let id: string = '';
+
 	let taskData: ITaskData = {
-		id: $page.route.id || '',
+		id: id,
 		complete: false,
 		score: 0,
 		corrections: 0
 	};
 	let words: string[];
 
-	function handleTaskDataChange(td: ITaskData) {
-		console.log(td);
-	}
+	const handleButton = () => {
+		recallMode = !recallMode;
+		taskData.corrections++;
+	};
 
 	onMount(() => {
-		words = ssm.getWords();
-		guessStore.clear();
+		id = $page.route.id || '';
+		words = ssm.getWords(); // populate words array
+		guessStore.clear(); // remove any previous guesses
 	});
 	let recallMode = false;
 </script>
 
-<h1>Word Registration</h1>
-<button on:click={() => (recallMode ? (recallMode = false) : (recallMode = true))}
-	>{recallMode ? 'Show words' : 'Guess'}</button
->
+<h2>Word Registration</h2>
+<button on:click={handleButton}> {recallMode ? 'Show words' : 'Guess'}</button>
 {#if recallMode}
-	<RecallComponent
-		on:taskDataChange={(e) => handleTaskDataChange(e.detail.taskData)}
-		{taskData}
-		{words}
-	/>
+	<RecallComponent bind:taskData {words} />
 {/if}
-
 {#if words && !recallMode}
 	{#each words as w}
 		<p>{w}</p>

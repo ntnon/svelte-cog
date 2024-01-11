@@ -26,7 +26,7 @@
 
 	let placedBlocks = new Set<number>();
 
-	function calculateScore() {
+	const calculateScore = () => {
 		taskData.score = 0;
 		let targetMinuteNumber = time.minute / 5; // 5 minutes per block
 		let targetHour = time.hour;
@@ -39,13 +39,13 @@
 		if (hourDifference <= 0.5) {
 			taskData.score++;
 		}
-	}
+	};
 
-	function calculateComplete() {
+	const calculateComplete = () => {
 		if (placedBlocks.size == 2) {
 			taskData.complete = true;
 		}
-	}
+	};
 
 	let clockElement: HTMLElement;
 	let clockCenter: IPosition;
@@ -56,22 +56,22 @@
 	let hourBlock: IBlock = { id: 0, name: 'hour', position: { top: 0, left: 0 } };
 	let minuteBlock: IBlock = { id: 1, name: 'minute', position: { top: 0, left: 0 } };
 
-	function calculateAngleToCircle(position: IPosition) {
+	const calculateAngleToCircle = (position: IPosition) => {
 		const x = position.left - clockCenter.left;
 		const y = position.top - clockCenter.top;
 		const angle = Math.atan2(y, x) * (180 / Math.PI);
 		return angle;
-	}
+	};
 
-	function handleMouseUp(block: IBlock) {
+	const handleMouseUp = (block: IBlock) => {
 		if (placedBlocks.has(block.id)) {
 			taskData.corrections++;
 		}
 		placedBlocks.add(block.id);
 		calculateComplete();
-	}
+	};
 
-	function handlePositionChange(block: IBlock, position: IPosition) {
+	const handlePositionChange = (block: IBlock, position: IPosition) => {
 		block.position = position;
 		hands = hands.map((hand) => {
 			if (hand.id === block.name) {
@@ -85,19 +85,19 @@
 			return hand;
 		});
 		calculateScore();
-	}
+	};
 
-	function updateClockCenter() {
+	const updateClockCenter = () => {
 		//triggered by window resize and when clockElement is set
 		clockCenter = getRectCenter(clockElement); //instantiate clockCenter - required for calculating the angle of the hands
-	}
+	};
 
 	$: if (clockElement) {
 		updateClockCenter();
 	}
 </script>
 
-<h1>{time.name}</h1>
+<h2>{time.name}</h2>
 <p>Adjust the clock by moving the circles</p>
 {#each [hourBlock, minuteBlock] as block (block.id)}
 	<div class="blocks">
