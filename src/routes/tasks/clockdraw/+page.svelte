@@ -1,18 +1,15 @@
 <script lang="ts">
 	import type { IBlock, IPosition } from '$lib/interfaces';
 	import type { ITaskData } from '$lib/dataInterfaces';
-	import type { SvelteComponent } from 'svelte';
 	import Draggable from '../../../components/Draggable.svelte';
 	import Clock from '../../../components/tasks/Clock.svelte';
 	import { getPagePosition } from '../../../scripts/getPagePosition';
 	import { page } from '$app/stores';
+	import type { SvelteComponent } from 'svelte';
+	//import { taskDataStore } from '../../../stores/ssmSyncedStore';
 
-	$: taskDataComplete = taskData.complete;
-	$: if (taskDataComplete) {
-		console.log('Task completed!');
-	}
 	let taskData: ITaskData = {
-		id: $page.data.id,
+		id: $page.route.id || '',
 		complete: false,
 		score: 0,
 		corrections: 0
@@ -24,18 +21,17 @@
 	const calculateScore = () => {
 		//calculate score
 		//if score is 12, set complete to true
-		return 0;
+		return undefined;
 	};
 
 	const calculateComplete = () => {
 		if (blocksIDsInsideClock.size === blockCount) {
 			taskData.complete = true;
-			taskData.score = calculateScore();
 		}
 	};
 
 	// "Block" is used to describe a draggable number
-	const blockCount = 12;
+	const blockCount = 3; // should be 12
 	const newBlocks = (num: number) => {
 		return Array(num)
 			.fill(null)
@@ -68,7 +64,8 @@
 
 	const handleMouseDown = (block: IBlock, draggableElement: HTMLElement) => {
 		if (placedBlockIDs.has(block.id)) {
-			taskData.corrections++;
+			taskData.corrections += 1;
+			console.log('corrections', taskData.corrections);
 		}
 	};
 

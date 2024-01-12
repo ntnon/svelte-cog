@@ -5,19 +5,16 @@
 	import { guessStore } from '../../../stores/guessStore';
 	import { page } from '$app/stores';
 	import type { ITaskData } from '$lib/dataInterfaces';
-
-	$: if (taskData.complete) {
-		console.log('Task completed!');
-	}
+	import { taskDataStore } from '../../../stores/taskDataStore';
 
 	let taskData: ITaskData = {
-		id: $page.data.id,
+		id: $page.route.id || '',
 		complete: false,
 		score: 0,
 		corrections: 0
 	};
-	let words: string[];
 
+	let words: string[];
 	onMount(() => {
 		words = ssm.getWords();
 		guessStore.clear();

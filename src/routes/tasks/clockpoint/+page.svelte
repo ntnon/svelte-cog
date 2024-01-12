@@ -8,21 +8,19 @@
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
 	import type { ITaskData } from '$lib/dataInterfaces';
-	$: taskDataComplete = taskData.complete;
-	$: if (taskDataComplete) {
-		console.log('Task completed!');
-	}
+
 	let taskData: ITaskData = {
-		id: $page.data.id,
+		id: $page.route.id || '',
 		complete: false,
 		score: 0,
 		corrections: 0
 	};
-	let time: { name: string; hour: number; minute: number } = { name: '', hour: 0, minute: 0 };
 
 	onMount(() => {
 		time = timestamps[Math.floor(Math.random() * timestamps.length)];
-	}); // defining the time here prevents the time from changing on every re-render due to server changes
+	});
+
+	let time: { name: string; hour: number; minute: number } = { name: '', hour: 0, minute: 0 };
 
 	let placedBlocks = new Set<number>();
 
@@ -97,6 +95,7 @@
 	}
 </script>
 
+<button on:click={updateStorage}>update storage!</button>
 <h2>{time.name}</h2>
 <p>Adjust the clock by moving the circles</p>
 {#each [hourBlock, minuteBlock] as block (block.id)}

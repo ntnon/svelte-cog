@@ -18,55 +18,46 @@ function randomWords(wordList: string[]) {
     return Array.from(sample);
 }
 
-const SESSION_STORAGE_KEY = "nydon-website";
-
 export const sessionStateManager = {
     getWords() {
         if (!browser) return null;
-        const storageObject = JSON.parse(window.sessionStorage.getItem(SESSION_STORAGE_KEY) || '{}');
+        const storageObject = window.sessionStorage;
         if (!storageObject.words || storageObject.words.length !== wordCount) {
             storageObject.words = randomWords(dictionary);
-            window.sessionStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(storageObject));
+            window.sessionStorage.setItem("words", JSON.stringify(storageObject));
         }
         return storageObject.words;
 
     },
     getItem(key: string) {
         if (!browser) return null;
-        const storageObject = JSON.parse(window.sessionStorage.getItem(SESSION_STORAGE_KEY) || '{}');
-        return storageObject[key];
+        const storageObject = window.sessionStorage;
+        console.log("this is the storage: ", storageObject)
+        return storageObject[key] && JSON.parse(storageObject[key]);
     },
     setItem(key: string, value: unknown) {
         if (!browser) return null;
-
-        const storageObject = JSON.parse(window.sessionStorage.getItem(SESSION_STORAGE_KEY) || '{}');
-        storageObject[key] = value;
-        window.sessionStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(storageObject));
+        if (!key || !value) return Error("key or value is null");
+        window.sessionStorage[key] = JSON.stringify(value);
 
     },
     clearItem(key: string) {
         if (!browser) return null;
-        const storageObject = JSON.parse(window.sessionStorage.getItem(SESSION_STORAGE_KEY) || '{}');
+        const storageObject = window.sessionStorage || {};
         delete storageObject[key];
-        window.sessionStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(storageObject));
-
+        window.sessionStorage = storageObject;
     },
     clearAll() {
         if (!browser) return null;
-
-        window.sessionStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify({}));
-
+        window.sessionStorage.deleteAll();
     },
-    viewSessionState() {
+    log() {
         if (!browser) return null;
-
         console.log("session storage: ", window.sessionStorage)
-
     },
-    getItemArray(key: string) {
+    getItemArray(key: string): [] | null {
         if (!browser) return null;
-        const storageObject = JSON.parse(window.sessionStorage.getItem(SESSION_STORAGE_KEY) || '{}');
+        const storageObject = window.sessionStorage || {};
         return storageObject[key] ? storageObject[key] : null;
-
     },
 };
