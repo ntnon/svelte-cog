@@ -1,21 +1,18 @@
 <script lang="ts">
 	import type { ITaskData } from '$lib/dataInterfaces';
 	import { validateInput } from '../../scripts/validateInput';
-	import { sessionStateManager as ssm } from '../../stores/sessionStateManager';
-	import { guessStore } from '../../stores/guessStore';
-	import { createEventDispatcher } from 'svelte';
-	const dispatch = createEventDispatcher();
+	import { guessStore } from '../../stores/ssmSyncedStore';
+	import { wordStore } from '../../stores/ssmSyncedStore';
 
 	export let taskData: ITaskData;
-	export let words: string[] = ssm.getWords();
 
 	const checkSuccess = () => {
-		if ($guessStore.length !== words.length) {
+		if ($guessStore.length !== $wordStore.length) {
 			taskData.success = false;
 			return;
 		}
-		for (let i = 0; i < words.length; i++) {
-			if (words[i].toLowerCase() !== $guessStore[i].toLowerCase()) {
+		for (let i = 0; i < $wordStore.length; i++) {
+			if ($wordStore[i].toLowerCase() !== $guessStore[i].toLowerCase()) {
 				taskData.success = false;
 				return;
 			}
@@ -26,7 +23,7 @@
 	const calculateScore = () => {
 		taskData.score = 0;
 		let guesses = new Set($guessStore.map((v) => v.toLowerCase())); //ensures the same guess is not counted twice
-		let correctWords = words.map((v) => v.toLowerCase());
+		let correctWords = $wordStore.map((v) => v.toLowerCase());
 
 		let correctGuesses = Array.from(correctWords).filter((v) => guesses.has(v));
 
@@ -55,10 +52,10 @@
 		const target = e.target as HTMLInputElement;
 		//if the input is correct, automatically "activate" the next input
 	};
+	console.log($wordStore);
 </script>
 
-{taskData.success}
-{#each words as w, index}
+{#each $wordStore as w, index}
 	<p>
 		<input
 			class={$guessStore[index].toLowerCase() === w.toLowerCase() ? 'correct' : 'incorrect'}
