@@ -1,14 +1,9 @@
 interface IResult {
     id: string; // must be unique - check existing entries ? or create SHA256 based on timestamp
-    settings: ISettings;
+    settings: IMetaData;
     date: Date;
     taskData: ITaskData[];
-    surveyData: ISurveyData[];
     error: string[];
-}
-
-interface IData {
-    user: IUser;
 }
 
 interface ITaskData {
@@ -16,26 +11,28 @@ interface ITaskData {
     complete: boolean;
     corrections: number;
     score: number;
-    [key: string]: unknown;
+    comment?: string;
+    [key: string]: unknown; //if you want to add more metrics
 }
 
-interface ISurveyData {
-    field: string;
-    response: string | number;
-}
-
-interface ISettings {
+interface IMetaData {
+    date: Date;
     version: string;
     wordRegistrationCount: number;
     language: "english" | "norsk";
 }
 
-interface IUser {
+interface IUserData {
     id: string;
     phone: number;
     gender?: "male" | "female" | "other" | "prefer not to say";
     age?: number;
-    expertise?: "design / UX" | "programming" | "games" | "psychology" | "other" | string;
+    domain?: "design" | "UX" | "web development" | "programming" | "caregiver" | "games" | "psychology" | "other" | string; //come up with more examples
 }
 
-export type { IResult, IData, ISettings, IUser, ITaskData, ISurveyData }
+interface ISUSData {
+    frequency: number;
+}
+
+
+export type { IResult, ITaskData, IMetaData, IUserData, ISUSData }
