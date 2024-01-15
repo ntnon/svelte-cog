@@ -1,47 +1,21 @@
 <script lang="ts">
-	import { localStateManager as lsm } from '../../stores/localStateManager';
-	import { onMount } from 'svelte';
-	import RadioPanel from '../survey/RadioPanel.svelte';
-
-	let storedConsent: boolean;
-	const radioId = 'consent';
-	const radioContent = ['I consent', 'I do not consent'];
-
-	$: console.log('storedConsent', lsm.getItem('consent'));
-
-	function updateConsent() {
-		storedConsent = lsm.getItem('consent') === true ? true : false;
-	}
-
-	// Call updateConsent whenever the component is mounted
-	onMount(updateConsent);
-
-	const handleSelect = (radioId: string, value: string) => {
-		//whenever the user selects a radio button, update storedConsent
-		console.log('handleSelect', radioId, value);
-		storedConsent = value === 'I consent' ? true : false;
-	};
-
-	const onSubmit = () => {
-		//on submit, store consent in local storage and close dialog
-		lsm.setItem('consent', storedConsent);
-		if (!storedConsent) {
-			alert('You must consent to participate in this study');
-			return;
-		}
-		dialog.close();
-	};
-
+	import { consentStore } from '../../stores/stores';
 	let dialog: HTMLDialogElement; // HTMLDialogElement
 
-	$: if (dialog && !storedConsent) dialog.showModal();
+	$: if (dialog) {
+		if ($consentStore === true) {
+			dialog.close();
+		} else if ($consentStore === false) {
+			dialog.showModal();
+		}
+	}
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events a11y-no-noninteractive-element-interactions -->
 <dialog bind:this={dialog}>
 	<!-- svelte-ignore a11y-no-static-element-interactions -->
 	<div on:click|stopPropagation>
-		<form on:submit|preventDefault={onSubmit}>
+		<form on:submit|preventDefault>
 			<h1>Consent form</h1>
 			<hr />
 			<div class="info">
@@ -98,15 +72,17 @@
 				</ul>
 			</div>
 			<hr />
-
-			<RadioPanel
-				on:select={(e) => handleSelect('consent', e.detail)}
-				{radioId}
-				{radioContent}
-				horizontal={false}
-				showInside={false}
-			/>
-			<button type="submit">submit</button>
+			{#each [false, true] as value}
+				<div style="display:block">
+					<input
+						type="radio"
+						name={'consent'}
+						{value}
+						bind:group={$consentStore}
+						class="radio-input"
+					/>{value ? 'I consent' : 'I do not consent'}
+				</div>
+			{/each}
 
 			<!-- svelte-ignore a11y-autofocus -->
 		</form>
@@ -147,8 +123,5 @@
 		to {
 			opacity: 1;
 		}
-	}
-	button {
-		display: block;
 	}
 </style>
