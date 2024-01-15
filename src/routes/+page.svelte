@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { localStateManager as lsm } from '../stores/localStateManager';
+	import { consentStore } from '../stores/stores';
 	const removeConsent = () => {
 		console.log('removing consent');
-		lsm.clearItem('consent');
+		$consentStore = false;
 	};
 </script>
 
