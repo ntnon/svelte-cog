@@ -7,7 +7,6 @@ interface IResult {
 }
 
 interface ITaskData {
-    id: string;
     complete: boolean;
     corrections: number;
     score: number;
