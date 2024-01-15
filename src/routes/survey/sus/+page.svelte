@@ -19,6 +19,7 @@
 	const handleSelect = (radioId: string, value: string) => {
 		console.log(radioId, value);
 	};
+	$: q1 = $surveyStore[0];
 </script>
 
 <form>
@@ -30,11 +31,11 @@
 				<div style="display:block">
 					<input
 						type="radio"
-						name={'consent'}
-						value={s.score}
-						bind:group={s.id}
+						name={s.id + index}
+						value={i + 1}
+						bind:group={s.score}
 						class="radio-input"
-					/>{i}
+					/>{i + 1}
 				</div>
 			{/each}
 		{/each}
