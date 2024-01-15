@@ -1,26 +1,25 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
 	import RecallComponent from '../../../components/tasks/RecallComponent.svelte';
-	import { page } from '$app/stores';
 	import type { ITaskData } from '$lib/dataInterfaces';
-	import { wordStore } from '../../../stores/ssmSyncedStore';
+	import { wordStore } from '../../../stores/stores';
+	import { ssmSyncedStore } from '../../../scripts/ssmSyncedStore';
+	import { resolveRoute } from '$app/paths';
 
-	let id: string = '';
+	let id = '/tasks/wordregistration';
 
-	let taskData: ITaskData = {
-		id: id,
-		complete: false,
-		score: 0,
-		corrections: 0
-	};
-
-	onMount(() => {
-		id = $page.route.id || '';
+	let taskStore = ssmSyncedStore<ITaskData>(id, () => {
+		return {
+			route: resolveRoute,
+			complete: false,
+			score: 0,
+			corrections: 0,
+			guesses: []
+		};
 	});
 
 	const handleButton = () => {
 		recallMode = !recallMode;
-		taskData.corrections++;
+		$taskStore.corrections++;
 	};
 
 	let recallMode = false;
@@ -29,7 +28,7 @@
 <h2>Word Registration</h2>
 <button on:click={handleButton}> {recallMode ? 'Show words' : 'Guess'}</button>
 {#if recallMode}
-	<RecallComponent bind:taskData />
+	<RecallComponent bind:taskStore />
 {/if}
 {#if !recallMode}
 	{#each $wordStore as w}

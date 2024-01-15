@@ -8,13 +8,19 @@
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
 	import type { ITaskData } from '$lib/dataInterfaces';
+	import { ssmSyncedStore } from '../../../scripts/ssmSyncedStore';
 
-	let taskData: ITaskData = {
-		id: $page.route.id || '',
-		complete: false,
-		score: 0,
-		corrections: 0
-	};
+	let id = '/tasks/clockpoint';
+
+	const taskStore = ssmSyncedStore<ITaskData>(id, () => {
+		return {
+			complete: false,
+			score: 0,
+			corrections: 0
+		};
+	});
+
+	const taskData = $taskStore;
 
 	onMount(() => {
 		time = timestamps[Math.floor(Math.random() * timestamps.length)];
@@ -95,7 +101,6 @@
 	}
 </script>
 
-<button on:click={updateStorage}>update storage!</button>
 <h2>{time.name}</h2>
 <p>Adjust the clock by moving the circles</p>
 {#each [hourBlock, minuteBlock] as block (block.id)}

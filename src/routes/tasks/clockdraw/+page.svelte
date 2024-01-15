@@ -4,16 +4,20 @@
 	import Draggable from '../../../components/Draggable.svelte';
 	import Clock from '../../../components/tasks/Clock.svelte';
 	import { getPagePosition } from '../../../scripts/getPagePosition';
-	import { page } from '$app/stores';
-	import type { SvelteComponent } from 'svelte';
-	//import { taskDataStore } from '../../../stores/ssmSyncedStore';
 
-	let taskData: ITaskData = {
-		id: $page.route.id || '',
-		complete: false,
-		score: 0,
-		corrections: 0
-	};
+	import type { SvelteComponent } from 'svelte';
+	import { ssmSyncedStore } from '../../../scripts/ssmSyncedStore';
+	let id = '/tasks/clockdraw';
+
+	const taskStore = ssmSyncedStore<ITaskData>(id, () => {
+		return {
+			complete: false,
+			score: 0,
+			corrections: 0
+		};
+	});
+
+	const taskData = $taskStore;
 
 	let blocksIDsInsideClock = new Set<number>();
 	let placedBlockIDs = new Set<number>(); // this is used to check if the block has been placed before
