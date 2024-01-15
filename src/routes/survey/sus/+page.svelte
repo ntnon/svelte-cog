@@ -15,11 +15,6 @@
 			};
 		});
 	});
-
-	const handleSelect = (radioId: string, value: string) => {
-		console.log(radioId, value);
-	};
-	$: q1 = $surveyStore[0];
 </script>
 
 <form>
