@@ -1,10 +1,13 @@
 <script lang="ts">
 	import ConsentForm from '../components/consent/ConsentForm.svelte';
 	import Nav from '../components/navigation/Nav.svelte';
+	import { consentStore } from '../stores/stores';
 </script>
 
 <div class="centered">
-	<ConsentForm />
+	{#if $consentStore !== true}
+		<ConsentForm />
+	{/if}
 	<Nav />
 	<slot />
 </div>
