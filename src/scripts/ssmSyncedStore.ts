@@ -1,50 +1,55 @@
 import { writable } from "svelte/store";
-import { sessionStateManager as ssm } from "../stores/sessionStateManager"
+import { browser } from "$app/environment";
 
+let storageObject: Storage = {
+    length: 0,
+    clear: function () { },
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    getItem: function (key: string) { return null; },
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    key: function (index: number) { return null; },
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    removeItem: function (key: string) { },
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    setItem: function (key: string, value: string) { }
+};
 
-export const ssmSyncedStore = <T>(key: string, defaultValueGenerator: () => T[]) => {
-    const { subscribe, set, update } = writable<T[]>([]);
-    const sync = () => {
-        console.log("syncing to session storage", key)
-        subscribe((value) => ssm.setItem(key, value));
+if (browser) {
+    storageObject = window.sessionStorage;
+}
+
+export const ssmSyncedStore = <T extends object | unknown[] | unknown>(key: string, defaultValueGenerator: () => T, _storageLocation: Storage = storageObject) => {
+    const fullKey = "nydon-website/" + key;
+    const { subscribe, set, update } = writable<T>();
+
+    const saveToStorage = () => {
+        subscribe((value) =>
+            _storageLocation[fullKey] = JSON.stringify(value))
     };
 
-    const catchUp = () => {
-        console.log("catching up", key);
-        const item = ssm.getItem(key);
-        if (item && Array.isArray(item) && item.length > 0) {
+    const loadFromStorage = () => {
+        let item = undefined;
+        try {
+            item = JSON.parse(_storageLocation[fullKey]);
+        } catch (e) {
+            //handle error
+        }
+        if (item !== undefined) {
             set(item);
         } else {
             const newValue = defaultValueGenerator();
             set(newValue);
         }
-        sync();
+        saveToStorage();
     };
 
-    catchUp();
+    loadFromStorage();
 
     return {
         subscribe,
         set,
-        sync,
-        catchUp,
+        saveToStorage,
+        loadFromStorage,
         update,
     };
 }
-
-export const taskDataStore = <T extends { id: number | string }>(key: string, defaultValueGenerator: () => T[]) => {
-    const baseStore = ssmSyncedStore<T>(key, defaultValueGenerator);
-    const { subscribe, set, sync, catchUp, update } = baseStore;
-
-    const listUpdate = (newData: T) => {
-        update((value) => value.map((data) => data.id === newData.id ? newData : data));
-    }
-
-    return {
-        subscribe,
-        set,
-        sync,
-        catchUp,
-        update: listUpdate,
-    };
-};
