@@ -1,66 +1,56 @@
 <script lang="ts">
-	import type { ITaskData } from '$lib/dataInterfaces';
 	import { validateInput } from '../../scripts/validateInput';
-	import { guessStore } from '../../stores/ssmSyncedStore';
-	import { wordStore } from '../../stores/ssmSyncedStore';
+	import { wordStore } from '../../stores/stores';
 
-	export let taskData: ITaskData;
+	export let taskStore;
 
 	const checkSuccess = () => {
-		if ($guessStore.length !== $wordStore.length) {
-			taskData.success = false;
+		if ($taskStore.guesses.length !== $wordStore.length) {
+			$taskStore.success = false;
 			return;
 		}
 		for (let i = 0; i < $wordStore.length; i++) {
-			if ($wordStore[i].toLowerCase() !== $guessStore[i].toLowerCase()) {
-				taskData.success = false;
+			if ($wordStore[i].toLowerCase() !== $taskStore.guesses[i].toLowerCase()) {
+				$taskStore.success = false;
 				return;
 			}
 		}
-		taskData.success = true;
+		$taskStore.success = true;
 	};
 
 	const calculateScore = () => {
-		taskData.score = 0;
-		let guesses = new Set($guessStore.map((v) => v.toLowerCase())); //ensures the same guess is not counted twice
-		let correctWords = $wordStore.map((v) => v.toLowerCase());
+		let correctGuesses = Array.from($taskStore.guesses as string[]).filter((v) =>
+			$wordStore.includes(v)
+		);
 
-		let correctGuesses = Array.from(correctWords).filter((v) => guesses.has(v));
-
-		taskData.score += correctGuesses.length;
+		$taskStore.score = correctGuesses.length;
 	};
 
-	const checkComplete = () => {
-		if ($guessStore.every((v) => v !== '' && v.length >= 3)) {
-			// if every input is filled and has more than 3 characters
-			taskData.complete = true;
-		}
-	};
 	//triggered whenever a user make changes
 	const handleInput = (e: Event, index: number) => {
 		const input = (e.target as HTMLInputElement).value;
-		let validatedInput = validateInput(input) ? input : '';
-		guessStore.update((value) => {
-			return value.map((v, i) => (i === index ? validatedInput : v));
-		});
+		let validatedInput = validateInput(input) ? input.toLowerCase() : '';
+		$taskStore.guesses[index] = validatedInput;
 		checkSuccess();
 		calculateScore();
-		checkComplete();
+		if ($taskStore.guesses.every((v: string) => v !== '' && v.length >= 3)) {
+			// if every input is filled and has more than 3 characters
+			$taskStore.complete = true;
+		}
 	};
 
 	const handleBlur = (e: Event) => {
 		const target = e.target as HTMLInputElement;
 		//if the input is correct, automatically "activate" the next input
 	};
-	console.log($wordStore);
 </script>
 
 {#each $wordStore as w, index}
 	<p>
 		<input
-			class={$guessStore[index].toLowerCase() === w.toLowerCase() ? 'correct' : 'incorrect'}
+			class={$taskStore.guesses[index] === w ? 'correct' : 'incorrect'}
 			type="text"
-			value={$guessStore[index]}
+			value={$taskStore.guesses[index] ?? ''}
 			on:input={(e) => handleInput(e, index)}
 			on:blur={(e) => handleBlur(e)}
 		/>
