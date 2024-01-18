@@ -1,41 +1,45 @@
 <script lang="ts">
 	import { validateInput } from '../../scripts/validateInput';
-	import { wordStore } from '../../stores/stores';
+	import type { ITaskData } from '$lib/dataInterfaces';
+	import { getDataStore } from '$lib/state.svelte';
+	import type { Writable } from 'svelte/store';
 
-	export let taskStore;
+	export let store: Writable<ITaskData>;
+
+	let wordStore = getDataStore<string[]>('words');
+
+	let guesses: string[] = [];
 
 	const checkSuccess = () => {
-		if ($taskStore.guesses.length !== $wordStore.length) {
-			$taskStore.success = false;
+		if (guesses.length !== $wordStore.length) {
+			$store.success = false;
 			return;
 		}
 		for (let i = 0; i < $wordStore.length; i++) {
-			if ($wordStore[i].toLowerCase() !== $taskStore.guesses[i].toLowerCase()) {
-				$taskStore.success = false;
+			if ($wordStore[i].toLowerCase() !== guesses[i].toLowerCase()) {
+				$store.success = false;
 				return;
 			}
 		}
-		$taskStore.success = true;
+		$store.success = true;
 	};
 
 	const calculateScore = () => {
-		let correctGuesses = Array.from($taskStore.guesses as string[]).filter((v) =>
-			$wordStore.includes(v)
-		);
+		let correctGuesses = Array.from(guesses as string[]).filter((v) => $wordStore.includes(v));
 
-		$taskStore.score = correctGuesses.length;
+		$store.score = correctGuesses.length;
 	};
 
 	//triggered whenever a user make changes
 	const handleInput = (e: Event, index: number) => {
 		const input = (e.target as HTMLInputElement).value;
 		let validatedInput = validateInput(input) ? input.toLowerCase() : '';
-		$taskStore.guesses[index] = validatedInput;
+		guesses[index] = validatedInput;
 		checkSuccess();
 		calculateScore();
-		if ($taskStore.guesses.every((v: string) => v !== '' && v.length >= 3)) {
+		if (guesses.every((v: string) => v !== '' && v.length >= 3)) {
 			// if every input is filled and has more than 3 characters
-			$taskStore.complete = true;
+			$store.complete = true;
 		}
 	};
 
@@ -48,9 +52,9 @@
 {#each $wordStore as w, index}
 	<p>
 		<input
-			class={$taskStore.guesses[index] === w ? 'correct' : 'incorrect'}
+			class={guesses[index] === w ? 'correct' : 'incorrect'}
 			type="text"
-			value={$taskStore.guesses[index] ?? ''}
+			value={guesses[index] ?? ''}
 			on:input={(e) => handleInput(e, index)}
 			on:blur={(e) => handleBlur(e)}
 		/>
