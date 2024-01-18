@@ -3,11 +3,14 @@ import settings from "./settings.json"
 import type { StorageType } from "./types";
 
 export function getData<T>(key: string, storageKey: StorageType, defaultValue: T): T | null {
-    if (!browser) return defaultValue;
+
+    if (!browser) {
+        return defaultValue
+    }
     const fullKey = settings.key + key;
     const storageObject: Storage = storageKey === "local" ? window.localStorage : window.sessionStorage;
     const returnData = storageObject.getItem(fullKey)
-    if (returnData === null || returnData === "undefined") {
+    if (returnData === null || returnData === "undefined") { // TODO: Ensure the type for the return object matches T
         return defaultValue;
     }
     return JSON.parse(returnData);
