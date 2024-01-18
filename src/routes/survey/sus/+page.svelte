@@ -1,26 +1,14 @@
 <script lang="ts">
-	import sus from '../../../lib/sus.json';
-	import { ssmSyncedStore } from '../../../scripts/ssmSyncedStore';
-
-	const id = '/survey/sus';
-
+	import type { ISUS } from '$lib/dataInterfaces';
+	import { getDataStore } from '$lib/state.svelte';
+	const store = getDataStore<ISUS[]>('sus');
 	const maxScore = 5;
-
-	const surveyStore = ssmSyncedStore(id, () => {
-		return sus.map((s) => {
-			return {
-				id: s.id,
-				question: s.question,
-				score: undefined
-			};
-		});
-	});
 </script>
 
 <form>
 	<span> 1: Strongly disagree 5: Strongly agree </span>
 	<ul>
-		{#each $surveyStore as s, index}
+		{#each $store as s, index}
 			{s.question}
 			{#each Array.from({ length: maxScore }) as _, i}
 				<div style="display:block">
