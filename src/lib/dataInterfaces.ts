@@ -11,7 +11,21 @@ interface ITaskData {
     corrections: number;
     score: number;
     comment?: string;
+    guesses?: string[];
     [key: string]: unknown; //if you want to add more metrics
+}
+
+interface ISingleSUS {
+    id: number;
+    name: string;
+    complete: boolean;
+    score: number
+}
+
+interface ISUSData {
+    complete: boolean;
+    answers?: ISingleSUS[];
+
 }
 
 interface IMetaData {
@@ -28,10 +42,5 @@ interface IUserData {
     age?: number;
     domain?: "design" | "UX" | "web development" | "programming" | "caregiver" | "games" | "psychology" | "other" | string; //come up with more examples
 }
-
-interface ISUSData {
-    frequency: number;
-}
-
 
 export type { IResult, ITaskData, IMetaData, IUserData, ISUSData }
