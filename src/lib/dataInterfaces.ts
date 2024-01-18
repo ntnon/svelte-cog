@@ -15,18 +15,12 @@ interface ITaskData {
     [key: string]: unknown; //if you want to add more metrics
 }
 
-interface ISingleSUS {
-    id: number;
-    name: string;
-    complete: boolean;
-    score: number
+interface ISUS {
+    id: string;
+    question: string;
+    score?: number;
 }
 
-interface ISUSData {
-    complete: boolean;
-    answers?: ISingleSUS[];
-
-}
 
 interface IMetaData {
     date: Date;
@@ -43,4 +37,4 @@ interface IUserData {
     domain?: "design" | "UX" | "web development" | "programming" | "caregiver" | "games" | "psychology" | "other" | string; //come up with more examples
 }
 
-export type { IResult, ITaskData, IMetaData, IUserData, ISUSData }
+export type { IResult, ITaskData, IMetaData, IUserData, ISUS }

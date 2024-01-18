@@ -1,9 +1,10 @@
 <script lang="ts">
-	import type { ITaskData } from '$lib/dataInterfaces';
+	import type { ISUS, ITaskData } from '$lib/dataInterfaces';
 	import { getData } from '$lib/dataService';
 	import { setDataStore } from '$lib/state.svelte';
 	import { getRandomWords } from '../scripts/getRandomWords';
 	import Nav from '../components/navigation/Nav.svelte';
+	import susQuestions from '$lib/susQuestions.json';
 	// const { data } = $$props; // load data from server
 
 	const emptyTaskData: ITaskData = {
@@ -12,13 +13,13 @@
 		corrections: 0
 	};
 
-	const clockPointData = getData('clockPoint', 'session', emptyTaskData);
-	const clockDrawData = getData('clockDraw', 'session', emptyTaskData);
-	const wordRegistrationData = getData('wordRegistration', 'session', emptyTaskData);
-	const wordRecallData = getData('wordRecall', 'session', emptyTaskData);
-	const consentData = getData('consent', 'session', false);
-	const wordData = getData('words', 'session', getRandomWords());
-	const susData = getData('sus', 'session', false);
+	const clockPointData = getData<ITaskData>('clockPoint', 'session', emptyTaskData);
+	const clockDrawData = getData<ITaskData>('clockDraw', 'session', emptyTaskData);
+	const wordRegistrationData = getData<ITaskData>('wordRegistration', 'session', emptyTaskData);
+	const wordRecallData = getData<ITaskData>('wordRecall', 'session', emptyTaskData);
+	const consentData = getData<boolean>('consent', 'session', false);
+	const wordData = getData<string[]>('words', 'session', getRandomWords());
+	const susData = getData<ISUS[]>('sus', 'session', susQuestions);
 
 	const clockPoint = setDataStore('clockPoint', 'session', clockPointData);
 	const clockDraw = setDataStore('clockDraw', 'session', clockDrawData);
