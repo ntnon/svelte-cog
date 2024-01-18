@@ -6,18 +6,10 @@
 	import { getPagePosition } from '../../../scripts/getPagePosition';
 
 	import type { SvelteComponent } from 'svelte';
-	import { ssmSyncedStore } from '../../../scripts/ssmSyncedStore';
-	let id = '/tasks/clockdraw';
 
-	const taskStore = ssmSyncedStore<ITaskData>(id, () => {
-		return {
-			complete: false,
-			score: 0,
-			corrections: 0
-		};
-	});
+	import { getDataStore } from '$lib/state.svelte';
 
-	const taskData = $taskStore;
+	const store = getDataStore<ITaskData>('clockdraw');
 
 	let blocksIDsInsideClock = new Set<number>();
 	let placedBlockIDs = new Set<number>(); // this is used to check if the block has been placed before
@@ -30,7 +22,7 @@
 
 	const calculateComplete = () => {
 		if (blocksIDsInsideClock.size === blockCount) {
-			taskData.complete = true;
+			$store.complete = true;
 		}
 	};
 
@@ -68,8 +60,8 @@
 
 	const handleMouseDown = (block: IBlock, draggableElement: HTMLElement) => {
 		if (placedBlockIDs.has(block.id)) {
-			taskData.corrections += 1;
-			console.log('corrections', taskData.corrections);
+			$store.corrections += 1;
+			console.log('corrections', $store.corrections);
 		}
 	};
 

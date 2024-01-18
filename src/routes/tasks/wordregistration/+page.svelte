@@ -1,25 +1,17 @@
 <script lang="ts">
 	import RecallComponent from '../../../components/tasks/RecallComponent.svelte';
+	import { getDataStore } from '$lib/state.svelte';
 	import type { ITaskData } from '$lib/dataInterfaces';
-	import { wordStore } from '../../../stores/stores';
-	import { ssmSyncedStore } from '../../../scripts/ssmSyncedStore';
-	import { resolveRoute } from '$app/paths';
+	let id = 'tasks/wordregistration';
 
-	let id = '/tasks/wordregistration';
-
-	let taskStore = ssmSyncedStore<ITaskData>(id, () => {
-		return {
-			route: resolveRoute,
-			complete: false,
-			score: 0,
-			corrections: 0,
-			guesses: []
-		};
-	});
+	const wordRegistration = getDataStore<ITaskData>('wordRegistration');
+	const words = getDataStore<string[]>('words');
 
 	const handleButton = () => {
 		recallMode = !recallMode;
-		$taskStore.corrections++;
+		wordRegistration.update((v) => {
+			return { ...v, corrections: v.corrections + 1 };
+		});
 	};
 
 	let recallMode = false;
@@ -27,11 +19,11 @@
 
 <h2>Word Registration</h2>
 <button on:click={handleButton}> {recallMode ? 'Show words' : 'Guess'}</button>
-{#if recallMode}
-	<RecallComponent bind:taskStore />
+{#if recallMode && wordRegistration}
+	<RecallComponent store={wordRegistration} />
 {/if}
 {#if !recallMode}
-	{#each $wordStore as w}
+	{#each $words as w}
 		<p>{w}</p>
 	{/each}
 {/if}

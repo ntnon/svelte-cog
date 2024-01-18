@@ -4,23 +4,11 @@
 	import Draggable from '../../../components/Draggable.svelte';
 	import Clock from '../../../components/tasks/Clock.svelte';
 	import timestamps from '../../../lib/timestamps.json';
-
 	import { onMount } from 'svelte';
-	import { page } from '$app/stores';
 	import type { ITaskData } from '$lib/dataInterfaces';
-	import { ssmSyncedStore } from '../../../scripts/ssmSyncedStore';
+	import { getDataStore } from '$lib/state.svelte';
 
-	let id = '/tasks/clockpoint';
-
-	const taskStore = ssmSyncedStore<ITaskData>(id, () => {
-		return {
-			complete: false,
-			score: 0,
-			corrections: 0
-		};
-	});
-
-	const taskData = $taskStore;
+	const store = getDataStore<ITaskData>('clockpoint');
 
 	onMount(() => {
 		time = timestamps[Math.floor(Math.random() * timestamps.length)];
@@ -31,23 +19,23 @@
 	let placedBlocks = new Set<number>();
 
 	const calculateScore = () => {
-		taskData.score = 0;
+		$store.score = 0;
 		let targetMinuteNumber = time.minute / 5; // 5 minutes per block
 		let targetHour = time.hour;
 		if (!minuteHand.closestNumber || !hourHand.closestNumber) return;
 		let minuteDifference = Math.abs(targetMinuteNumber - minuteHand.closestNumber);
 		let hourDifference = Math.abs(targetHour - hourHand.closestNumber);
 		if (minuteDifference <= 0.5) {
-			taskData.score++;
+			$store.score++;
 		}
 		if (hourDifference <= 0.5) {
-			taskData.score++;
+			$store.score++;
 		}
 	};
 
 	const calculateComplete = () => {
 		if (placedBlocks.size == 2) {
-			taskData.complete = true;
+			$store.complete = true;
 		}
 	};
 
@@ -69,7 +57,7 @@
 
 	const handleMouseUp = (block: IBlock) => {
 		if (placedBlocks.has(block.id)) {
-			taskData.corrections++;
+			$store.corrections++;
 		}
 		placedBlocks.add(block.id);
 		calculateComplete();
