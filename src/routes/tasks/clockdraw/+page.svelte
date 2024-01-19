@@ -27,7 +27,7 @@
 	};
 
 	// "Block" is used to describe a draggable number
-	const blockCount = 3; // should be 12
+	const blockCount = 12; // should be 12
 	const newBlocks = (num: number) => {
 		return Array(num)
 			.fill(null)
