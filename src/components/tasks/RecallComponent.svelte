@@ -5,29 +5,20 @@
 	import type { Writable } from 'svelte/store';
 
 	export let store: Writable<ITaskData>;
-
+	export let guesses: string[] = []; //array of guesses, can be given by parent component, or will be empty on mount
 	let wordStore = getDataStore<string[]>('words');
 
-	let guesses: string[] = [];
-
-	const checkSuccess = () => {
-		if (guesses.length !== $wordStore.length) {
-			$store.success = false;
-			return;
-		}
-		for (let i = 0; i < $wordStore.length; i++) {
-			if ($wordStore[i].toLowerCase() !== guesses[i].toLowerCase()) {
-				$store.success = false;
-				return;
-			}
-		}
-		$store.success = true;
-	};
+	console.log('store:', store);
 
 	const calculateScore = () => {
 		let correctGuesses = Array.from(guesses as string[]).filter((v) => $wordStore.includes(v));
-
 		$store.score = correctGuesses.length;
+		if ($store.score === $wordStore.length) {
+			$store.success = true;
+		}
+		if (guesses.length === $wordStore.length) {
+			$store.complete = true;
+		}
 	};
 
 	//triggered whenever a user make changes
@@ -35,12 +26,7 @@
 		const input = (e.target as HTMLInputElement).value;
 		let validatedInput = validateInput(input) ? input.toLowerCase() : '';
 		guesses[index] = validatedInput;
-		checkSuccess();
 		calculateScore();
-		if (guesses.every((v: string) => v !== '' && v.length >= 3)) {
-			// if every input is filled and has more than 3 characters
-			$store.complete = true;
-		}
 	};
 
 	const handleBlur = (e: Event) => {
