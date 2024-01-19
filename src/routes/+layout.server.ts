@@ -1,15 +1,15 @@
 import type { LayoutServerLoad } from "./$types";
-import type { dataSchema } from "$lib/types";
+import type { DataSchema } from "$lib/types";
+import { getRandomWords } from "../scripts/getRandomWords";
 
 //get data from server
 
 export const load: LayoutServerLoad = async () => {
 
-    const data: dataSchema = {
-        tasks: [],
-        survey: {},
+    const data: DataSchema = {
+        tasks: {},
         consent: false,
-        words: [],
+        words: getRandomWords(),
         sus: {}
     }
 
