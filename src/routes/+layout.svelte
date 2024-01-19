@@ -2,10 +2,9 @@
 	import type { ISUS, ITaskData } from '$lib/dataInterfaces';
 	import { getData } from '$lib/dataService';
 	import { setDataStore } from '$lib/state.svelte';
-	import { getRandomWords } from '../scripts/getRandomWords';
 	import Nav from '../components/navigation/Nav.svelte';
 	import susQuestions from '$lib/susQuestions.json';
-	// const { data } = $$props; // load data from server
+	const { data } = $$props; // load data from server
 
 	const emptyTaskData: ITaskData = {
 		complete: false,
@@ -18,7 +17,7 @@
 	const wordRegistrationData = getData<ITaskData>('wordRegistration', 'session', emptyTaskData);
 	const wordRecallData = getData<ITaskData>('wordRecall', 'session', emptyTaskData);
 	const consentData = getData<boolean>('consent', 'session', false);
-	const wordData = getData<string[]>('words', 'session', getRandomWords());
+	const wordData = getData<string[]>('words', 'session', data.words); //fetched from server
 	const susData = getData<ISUS[]>('sus', 'session', susQuestions);
 
 	const clockPoint = setDataStore('clockPoint', 'session', clockPointData);
