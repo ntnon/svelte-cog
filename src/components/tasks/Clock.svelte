@@ -10,7 +10,7 @@
 		margin-top: 1rem;
 		width: 300px;
 		height: 300px;
-		border: 6px solid rgb(120, 117, 117);
+		border: 15px solid #e37951;
 		border-radius: 50%;
 		position: relative;
 		align-self: center;

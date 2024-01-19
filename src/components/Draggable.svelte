@@ -80,7 +80,7 @@
 	.draggable {
 		user-select: none;
 		cursor: move;
-		border: solid 1px gray;
+		border: solid 3px #3c6ca8;
 		position: relative;
 		z-index: 1;
 		width: 3rem;
@@ -94,5 +94,6 @@
 		justify-content: center;
 		box-sizing: border-box;
 		margin: 0.1rem;
+		background-color: #f4ebec;
 	}
 </style>
