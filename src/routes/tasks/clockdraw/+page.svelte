@@ -2,7 +2,7 @@
 	import type { IBlock, IPosition } from '$lib/interfaces';
 	import type { ITaskData } from '$lib/dataInterfaces';
 	import Draggable from '../../../components/Draggable.svelte';
-	import Clock from '../../../components/tasks/Clock.svelte';
+	import Clock from '../../../components/Clock.svelte';
 	import { getPagePosition } from '../../../scripts/getPagePosition';
 
 	import type { SvelteComponent } from 'svelte';
