@@ -7,6 +7,8 @@ interface IResult {
 }
 
 interface ITaskData {
+    id: string;
+    name: string;
     complete: boolean;
     corrections: number;
     score: number;
@@ -19,6 +21,12 @@ interface ISUS {
     id: string;
     question: string;
     score?: number;
+}
+
+interface IRoute {
+    name: string;
+    path: string;
+    complete: boolean;
 }
 
 
@@ -37,4 +45,4 @@ interface IUserData {
     domain?: "design" | "UX" | "web development" | "programming" | "caregiver" | "games" | "psychology" | "other" | string; //come up with more examples
 }
 
-export type { IResult, ITaskData, IMetaData, IUserData, ISUS }
+export type { IResult, ITaskData, IMetaData, IUserData, ISUS, IRoute }
