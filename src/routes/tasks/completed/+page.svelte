@@ -16,7 +16,7 @@
 <p>Well done!</p>
 
 {#each allStores as store}
-	<p>Task: {store.id}</p>
+	<p>Task: {store.name}</p>
 	<p>Score: {store.score}</p>
 	<p>Corrections: {store.corrections}</p>
 {/each}
