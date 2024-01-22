@@ -1,144 +1,95 @@
 <script lang="ts">
-	import type { IPosition, IHand, IBlock } from '$lib/interfaces';
-	import { getRectCenter } from '../../../scripts/getRectCenter';
-	import Draggable from '../../../components/Draggable.svelte';
-	import Clock from '../../../components/tasks/Clock.svelte';
-	import timestamps from '../../../lib/timestamps.json';
-	import { onMount } from 'svelte';
-	import type { ITaskData } from '$lib/dataInterfaces';
-	import { getDataStore } from '$lib/state.svelte';
+	import type { IHand } from '$lib/interfaces';
+	import type { InteractionEvent } from '$lib/types';
+	import Clock from '../../../components/Clock.svelte';
+	import { cssRotationToClockHours } from '../../../scripts/cssRotationToClockHours';
+	import { getClientCoordinates } from '../../../scripts/getClientCoordinates';
 
-	const store = getDataStore<ITaskData>('clockpoint');
+	let dial: HTMLElement;
 
-	onMount(() => {
-		time = timestamps[Math.floor(Math.random() * timestamps.length)];
-	});
+	let hands: IHand[] = [
+		{ name: 'hour', angle: 0, active: false, length: 100 },
+		{ name: 'minute', angle: 20, active: false, length: 130 }
+	];
 
-	let time: { name: string; hour: number; minute: number } = { name: '', hour: 0, minute: 0 };
-
-	let placedBlocks = new Set<number>();
-
-	const calculateScore = () => {
-		$store.score = 0;
-		let targetMinuteNumber = time.minute / 5; // 5 minutes per block
-		let targetHour = time.hour;
-		if (!minuteHand.closestNumber || !hourHand.closestNumber) return;
-		let minuteDifference = Math.abs(targetMinuteNumber - minuteHand.closestNumber);
-		let hourDifference = Math.abs(targetHour - hourHand.closestNumber);
-		if (minuteDifference <= 0.5) {
-			$store.score++;
-		}
-		if (hourDifference <= 0.5) {
-			$store.score++;
-		}
-	};
-
-	const calculateComplete = () => {
-		if (placedBlocks.size == 2) {
-			$store.complete = true;
-		}
-	};
-
-	let clockElement: HTMLElement;
-	let clockCenter: IPosition;
-	let hourHand: IHand = { id: 'hour', angle: 90 };
-	let minuteHand: IHand = { id: 'minute', angle: 90 };
-	let hands = [hourHand, minuteHand];
-
-	let hourBlock: IBlock = { id: 0, name: 'hour', position: { top: 0, left: 0 } };
-	let minuteBlock: IBlock = { id: 1, name: 'minute', position: { top: 0, left: 0 } };
-
-	const calculateAngleToCircle = (position: IPosition) => {
-		const x = position.left - clockCenter.left;
-		const y = position.top - clockCenter.top;
+	const calculateMouseDialAngle = (clientX: number, clientY: number) => {
+		const dialRect = dial.getBoundingClientRect();
+		const x = clientX - dialRect.left;
+		const y = clientY - dialRect.top;
 		const angle = Math.atan2(y, x) * (180 / Math.PI);
 		return angle;
 	};
 
-	const handleMouseUp = (block: IBlock) => {
-		if (placedBlocks.has(block.id)) {
-			$store.corrections++;
-		}
-		placedBlocks.add(block.id);
-		calculateComplete();
-	};
-
-	const handlePositionChange = (block: IBlock, position: IPosition) => {
-		block.position = position;
+	const onMouseMove = (e: InteractionEvent) => {
+		e.preventDefault();
+		const { clientX, clientY } = getClientCoordinates(e);
+		const newAngle = calculateMouseDialAngle(clientX, clientY);
 		hands = hands.map((hand) => {
-			if (hand.id === block.name) {
-				hand.angle = calculateAngleToCircle(position);
-				hand.closestNumber = ((Math.round(((hand.angle + 360) % 360) / 15) + 6) % 24) / 2; // Divides the circle into 24 slices, one slice for each half hour in a day. The slices are divided by two, which then accounts for all full and half hours, for instance, 1.5 is 1:30, 2.5 is 2:30, etc.
-				// +6 is added to mitigate the offset caused by CSS axis rotation differing from the mathematical axis rotation. The offset is 90 degrees, which is 6 slices of 15 degrees.
-				if (hand.closestNumber === 0) {
-					hand.closestNumber = 12;
-				}
+			if (hand.active) {
+				hand.angle = newAngle;
 			}
-			return hand;
+			return { ...hand };
 		});
-		calculateScore();
 	};
-
-	const updateClockCenter = () => {
-		//triggered by window resize and when clockElement is set
-		clockCenter = getRectCenter(clockElement); //instantiate clockCenter - required for calculating the angle of the hands
-	};
-
-	$: if (clockElement) {
-		updateClockCenter();
-	}
 </script>
 
-<h2>{time.name}</h2>
-<p>Adjust the clock by moving the circles</p>
-{#each [hourBlock, minuteBlock] as block (block.id)}
-	<div class="blocks">
-		<Draggable
-			position={block.position}
-			on:positionChange={(e) => handlePositionChange(block, e.detail.position)}
-			on:mouseUp={(e) => handleMouseUp(block)}
-		>
-			{block.name}
-		</Draggable>
-	</div>
-{/each}
+hour: {cssRotationToClockHours(hands[0].angle).toFixed(3)}
+min: {cssRotationToClockHours(hands[1].angle).toFixed(3)}
+<button
+	on:click={() =>
+		(hands = hands.map((hand) => {
+			hand.angle = 0;
+			hand.active = false;
+			return { ...hand };
+		}))}>Reset</button
+>
+<Clock>
+	{#each hands as hand}
+		<div
+			role="button"
+			tabindex="0"
+			on:mousedown={() => (hand.active = true)}
+			on:mouseup={() => hands.map((hand) => (hand.active = false))}
+			on:touchstart={() => (hand.active = true)}
+			on:touchend={() => (hand.active = false)}
+			class={'hand'}
+			style={'transform: translate(-50%, -50%) rotate(' +
+				hand.angle +
+				'deg) translate(50%, 0%); width: ' +
+				hand.length +
+				'px'}
+		/>
+	{/each}
+	<div class="dial" bind:this={dial}></div>
+</Clock>
 
-<div bind:this={clockElement}>
-	<Clock>
-		{#each hands as hand (hand.id)}
-			<div
-				class={'hand-' + hand.id}
-				style={'transform: translate(-50%, -50%) rotate(' + hand.angle + 'deg) translate(50%, 0%);'}
-			/>
-		{/each}
-	</Clock>
-</div>
-<svelte:window on:resize={() => updateClockCenter()} />
+<svelte:window
+	on:mouseup={() => hands.map((hand) => (hand.active = false))}
+	on:touchend={() => hands.map((hand) => (hand.active = false))}
+	on:touchmove={onMouseMove}
+	on:mousemove={onMouseMove}
+/>
 
 <style>
-	.hand-hour {
+	.hand {
+		touch-action: none;
 		position: absolute;
-		background-color: rgba(48, 105, 105, 0.21);
-		width: 100px;
+		background-color: rgba(48, 105, 105);
 		height: 20px;
 		left: 50%;
 		top: 50%;
 		transform: translate(0%, -50%);
-	}
-	.hand-minute {
-		position: absolute;
-		background-color: rgba(48, 105, 105, 0.21);
-		width: 130px;
-		height: 20px;
-		left: 50%;
-		top: 50%;
-		transform: translate(0%, -50%);
+		user-select: none;
 	}
 
-	.blocks {
-		display: flex;
-		flex-direction: row;
-		list-style-type: none;
-		justify-content: space-between;
+	.dial {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		width: 10px;
+		height: 10px;
+		background: rgb(128, 127, 127);
+		border-radius: 50%;
+		transform: translate(-50%, -50%);
 	}
 </style>

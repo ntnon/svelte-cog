@@ -12,9 +12,10 @@ interface IPosition {
 }
 
 interface IHand {
-    id: string;
+    name: 'hour' | 'minute';
     angle: number;
-    closestNumber?: number;
+    active: boolean;
+    length: number;
 }
 
 export type { IBlock, IPosition, IHand };
