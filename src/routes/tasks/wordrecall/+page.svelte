@@ -1,5 +1,5 @@
 <script lang="ts">
-	import RecallComponent from '../../../components/tasks/RecallComponent.svelte';
+	import RecallComponent from '../../../components/RecallComponent.svelte';
 	import type { ITaskData } from '$lib/dataInterfaces';
 	import { getDataStore } from '$lib/state.svelte';
 

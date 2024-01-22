@@ -1,5 +1,5 @@
 <script lang="ts">
-	import RecallComponent from '../../../components/tasks/RecallComponent.svelte';
+	import RecallComponent from '../../../components/RecallComponent.svelte';
 	import { getDataStore } from '$lib/state.svelte';
 	import type { ITaskData } from '$lib/dataInterfaces';
 	let id = 'tasks/wordregistration';
