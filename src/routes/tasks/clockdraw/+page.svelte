@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { ITaskMarkers } from '$lib/dataInterfaces';
+	import type { IMarker, ITaskMarkers } from '$lib/dataInterfaces';
 	import Clock from '../../../components/Clock.svelte';
 	import { getDataStore } from '$lib/state.svelte';
 	import type { InteractionEvent } from '$lib/types';
@@ -7,6 +7,7 @@
 	import { calculateMouseDialAngle } from '../../../scripts/calculateMouseDialAngle';
 	import { cssRotationToClockHours } from '../../../scripts/cssRotationToClockHours';
 	import { getPagePosition } from '../../../scripts/getPagePosition';
+	import { adjustClockwiseDistance } from '../../../scripts/adjustClockwiseDistance';
 
 	const store = getDataStore<ITaskMarkers>('clockDraw');
 
@@ -14,15 +15,21 @@
 
 	const calculateScore = () => {
 		let newScore = 0;
+		let offDistance = 0;
 		$store.markers.map((m) => {
-			newScore += 1;
+			if (m.isInsideClock && m.pointsAt) {
+				newScore += 1;
+				let diff = Math.abs(m.pointsAt - m.id);
+				offDistance += adjustClockwiseDistance(diff);
+			}
 		});
-
-		return newScore;
+		return offDistance;
 	};
 
-	const isMarkerInCircle = (markerHTMLElement: HTMLElement) => {
+	const isMarkerInCircle = (markerId: string) => {
 		const clockHTMLElement = document.getElementById('clock');
+		const markerHTMLElement = document.getElementById('marker-' + markerId);
+
 		if (!clockHTMLElement) {
 			console.warn('clock not found');
 			return false;
@@ -38,7 +45,6 @@
 		const dy = clockPosition.y - markerPosition.y;
 		const distance = Math.sqrt(dx * dx + dy * dy);
 		const overlap = distance <= clockRadius;
-		console.log(overlap);
 		return overlap;
 	};
 
@@ -50,16 +56,19 @@
 		if (!currentMarker) {
 			return;
 		}
-		const currentMarkerHTMLElement = document.getElementById('marker-' + currentMarker.id);
+		const currentMarkerHTMLElement = document.getElementById(
+			'marker-initial-slot-' + currentMarker.id
+		);
 
 		if (!currentMarkerHTMLElement) {
 			return;
 		}
 		const { x: offsetX, y: offsetY } = getPagePosition(currentMarkerHTMLElement);
+
 		const { clientX, clientY } = getClientCoordinates(e);
 		const newAngle = calculateMouseDialAngle(dial, clientX, clientY);
 		const newPointsAt = cssRotationToClockHours(newAngle);
-		const newInsideClock = isMarkerInCircle(currentMarkerHTMLElement);
+		const newInsideClock = isMarkerInCircle(currentMarker.id.toString());
 		const newMarkers = $store.markers.map((m) => {
 			if (m.id === currentMarker?.id) {
 				return {
@@ -76,8 +85,22 @@
 		store.update((value) => ({ ...value, markers: newMarkers }));
 		$store.score = calculateScore();
 	};
+
+	const handleMouseUp = () => {
+		$store.markers.map((m) => (m.active = false));
+		$store.score = calculateScore();
+		$store.complete = !$store.markers.find((m) => !m.isInsideClock);
+	};
+
+	const handleMouseDown = (marker: IMarker) => {
+		if (marker.isInsideClock) {
+			$store.corrections += 1;
+		}
+		marker.active = true;
+	};
 </script>
 
+{$store.complete}
 {$store.score}
 <button
 	on:click={() =>
@@ -93,18 +116,15 @@
 >
 <span class="markerlist" id="markers">
 	{#each $store.markers as marker}
-		<div id={'marker-' + marker.id}>
+		<div id={'marker-initial-slot-' + marker.id}>
 			<div
-				id={marker.id.toString()}
+				id={'marker-' + marker.id}
 				role="button"
 				tabindex="0"
 				class="marker"
-				style="top: {marker.y}px;
-			left: {marker.x}px;"
-				on:mousedown={() => (marker.active = true)}
-				on:mouseup={() => (marker.active = false)}
-				on:touchstart={() => (marker.active = true)}
-				on:touchend={() => (marker.active = false)}
+				style="top: {marker.y}px; left: {marker.x}px;"
+				on:mousedown={() => handleMouseDown(marker)}
+				on:touchstart={() => handleMouseDown(marker)}
 			>
 				{marker.id}
 			</div>
@@ -116,8 +136,8 @@
 </Clock>
 
 <svelte:window
-	on:mouseup={() => $store.markers.map((m) => (m.active = false))}
-	on:touchend={() => $store.markers.map((m) => (m.active = false))}
+	on:mouseup={handleMouseUp}
+	on:touchend={handleMouseUp}
 	on:mousemove={handleMouseMove}
 	on:touchmove={(e) => handleMouseMove(e, true)}
 />
@@ -147,8 +167,8 @@
 		position: absolute;
 		top: 50%;
 		left: 50%;
-		width: 10px;
-		height: 10px;
+		width: 2.5vh;
+		height: 2.5vh;
 		background: rgb(128, 127, 127);
 		border-radius: 50%;
 		transform: translate(-50%, -50%);
