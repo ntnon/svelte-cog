@@ -1,16 +1,18 @@
 <script lang="ts">
-	import type { IHand } from '$lib/interfaces';
+	import type { IHand, ITaskData, ITaskHands } from '$lib/dataInterfaces';
+	import { getDataStore } from '$lib/state.svelte';
 	import type { InteractionEvent } from '$lib/types';
 	import Clock from '../../../components/Clock.svelte';
 	import { cssRotationToClockHours } from '../../../scripts/cssRotationToClockHours';
 	import { getClientCoordinates } from '../../../scripts/getClientCoordinates';
 
+	const store = getDataStore<ITaskHands>('clockPoint');
+
 	let dial: HTMLElement;
 
-	let hands: IHand[] = [
-		{ name: 'hour', angle: 0, active: false, length: 100 },
-		{ name: 'minute', angle: 20, active: false, length: 130 }
-	];
+	let hands: IHand[] = [$store.minute, $store.hour];
+
+	console.log(hands);
 
 	const calculateMouseDialAngle = (clientX: number, clientY: number) => {
 		const dialRect = dial.getBoundingClientRect();
@@ -20,31 +22,33 @@
 		return angle;
 	};
 
-	const onMouseMove = (e: InteractionEvent) => {
-		e.preventDefault();
+	const onMouseMove = (e: InteractionEvent, touch: boolean = false) => {
+		if (!touch) {
+			e.preventDefault();
+		}
 		const { clientX, clientY } = getClientCoordinates(e);
 		const newAngle = calculateMouseDialAngle(clientX, clientY);
-		hands = hands.map((hand) => {
+		const newHands = hands.map((hand) => {
 			if (hand.active) {
 				hand.angle = newAngle;
 			}
 			return { ...hand };
 		});
+		store.update((value) => ({ ...value, hands: newHands }));
 	};
 </script>
 
-hour: {cssRotationToClockHours(hands[0].angle).toFixed(3)}
-min: {cssRotationToClockHours(hands[1].angle).toFixed(3)}
+hour: {cssRotationToClockHours($store.hour.angle).toFixed(3)}
+min: {cssRotationToClockHours($store.minute.angle).toFixed(3)}
 <button
-	on:click={() =>
-		(hands = hands.map((hand) => {
-			hand.angle = 0;
-			hand.active = false;
-			return { ...hand };
-		}))}>Reset</button
+	on:click={() => {
+		$store.hour.angle = 90;
+		$store.minute.angle = 45;
+	}}>Reset</button
 >
+
 <Clock>
-	{#each hands as hand}
+	{#each [$store.minute, $store.hour] as hand}
 		<div
 			role="button"
 			tabindex="0"
@@ -66,7 +70,7 @@ min: {cssRotationToClockHours(hands[1].angle).toFixed(3)}
 <svelte:window
 	on:mouseup={() => hands.map((hand) => (hand.active = false))}
 	on:touchend={() => hands.map((hand) => (hand.active = false))}
-	on:touchmove={onMouseMove}
+	on:touchmove={(e) => onMouseMove(e, true)}
 	on:mousemove={onMouseMove}
 />
 
@@ -74,7 +78,7 @@ min: {cssRotationToClockHours(hands[1].angle).toFixed(3)}
 	.hand {
 		touch-action: none;
 		position: absolute;
-		background-color: rgba(48, 105, 105);
+		background-color: #3c6ca8;
 		height: 20px;
 		left: 50%;
 		top: 50%;
