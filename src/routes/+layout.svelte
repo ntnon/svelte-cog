@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { ISUS, ITaskData, IRoute } from '$lib/dataInterfaces';
+	import type { ISUS, ITaskData, IRoute, ITaskHands } from '$lib/dataInterfaces';
 	import { getData } from '$lib/dataService';
 	import { setDataStore } from '$lib/state.svelte';
 	import Nav from '../components/navigation/Nav.svelte';
@@ -7,14 +7,22 @@
 	const { data } = $$props; // load data from server
 
 	const createTaskData = (id: string, name: string) => {
-		return { id: id, name: name, complete: false, score: 0, corrections: 0 };
+		return {
+			id: id,
+			name: name,
+			complete: false,
+			score: 0,
+			corrections: 0,
+			comment: '',
+			success: false
+		};
 	};
 
-	const clockPointData = getData<ITaskData>(
-		'clockPoint',
-		'session',
-		createTaskData('clockPoint', 'Clock Point')
-	);
+	const clockPointData = getData<ITaskHands>('clockPoint', 'session', {
+		...createTaskData('clockPoint', 'Clock Point'),
+		minute: { name: 'minute', angle: 0, active: false, length: 125 },
+		hour: { name: 'hour', angle: 0, active: false, length: 95 }
+	});
 	const clockDrawData = getData<ITaskData>(
 		'clockDraw',
 		'session',

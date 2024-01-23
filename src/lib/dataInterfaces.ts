@@ -12,9 +12,32 @@ interface ITaskData {
     complete: boolean;
     corrections: number;
     score: number;
-    comment?: string;
-    guesses?: string[];
-    [key: string]: unknown; //if you want to add more metrics
+    comment: string;
+    success: boolean;
+}
+
+interface ITaskGuesses extends ITaskData {
+    guesses: string[];
+}
+
+interface ITaskHands extends ITaskData {
+    minute: IHand;
+    hour: IHand;
+}
+
+interface ITaskMarkers extends ITaskData {
+    markers: IMarker[];
+}
+
+interface IHand {
+    name: 'hour' | 'minute';
+    angle: number;
+    active: boolean;
+    length: number;
+}
+
+interface IMarker {
+    id: string
 }
 
 interface ISUS {
@@ -45,4 +68,4 @@ interface IUserData {
     domain?: "design" | "UX" | "web development" | "programming" | "caregiver" | "games" | "psychology" | "other" | string; //come up with more examples
 }
 
-export type { IResult, ITaskData, IMetaData, IUserData, ISUS, IRoute }
+export type { IResult, ITaskData, IMetaData, IUserData, ISUS, IRoute, IHand, ITaskGuesses, ITaskHands, ITaskMarkers, IMarker }
