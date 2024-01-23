@@ -1,28 +1,26 @@
 <script lang="ts">
 	import RecallComponent from '../../../components/RecallComponent.svelte';
 	import { getDataStore } from '$lib/state.svelte';
-	import type { ITaskData } from '$lib/dataInterfaces';
+	import type { ITaskGuesses } from '$lib/dataInterfaces';
 	let id = 'tasks/wordregistration';
 
-	const wordRegistration = getDataStore<ITaskData>('wordRegistration');
+	const store = getDataStore<ITaskGuesses>('wordRegistration');
 	const words = getDataStore<string[]>('words');
 
 	const handleButton = () => {
-		recallMode = !recallMode;
-		wordRegistration.update((v) => {
+		$store.showWords = !$store.showWords;
+		store.update((v) => {
 			return { ...v, corrections: v.corrections + 1 };
 		});
 	};
-
-	let recallMode = false;
 </script>
 
 <h2>Word Registration</h2>
-<button on:click={handleButton}> {recallMode ? 'Show words' : 'Guess'}</button>
-{#if recallMode && wordRegistration}
-	<RecallComponent store={wordRegistration} />
+<button on:click={handleButton}> {$store.showWords ? 'Show words' : 'Guess'}</button>
+{#if $store.showWords && store}
+	<RecallComponent {store} />
 {/if}
-{#if !recallMode}
+{#if !$store.showWords}
 	{#each $words as w}
 		<p>{w}</p>
 	{/each}
