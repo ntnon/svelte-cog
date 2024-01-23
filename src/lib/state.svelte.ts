@@ -39,5 +39,9 @@ export function setDataStore<T>(CTX: string, storage: StorageType, initialData: 
 }
 
 export function getDataStore<T>(CTX: string) {
-	return getContext<Writable<T>>(CTX);
+	const context = getContext<Writable<T>>(CTX);
+	if (context === undefined) {
+		console.warn("Context not found for CTX: " + CTX)
+	}
+	return context
 }
