@@ -1,11 +1,12 @@
 <script lang="ts">
 	import { validateInput } from '../scripts/validateInput';
-	import type { ITaskData } from '$lib/dataInterfaces';
+	import type { ITaskData, ITaskGuesses } from '$lib/dataInterfaces';
 	import { getDataStore } from '$lib/state.svelte';
 	import type { Writable } from 'svelte/store';
 
-	export let store: Writable<ITaskData>;
-	export let guesses: string[] = []; //array of guesses, can be given by parent component, or will be empty on mount
+	export let store: Writable<ITaskGuesses>;
+
+	let guesses: string[] = $store.guesses ?? [];
 	let wordStore = getDataStore<string[]>('words');
 
 	const calculateScore = () => {
@@ -24,6 +25,7 @@
 		const input = (e.target as HTMLInputElement).value;
 		let validatedInput = validateInput(input) ? input.toLowerCase() : '';
 		guesses[index] = validatedInput;
+		$store.guesses = guesses;
 		calculateScore();
 	};
 
