@@ -18,26 +18,41 @@ interface ITaskData {
 
 interface ITaskGuesses extends ITaskData {
     guesses: string[];
+    showWords: boolean;
 }
 
 interface ITaskHands extends ITaskData {
     minute: IHand;
     hour: IHand;
+    targetTimestamp: ITimeStamp;
 }
 
 interface ITaskMarkers extends ITaskData {
     markers: IMarker[];
 }
 
+interface ITimeStamp {
+    hour: number;
+    minute: number;
+    name: string;
+}
+
 interface IHand {
     name: 'hour' | 'minute';
     angle: number;
     active: boolean;
-    length: number;
+    pointsAt?: number;
+    placed?: boolean;
 }
 
 interface IMarker {
-    id: string
+    id: number,
+    x: number,
+    y: number,
+    active: boolean,
+    pointsAt?: number,
+    angle?: number,
+    isInsideClock?: boolean,
 }
 
 interface ISUS {
