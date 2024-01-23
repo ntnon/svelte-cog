@@ -36,10 +36,9 @@
 		});
 		store.update((value) => ({ ...value, hands: newHands }));
 	};
+	// hour: {cssRotationToClockHours($store.hour.angle).toFixed(10)}
 </script>
 
-hour: {cssRotationToClockHours($store.hour.angle).toFixed(3)}
-min: {cssRotationToClockHours($store.minute.angle).toFixed(3)}
 <button
 	on:click={() => {
 		$store.hour.angle = 90;
