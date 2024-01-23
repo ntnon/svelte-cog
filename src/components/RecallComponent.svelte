@@ -49,7 +49,6 @@
 			on:input={(e) => handleInput(e, index)}
 			on:blur={(e) => handleBlur(e)}
 		/>
-		{new Set($store.guesses).size}
 	</p>
 {/each}
 
