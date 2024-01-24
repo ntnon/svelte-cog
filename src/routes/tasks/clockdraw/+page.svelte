@@ -11,6 +11,9 @@
 
 	const store = getDataStore<ITaskMarkers>('clockDraw');
 
+	let mouseOffsetX = 0;
+	let mouseOffsetY = 0;
+
 	let dial: HTMLElement;
 
 	const calculateScore = () => {
@@ -53,37 +56,35 @@
 			e.preventDefault();
 		}
 		const currentMarker = $store.markers.find((m) => m.active === true);
-		if (!currentMarker) {
-			return;
-		}
+		if (!currentMarker) return;
 		const currentMarkerHTMLElement = document.getElementById(
 			'marker-initial-slot-' + currentMarker.id
 		);
 
-		if (!currentMarkerHTMLElement) {
-			return;
-		}
+		if (!currentMarkerHTMLElement) return;
 		const { x: offsetX, y: offsetY } = getPagePosition(currentMarkerHTMLElement);
-
 		const { clientX, clientY } = getClientCoordinates(e);
+
 		const newAngle = calculateMouseDialAngle(dial, clientX, clientY);
+
 		const newPointsAt = cssRotationToClockHours(newAngle);
+
 		const newInsideClock = isMarkerInCircle(currentMarker.id.toString());
+
 		const newMarkers = $store.markers.map((m) => {
 			if (m.id === currentMarker?.id) {
 				return {
 					...currentMarker,
 					pointsAt: newPointsAt,
 					angle: newAngle,
-					x: clientX - offsetX,
-					y: clientY - offsetY,
+					x: clientX - offsetX - mouseOffsetX,
+					y: clientY - offsetY - mouseOffsetY,
 					isInsideClock: newInsideClock
 				};
 			}
 			return m;
 		});
 		store.update((value) => ({ ...value, markers: newMarkers }));
-		$store.score = calculateScore();
 	};
 
 	const handleMouseUp = () => {
@@ -92,7 +93,17 @@
 		$store.complete = !$store.markers.find((m) => !m.isInsideClock);
 	};
 
-	const handleMouseDown = (marker: IMarker) => {
+	const handleMouseDown = (e: InteractionEvent, marker: IMarker) => {
+		const currentMarkerHTMLElement = document.getElementById('marker-' + marker.id);
+
+		if (!currentMarkerHTMLElement) {
+			return;
+		}
+
+		const { clientX, clientY } = getClientCoordinates(e);
+		const { x: offsetX, y: offsetY } = getPagePosition(currentMarkerHTMLElement);
+		mouseOffsetX = clientX - offsetX;
+		mouseOffsetY = clientY - offsetY;
 		if (marker.isInsideClock) {
 			$store.corrections += 1;
 		}
@@ -100,6 +111,7 @@
 	};
 </script>
 
+{$store.markers ? JSON.stringify($store.markers) : 'no markers'}
 {$store.complete}
 {$store.score}
 <button
@@ -123,8 +135,8 @@
 				tabindex="0"
 				class="marker"
 				style="top: {marker.y}px; left: {marker.x}px;"
-				on:mousedown={() => handleMouseDown(marker)}
-				on:touchstart={() => handleMouseDown(marker)}
+				on:mousedown={(e) => handleMouseDown(e, marker)}
+				on:touchstart={(e) => handleMouseDown(e, marker)}
 			>
 				{marker.id}
 			</div>
