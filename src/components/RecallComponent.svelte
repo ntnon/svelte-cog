@@ -1,34 +1,35 @@
 <script lang="ts">
-	import { validateInput } from '../scripts/validateInput';
-	import type { ITaskData, ITaskGuesses } from '$lib/dataInterfaces';
-	import { getDataStore } from '$lib/state.svelte';
 	import type { Writable } from 'svelte/store';
+	import { validateInput } from '../scripts/validateInput';
+	import type { ITaskPage } from '$lib/dataInterfaces';
 
-	export let store: Writable<ITaskGuesses>;
+	export let store: Writable<ITaskPage>;
+	export let words: string[];
 
-	let wordStore = getDataStore<string[]>('words');
+	if (!$store.guesses) {
+		$store.guesses = [];
+	}
+
+	let guesses = $store.guesses;
 
 	const calculateScore = () => {
-		let correctGuesses = Array.from(new Set($store.guesses as string[])).filter((v) =>
-			$wordStore.includes(v)
-		);
+		let correctGuesses = Array.from(new Set(guesses as string[])).filter((v) => words.includes(v));
 		return correctGuesses.length;
 	};
 
 	const calculateComplete = () => {
-		if ($store.guesses.length === $wordStore.length && !$store.guesses.includes('')) {
+		if (guesses.length === words.length && !guesses.includes('')) {
 			return true;
 		}
 		return false;
 	};
 
-	//triggered whenever a user make changes
 	const handleInput = (e: Event, index: number) => {
 		const input = (e.target as HTMLInputElement).value;
 		let validatedInput = validateInput(input) ? input.toLowerCase() : '';
-		$store.guesses[index] = validatedInput;
+		guesses[index] = validatedInput;
 		$store.score = calculateScore();
-		$store.complete = calculateComplete();
+		$store.enableNext = calculateComplete();
 	};
 
 	const handleBlur = (e: Event) => {
@@ -37,15 +38,14 @@
 	};
 </script>
 
-{#each $wordStore as w, index}
+{#each words as w, index}
 	<p>
 		<input
-			class={$wordStore.includes($store.guesses[index]) &&
-			new Set($store.guesses).size === $store.guesses.length
+			class={words.includes(guesses[index]) && new Set(guesses).size === guesses.length
 				? 'correct'
 				: 'incorrect'}
 			type="text"
-			value={$store.guesses[index] ?? ''}
+			value={guesses[index] ?? ''}
 			on:input={(e) => handleInput(e, index)}
 			on:blur={(e) => handleBlur(e)}
 		/>
