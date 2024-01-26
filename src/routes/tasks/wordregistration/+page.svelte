@@ -2,9 +2,8 @@
 	import RecallComponent from '../../../components/RecallComponent.svelte';
 	import { getDataStore } from '$lib/state.svelte';
 	import type { ITaskGuesses } from '$lib/dataInterfaces';
-	let id = 'tasks/wordregistration';
 
-	const store = getDataStore<ITaskGuesses>('wordRegistration');
+	const store = getDataStore<ITaskGuesses>('wordregistration');
 	const words = getDataStore<string[]>('words');
 
 	const handleButton = () => {

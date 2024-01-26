@@ -9,7 +9,7 @@
 	import { getPagePosition } from '../../../scripts/getPagePosition';
 	import { adjustClockwiseDistance } from '../../../scripts/adjustClockwiseDistance';
 
-	const store = getDataStore<ITaskMarkers>('clockDraw');
+	const store = getDataStore<ITaskMarkers>('clockdraw');
 
 	let mouseOffsetX = 0;
 	let mouseOffsetY = 0;
@@ -111,7 +111,6 @@
 	};
 </script>
 
-{$store.markers ? JSON.stringify($store.markers) : 'no markers'}
 {$store.complete}
 {$store.score}
 <button

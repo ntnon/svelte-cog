@@ -8,10 +8,13 @@
 		ITaskGuesses
 	} from '$lib/dataInterfaces';
 	import { getData } from '$lib/dataService';
-	import { setDataStore } from '$lib/state.svelte';
+	import { getDataStore, setDataStore } from '$lib/state.svelte';
+
 	import Nav from '../components/navigation/Nav.svelte';
 	import susQuestions from '$lib/susQuestions.json';
 	import { getRandomTimeStamp } from '../scripts/getRandomTimeStamp';
+	import NewNav from '../components/NewNav.svelte';
+	import { get } from 'svelte/store';
 	const { data } = $$props; // load data from server
 
 	const createTaskData = (id: string, name: string) => {
@@ -26,14 +29,14 @@
 		};
 	};
 
-	const clockPointData = getData<ITaskHands>('clockPoint', 'session', {
-		...createTaskData('clockPoint', 'Clock Point'),
+	const clockPointData = getData<ITaskHands>('clockpoint', 'session', {
+		...createTaskData('clockpoint', 'Clock Point'),
 		minute: { name: 'minute', angle: 25, active: false },
 		hour: { name: 'hour', angle: 90, active: false },
 		targetTimestamp: getRandomTimeStamp()
 	});
-	const clockDrawData = getData<ITaskMarkers>('clockDraw', 'session', {
-		...createTaskData('clockDraw', 'Clock Draw'),
+	const clockDrawData = getData<ITaskMarkers>('clockdraw', 'session', {
+		...createTaskData('clockdraw', 'Clock Draw'),
 		markers: [
 			{ id: 1, x: 0, y: 0, active: false },
 			{ id: 2, x: 0, y: 0, active: false },
@@ -49,30 +52,46 @@
 			{ id: 12, x: 0, y: 0, active: false }
 		]
 	});
-	const wordRegistrationData = getData<ITaskGuesses>('wordRegistration', 'session', {
-		...createTaskData('wordRegistration', 'Word Registration'),
+	const wordRegistrationData = getData<ITaskGuesses>('wordregistration', 'session', {
+		...createTaskData('wordregistration', 'Word Registration'),
 		guesses: [],
 		showWords: false
 	});
-	const wordRecallData = getData<ITaskGuesses>('wordRecall', 'session', {
-		...createTaskData('wordRecall', 'Word Recall'),
+	const wordRecallData = getData<ITaskGuesses>('wordrecall', 'session', {
+		...createTaskData('wordrecall', 'Word Recall'),
 		guesses: [],
 		showWords: false
 	});
-	const routerData = getData<IRoute[]>('routes', 'session', data.routes);
+
 	const consentData = getData<boolean>('consent', 'session', false);
 	const wordData = getData<string[]>('words', 'session', data.words); //fetched from server
 	const susData = getData<ISUS[]>('sus', 'session', susQuestions);
 
-	const clockPoint = setDataStore('clockPoint', 'session', clockPointData);
-	const clockDraw = setDataStore('clockDraw', 'session', clockDrawData);
-	const wordRegistration = setDataStore('wordRegistration', 'session', wordRegistrationData);
-	const wordRecall = setDataStore('wordRecall', 'session', wordRecallData);
+	const routerData = getData<IRoute[]>('routes', 'session', [
+		{ path: '/', name: 'Home', complete: false },
+		{ path: '/tasks/wordregistration', name: 'Word Registration', complete: false },
+		{ path: '/tasks/clockdraw', name: 'Clock Draw', complete: false },
+		{ path: '/tasks/clockpoint', name: 'Clock Point', complete: false },
+		{ path: '/tasks/wordrecall', name: 'Word Recall', complete: false },
+		{ path: '/tasks/completed', name: 'Completed', complete: true },
+		{ path: '/survey/user', name: 'User', complete: false },
+		{ path: '/survey/tasks', name: 'Tasks', complete: false },
+		{ path: '/survey/sus', name: 'SUS', complete: false }
+	]);
+
+	const clockPoint = setDataStore('clockpoint', 'session', clockPointData);
+	const clockDraw = setDataStore('clockdraw', 'session', clockDrawData);
+	const wordRegistration = setDataStore('wordregistration', 'session', wordRegistrationData);
+	const wordRecall = setDataStore('wordrecall', 'session', wordRecallData);
 	const consent = setDataStore('consent', 'session', consentData);
 	const words = setDataStore('words', 'session', wordData);
 	const sus = setDataStore('sus', 'session', susData);
-	const router = setDataStore('routes', 'session', routerData);
+	const router = setDataStore('router', 'session', routerData);
+
+	import CustomRouter from '../components/CustomRouter.svelte';
 </script>
+
+<CustomRouter></CustomRouter>
 
 <div class="centered">
 	<Nav></Nav>

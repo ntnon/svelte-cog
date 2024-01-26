@@ -8,7 +8,7 @@
 	import { getClientCoordinates } from '../../../scripts/getClientCoordinates';
 	import { adjustClockwiseDistance } from '../../../scripts/adjustClockwiseDistance';
 
-	const store = getDataStore<ITaskHands>('clockPoint');
+	const store = getDataStore<ITaskHands>('clockpoint');
 
 	let dial: HTMLElement;
 
