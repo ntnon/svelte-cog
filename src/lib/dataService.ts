@@ -1,19 +1,63 @@
 import { browser } from "$app/environment";
-import settings from "./settings.json"
 import type { StorageType } from "./types";
+import type { IAppData, IPage, ISUSPage, ITaskPage, IUser } from "./dataInterfaces"
+import { persistentStore } from "../scripts/persistentStore";
+import { defaultAppData as data } from "./defaultData";
 
-export function getData<T>(key: string, storageKey: StorageType, defaultValue: T): T | null {
 
+export function getData<T>(key: string, storageKey: StorageType, defaultValue: T): T {
     if (!browser) {
         return defaultValue
     }
-    const fullKey = settings.key + key;
+    const fullKey = data.settings.storageKey + key;
     const storageObject: Storage = storageKey === "local" ? window.localStorage : window.sessionStorage;
     const returnData = storageObject.getItem(fullKey)
     if (returnData === null || returnData === "undefined") { // TODO: Ensure the type for the return object matches T
+
         return defaultValue;
     }
+
     return JSON.parse(returnData);
+}
+
+const metadata = data.metadata;
+const settings = data.settings;
+const homeData = data.pages.home;
+const wordregistrationData = getData<ITaskPage>(data.pages.wordregistration.path, "session", data.pages.wordregistration);
+const wordrecallData = getData<ITaskPage>(data.pages.wordrecall.path, "session", data.pages.wordrecall);
+const clockpointData = getData<ITaskPage>(data.pages.clockpoint.path, "session", data.pages.clockpoint);
+const clockdrawData = getData<ITaskPage>(data.pages.clockdraw.path, "session", data.pages.clockdraw);
+const resultData = getData<IPage>(data.pages.result.path, "session", data.pages.result);
+const surveyData = getData<IPage>(data.pages.survey.path, "session", data.pages.survey);
+const userData = getData<IPage>(data.pages.user.path, "session", data.pages.user);
+const susData = getData<ISUSPage>(data.pages.sus.path, "session", data.pages.sus);
+const aboutData = data.pages.about;
+const endData = data.pages.end;
+const wordsData = getData<string[]>("/words", "session", data.data.words);
+
+
+export function getAppData(): IAppData {
+    return {
+        metadata: metadata,
+        settings: settings,
+        pages: {
+            home: persistentStore<IPage>(homeData.path, "session", homeData),
+            wordregistration: persistentStore<ITaskPage>(wordregistrationData.path, "session", wordregistrationData),
+            clockpoint: persistentStore<ITaskPage>(clockpointData.path, "session", clockpointData),
+            clockdraw: persistentStore<ITaskPage>(clockdrawData.path, "session", clockdrawData),
+            wordrecall: persistentStore<ITaskPage>(wordrecallData.path, "session", wordrecallData),
+            result: persistentStore<IPage>(resultData.path, "session", resultData),
+            survey: persistentStore<IPage>(surveyData.path, "session", surveyData),
+            user: persistentStore<IUser>(userData.path, "session", userData),
+            sus: persistentStore<ISUSPage>(susData.path, "session", susData),
+            about: persistentStore<IPage>(aboutData.path, "session", aboutData),
+            end: persistentStore<IPage>(endData.path, "session", endData),
+        },
+        data: {
+            consent: persistentStore<boolean>("/consent", "local", data.data.consent),
+            words: persistentStore<string[]>("/words", "session", wordsData),
+        },
+    }
 }
 
 
