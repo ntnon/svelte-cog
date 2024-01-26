@@ -2,7 +2,7 @@
 	import { setContext } from 'svelte';
 	import { navigate } from 'svelte-routing';
 	import { page } from '$app/stores';
-	import { getDataStore, storageSelector } from '$lib/state.svelte';
+	import { getAppState, storageSelector } from '$lib/state.svelte';
 	import type { ITaskData } from '$lib/dataInterfaces';
 	import { get, type Writable } from 'svelte/store';
 
@@ -22,11 +22,11 @@
 	];
 
 	const allStores: { [key: string]: Writable<ITaskData> } = {
-		clockpoint: getDataStore<ITaskData>('clockpoint'),
-		clockdraw: getDataStore<ITaskData>('clockdraw'),
-		wordregistration: getDataStore<ITaskData>('wordregistration'),
-		wordrecall: getDataStore<ITaskData>('wordrecall'),
-		sus: getDataStore<ITaskData>('sus')
+		clockpoint: getAppState<ITaskData>('clockpoint'),
+		clockdraw: getAppState<ITaskData>('clockdraw'),
+		wordregistration: getAppState<ITaskData>('wordregistration'),
+		wordrecall: getAppState<ITaskData>('wordrecall'),
+		sus: getAppState<ITaskData>('sus')
 	};
 	let currentPage = $page.route.id;
 	let nextPage: string;

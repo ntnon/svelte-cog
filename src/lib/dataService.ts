@@ -1,8 +1,14 @@
 import { browser } from "$app/environment";
 import type { StorageType } from "./types";
-import type { IAppData, IPage, ISUSPage, ITaskPage, IUser } from "./dataInterfaces"
+import type { IAppData, IPage, ISUSPage, ITaskClockdraw, ITaskClockpoint, ITaskGuess, IUser } from "./dataInterfaces"
 import { persistentStore } from "../scripts/persistentStore";
-import { defaultAppData as data } from "./defaultData";
+import { defaultAppData } from "./defaultAppData";
+
+function getDefaultAppData() {
+    return JSON.parse(JSON.stringify(defaultAppData));
+}
+
+const data = getDefaultAppData() // creates a copy of the default values
 
 
 export function getData<T>(key: string, storageKey: StorageType, defaultValue: T): T {
@@ -23,13 +29,13 @@ export function getData<T>(key: string, storageKey: StorageType, defaultValue: T
 const metadata = data.metadata;
 const settings = data.settings;
 const homeData = data.pages.home;
-const wordregistrationData = getData<ITaskPage>(data.pages.wordregistration.path, "session", data.pages.wordregistration);
-const wordrecallData = getData<ITaskPage>(data.pages.wordrecall.path, "session", data.pages.wordrecall);
-const clockpointData = getData<ITaskPage>(data.pages.clockpoint.path, "session", data.pages.clockpoint);
-const clockdrawData = getData<ITaskPage>(data.pages.clockdraw.path, "session", data.pages.clockdraw);
+const wordregistrationData = getData<ITaskGuess>(data.pages.wordregistration.path, "session", data.pages.wordregistration);
+const wordrecallData = getData<ITaskGuess>(data.pages.wordrecall.path, "session", data.pages.wordrecall);
+const clockpointData = getData<ITaskClockpoint>(data.pages.clockpoint.path, "session", data.pages.clockpoint);
+const clockdrawData = getData<ITaskClockdraw>(data.pages.clockdraw.path, "session", data.pages.clockdraw);
 const resultData = getData<IPage>(data.pages.result.path, "session", data.pages.result);
 const surveyData = getData<IPage>(data.pages.survey.path, "session", data.pages.survey);
-const userData = getData<IPage>(data.pages.user.path, "session", data.pages.user);
+const userData = getData<IUser>(data.pages.user.path, "session", data.pages.user);
 const susData = getData<ISUSPage>(data.pages.sus.path, "session", data.pages.sus);
 const aboutData = data.pages.about;
 const endData = data.pages.end;
@@ -42,10 +48,10 @@ export function getAppData(): IAppData {
         settings: settings,
         pages: {
             home: persistentStore<IPage>(homeData.path, "session", homeData),
-            wordregistration: persistentStore<ITaskPage>(wordregistrationData.path, "session", wordregistrationData),
-            clockpoint: persistentStore<ITaskPage>(clockpointData.path, "session", clockpointData),
-            clockdraw: persistentStore<ITaskPage>(clockdrawData.path, "session", clockdrawData),
-            wordrecall: persistentStore<ITaskPage>(wordrecallData.path, "session", wordrecallData),
+            wordregistration: persistentStore<ITaskGuess>(wordregistrationData.path, "session", wordregistrationData),
+            clockpoint: persistentStore<ITaskClockpoint>(clockpointData.path, "session", clockpointData),
+            clockdraw: persistentStore<ITaskClockdraw>(clockdrawData.path, "session", clockdrawData),
+            wordrecall: persistentStore<ITaskGuess>(wordrecallData.path, "session", wordrecallData),
             result: persistentStore<IPage>(resultData.path, "session", resultData),
             survey: persistentStore<IPage>(surveyData.path, "session", surveyData),
             user: persistentStore<IUser>(userData.path, "session", userData),

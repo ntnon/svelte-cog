@@ -7,9 +7,9 @@
 
 	import type { SvelteComponent } from 'svelte';
 
-	import { getDataStore } from '$lib/state.svelte';
+	import { getAppState } from '$lib/state.svelte';
 
-	const store = getDataStore<ITaskData>('clockdraw');
+	const store = getAppState<ITaskData>('clockdraw');
 
 	let blocksIDsInsideClock = new Set<number>();
 	let placedBlockIDs = new Set<number>(); // this is used to check if the block has been placed before

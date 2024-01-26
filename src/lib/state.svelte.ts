@@ -18,13 +18,14 @@ export const storageSelector = (type: StorageType): Storage => {
 }
 
 
+const CTX = "appState"; //retrieve from default data settings?
 
-export function setDataStore<T>(CTX: string, storage: StorageType, initialData: T) {
+export function setDataStore<T>(initialData: T) {
 	setContext(CTX, initialData);
 	return initialData;
 }
 
-export function getData(CTX: string): IAppData {
+export function getAppState(): IAppData {
 	const context: IAppData = getContext(CTX);
 	if (context === undefined) {
 		console.warn("Context not found for CTX: " + CTX)

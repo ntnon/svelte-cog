@@ -1,12 +1,12 @@
 import { getRandomTimeStamp } from "../scripts/getRandomTimeStamp";
 import { getRandomWords } from "../scripts/getRandomWords";
-import type { IMarker, IMetaData, IPage, ISUSPage, ISettings, ITaskPage, IUser } from "./dataInterfaces";
+import type { IMarker, IMetaData, IPage, ISUSPage, ISettings, ITaskClockdraw, ITaskClockpoint, ITaskGuess, IUser, PageType } from "./dataInterfaces";
 import susQuestions from "./susQuestions.json";
 
 const generateMarkers = (): IMarker[] => {
     return Array.from({ length: 12 }, (_, i) => {
         return {
-            id: i,
+            id: i + 1,
             x: 0,
             y: 0,
             angle: 0,
@@ -26,6 +26,8 @@ const generateSUSQuestions = (): { id: string, question: string, score?: number 
     })
 }
 
+const timestamp = getRandomTimeStamp();
+
 
 export const defaultAppData = {
     metadata: {
@@ -39,12 +41,14 @@ export const defaultAppData = {
     } as ISettings,
     pages: {
         home: {
+            type: "home" as PageType,
             path: "/",
             enableNext: true,
             name: "Home",
             timesVisited: 0
         } as IPage,
         wordregistration: {
+            type: "task" as PageType,
             path: "/tasks/wordregistration",
             enableNext: false,
             name: "Word Registration",
@@ -54,8 +58,9 @@ export const defaultAppData = {
             success: false,
             showWords: false,
             guesses: [],
-        } as ITaskPage,
+        } as ITaskGuess,
         wordrecall: {
+            type: "task" as PageType,
             path: "/tasks/wordrecall",
             enableNext: false,
             name: "Word Recall",
@@ -65,8 +70,9 @@ export const defaultAppData = {
             success: false,
             showWords: false,
             guesses: [],
-        } as ITaskPage,
+        } as ITaskGuess,
         clockdraw: {
+            type: "task" as PageType,
             path: "/tasks/clockdraw",
             enableNext: false,
             name: "Clock Draw",
@@ -75,8 +81,9 @@ export const defaultAppData = {
             score: 0,
             success: false,
             markers: generateMarkers(),
-        } as ITaskPage,
+        } as ITaskClockdraw,
         clockpoint: {
+            type: "task" as PageType,
             path: "/tasks/clockpoint",
             enableNext: false,
             name: "Clock Point",
@@ -84,38 +91,42 @@ export const defaultAppData = {
             corrections: 0,
             score: 0,
             success: false,
-            hands: {
-                targetTimestamp: getRandomTimeStamp(),
-                hour: {
+            timestamp: timestamp.name,
+            hands: [
+                {
                     name: "hour",
                     angle: 0,
                     active: false,
                     pointsAt: 0,
-                    placed: false
+                    placed: false,
+                    target: timestamp.hour
                 },
-                minute: {
+                {
                     name: "minute",
                     angle: 0,
                     active: false,
                     pointsAt: 0,
-                    placed: false
+                    placed: false,
+                    target: timestamp.minute / 5
                 }
-            },
-
-        } as ITaskPage,
+            ]
+        } as ITaskClockpoint,
         result: {
+            type: "result" as PageType,
             path: "/tasks/result",
             enableNext: true,
             name: "Result",
             timesVisited: 0,
         } as IPage,
         survey: {
+            type: "survey" as PageType,
             path: "/survey/tasks",
             enableNext: true,
             name: "Survey",
             timesVisited: 0,
         } as IPage,
         user: {
+            type: "survey" as PageType,
             path: "/survey/user",
             enableNext: true,
             name: "User",
@@ -127,6 +138,7 @@ export const defaultAppData = {
 
         } as IUser,
         sus: {
+            type: "survey" as PageType,
             path: "/survey/sus",
             enableNext: true,
             name: "SUS",
@@ -134,12 +146,14 @@ export const defaultAppData = {
             questions: generateSUSQuestions()
         } as ISUSPage,
         about: {
+            type: "about" as PageType,
             path: "/about",
             enableNext: true,
             name: "About",
             timesVisited: 0,
         } as IPage,
         end: {
+            type: "end" as PageType,
             path: "/end",
             enableNext: true,
             name: "End",

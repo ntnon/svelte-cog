@@ -1,7 +1,7 @@
 <script lang="ts">
-	import type { IMarker, ITaskMarkers } from '$lib/dataInterfaces';
+	import type { IMarker } from '$lib/dataInterfaces';
 	import Clock from '../../../components/Clock.svelte';
-	import { getDataStore } from '$lib/state.svelte';
+	import { getAppState } from '$lib/state.svelte';
 	import type { InteractionEvent } from '$lib/types';
 	import { getClientCoordinates } from '../../../scripts/getClientCoordinates';
 	import { calculateMouseDialAngle } from '../../../scripts/calculateMouseDialAngle';
@@ -9,7 +9,8 @@
 	import { getPagePosition } from '../../../scripts/getPagePosition';
 	import { adjustClockwiseDistance } from '../../../scripts/adjustClockwiseDistance';
 
-	const store = getDataStore<ITaskMarkers>('clockdraw');
+	const appState = getAppState();
+	const store = appState.pages.clockdraw;
 
 	let mouseOffsetX = 0;
 	let mouseOffsetY = 0;
@@ -26,6 +27,15 @@
 				offDistance += adjustClockwiseDistance(diff);
 			}
 		});
+
+		// return $store.markers.reduce((acc, marker) => {
+		// 	if (marker.isInsideClock && marker.pointsAt) {
+		// 		acc += 1;
+		// 		let diff = Math.abs(marker.pointsAt - marker.id);
+		// 		acc += adjustClockwiseDistance(diff);
+		// 	}
+		// 	return acc;
+		// }, 0);
 		return offDistance;
 	};
 
@@ -90,7 +100,7 @@
 	const handleMouseUp = () => {
 		$store.markers.map((m) => (m.active = false));
 		$store.score = calculateScore();
-		$store.complete = !$store.markers.find((m) => !m.isInsideClock);
+		$store.enableNext = !$store.markers.find((m) => !m.isInsideClock);
 	};
 
 	const handleMouseDown = (e: InteractionEvent, marker: IMarker) => {
@@ -111,7 +121,7 @@
 	};
 </script>
 
-{$store.complete}
+{$store.enableNext}
 {$store.score}
 <button
 	on:click={() =>

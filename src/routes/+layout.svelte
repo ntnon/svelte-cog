@@ -4,8 +4,7 @@
 	import Nav from '../components/navigation/Nav.svelte';
 
 	const allData = getAppData();
-
-	const context = setDataStore('data', 'session', allData);
+	const context = setDataStore(allData);
 </script>
 
 <div class="centered">

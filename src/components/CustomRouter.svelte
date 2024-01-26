@@ -1,14 +1,14 @@
 <script lang="ts">
-	import { getDataStore } from '$lib/state.svelte';
+	import { getAppState } from '$lib/state.svelte';
 	import type { IRoute, ITaskData } from '$lib/dataInterfaces';
 	import { page } from '$app/stores';
 	import { setContext } from 'svelte';
 
-	const allRoutes = getDataStore<IRoute[]>('router');
-	const wordregistration = getDataStore<ITaskData>('wordregistration');
-	const wordrecall = getDataStore<ITaskData>('wordrecall');
-	const clockpoint = getDataStore<ITaskData>('clockpoint');
-	const clockDraw = getDataStore<ITaskData>('clockdraw');
+	const allRoutes = getAppState<IRoute[]>('router');
+	const wordregistration = getAppState<ITaskData>('wordregistration');
+	const wordrecall = getAppState<ITaskData>('wordrecall');
+	const clockpoint = getAppState<ITaskData>('clockpoint');
+	const clockDraw = getAppState<ITaskData>('clockdraw');
 
 	const allRoutesz = {
 		wordrecall: $wordrecall.complete

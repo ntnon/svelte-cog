@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { ISUS } from '$lib/dataInterfaces';
-	import { getDataStore } from '$lib/state.svelte';
-	const store = getDataStore<ISUS[]>('sus');
+	import { getAppState } from '$lib/state.svelte';
+	const store = getAppState<ISUS[]>('sus');
 	const maxScore = 5;
 </script>
 

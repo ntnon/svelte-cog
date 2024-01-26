@@ -4,7 +4,7 @@
 	import type { ITaskPage } from '$lib/dataInterfaces';
 
 	export let store: Writable<ITaskPage>;
-	export let words: string[];
+	export let words: Writable<string[]>;
 
 	if (!$store.guesses) {
 		$store.guesses = [];
@@ -13,12 +13,12 @@
 	let guesses = $store.guesses;
 
 	const calculateScore = () => {
-		let correctGuesses = Array.from(new Set(guesses as string[])).filter((v) => words.includes(v));
+		let correctGuesses = Array.from(new Set(guesses as string[])).filter((v) => $words.includes(v));
 		return correctGuesses.length;
 	};
 
 	const calculateComplete = () => {
-		if (guesses.length === words.length && !guesses.includes('')) {
+		if (guesses.length === $words.length && !guesses.includes('')) {
 			return true;
 		}
 		return false;
@@ -38,10 +38,10 @@
 	};
 </script>
 
-{#each words as w, index}
+{#each $words as w, index}
 	<p>
 		<input
-			class={words.includes(guesses[index]) && new Set(guesses).size === guesses.length
+			class={$words.includes(guesses[index]) && new Set(guesses).size === guesses.length
 				? 'correct'
 				: 'incorrect'}
 			type="text"

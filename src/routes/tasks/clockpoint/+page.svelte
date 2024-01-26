@@ -1,39 +1,32 @@
 <script lang="ts">
-	import type { IHand, ITaskData, ITaskHands } from '$lib/dataInterfaces';
-	import { getDataStore } from '$lib/state.svelte';
+	import type { IHand, ITaskPage } from '$lib/dataInterfaces';
+	import { getAppState } from '$lib/state.svelte';
 	import type { InteractionEvent } from '$lib/types';
 	import Clock from '../../../components/Clock.svelte';
 	import { calculateMouseDialAngle } from '../../../scripts/calculateMouseDialAngle';
 	import { cssRotationToClockHours } from '../../../scripts/cssRotationToClockHours';
 	import { getClientCoordinates } from '../../../scripts/getClientCoordinates';
 	import { adjustClockwiseDistance } from '../../../scripts/adjustClockwiseDistance';
+	import { defaultAppData } from '$lib/defaultAppData';
 
-	const store = getDataStore<ITaskHands>('clockpoint');
+	const appState = getAppState();
+	const store = appState.pages.clockpoint;
 
 	let dial: HTMLElement;
-
 	let initialMouseAngle: number;
 
-	let hands: IHand[] = [$store.minute, $store.hour];
-
 	const calculateScore = () => {
-		let offDistance = 0;
-		if ($store.minute.pointsAt && $store.hour.pointsAt) {
-			offDistance += adjustClockwiseDistance(
-				Math.abs($store.minute.pointsAt - $store.targetTimestamp.minute / 5)
-			);
-			offDistance += adjustClockwiseDistance(
-				Math.abs($store.hour.pointsAt - $store.targetTimestamp.hour)
-			);
-		}
-		return offDistance;
+		return $store.hands.reduce((acc, hand) => {
+			if (hand.pointsAt && hand.target) {
+				acc += adjustClockwiseDistance(Math.abs(hand.pointsAt - hand.target));
+			}
+			return acc;
+		}, 0);
 	};
 
 	const calculateComplete = () => {
-		if ($store.minute.placed && $store.hour.placed) {
-			return true;
-		}
-		return false;
+		let complete = $store.hands.every((hand) => hand.placed && hand.placed === true);
+		return complete;
 	};
 
 	const handleMouseMove = (e: InteractionEvent, touch: boolean = false) => {
@@ -42,28 +35,34 @@
 		}
 		const { clientX, clientY } = getClientCoordinates(e);
 		const newAngle = calculateMouseDialAngle(dial, clientX, clientY);
-		const newHands = hands.map((hand) => {
+		let activeHand = $store.hands.find((hand) => hand.active);
+		if (!activeHand) {
+			return;
+		}
+		activeHand.angle = newAngle - initialMouseAngle;
+
+		$store.hands = $store.hands.map((hand) => {
 			if (hand.active) {
 				hand.angle = newAngle - initialMouseAngle;
-
 				hand.pointsAt = cssRotationToClockHours(newAngle);
 			}
-			return { ...hand };
+			return hand;
 		});
-		store.update((value) => ({ ...value, hands: newHands }));
 	};
 
 	const handleMouseUp = () => {
 		//calculate score and make all hands inactive
-		hands.map((hand) => {
+
+		$store.hands.map((hand) => {
 			if (hand.active) {
 				hand.placed = true;
 			}
 			hand.active = false;
+			return hand;
 		});
-		store.update((value) => ({ ...value, hands: hands }));
+
 		$store.score = calculateScore();
-		$store.complete = calculateComplete();
+		$store.enableNext = calculateComplete();
 	};
 
 	const handleMouseDown = (e: InteractionEvent, hand: IHand) => {
@@ -75,25 +74,22 @@
 	};
 </script>
 
-{$store.complete ? 'complete' : 'not complete'}<h></h>
-{$store.targetTimestamp.name}
-{$store.score}
+{$store.enableNext ? 'complete' : 'not complete'}<h></h>
+score: {$store.score}
 
 {$store.corrections}
-{$store.comment}
+{$store.timestamp}
 {$store.success}
 
 <button
 	on:click={() => {
-		$store.hour.angle = 90;
-		$store.minute.angle = 45;
-		$store.hour.placed = false;
-		$store.minute.placed = false;
+		$store.hands = JSON.parse(JSON.stringify(defaultAppData.pages.clockpoint.hands));
+		$store.enableNext = false;
 	}}>Reset</button
 >
 
 <Clock>
-	{#each [$store.minute, $store.hour] as hand}
+	{#each $store.hands as hand}
 		<div
 			class="hand hand-{hand.name}"
 			role="button"

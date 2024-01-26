@@ -6,9 +6,9 @@
 	import timestamps from '../../../lib/timestamps.json';
 	import { onMount } from 'svelte';
 	import type { ITaskData } from '$lib/dataInterfaces';
-	import { getDataStore } from '$lib/state.svelte';
+	import { getAppState } from '$lib/state.svelte';
 
-	const store = getDataStore<ITaskData>('clockpoint');
+	const store = getAppState<ITaskData>('clockpoint');
 
 	onMount(() => {
 		time = timestamps[Math.floor(Math.random() * timestamps.length)];

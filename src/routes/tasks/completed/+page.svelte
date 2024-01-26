@@ -1,22 +1,25 @@
 <script lang="ts">
-	import type { ITaskData } from '$lib/dataInterfaces';
-	import { getDataStore } from '$lib/state.svelte';
+	import { getAppState } from '$lib/state.svelte';
+	import { get } from 'svelte/store';
+	import type { ITaskPage } from '$lib/datainterfaces';
 
-	const wordRegistration = getDataStore<ITaskData>('wordregistration');
-	const wordRecall = getDataStore<ITaskData>('wordrecall');
-	const clockDraw = getDataStore<ITaskData>('clockdraw');
-	const clockPoint = getDataStore<ITaskData>('clockpoint');
+	const appState = getAppState();
+	const pages = appState.pages;
 
-	const allStores = [$wordRecall, $wordRegistration, $clockDraw, $clockPoint];
-	console.log($wordRegistration);
+	let pageArray = Object.values(pages);
+	let taskPages = pageArray
+		.filter((page) => get(page).type === 'task')
+		.map((page) => get(page)) as ITaskPage[];
+
+	console.log(taskPages);
 </script>
 
 <h1>Tasks completed!</h1>
 <p>Here are your answers:</p>
 <p>Well done!</p>
 
-{#each allStores as store}
-	<p>Task: {store.name}</p>
-	<p>Score: {store.score}</p>
-	<p>Corrections: {store.corrections}</p>
+{#each taskPages as page}
+	<p>Task: {page.name}</p>
+	<p>Score: {page.score}</p>
+	<p>Corrections: {page.corrections}</p>
 {/each}

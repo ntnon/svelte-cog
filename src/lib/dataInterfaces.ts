@@ -1,6 +1,9 @@
 import type { Writable } from "svelte/store";
 
+type PageType = "task" | "survey" | "result" | "about" | "end" | "home";
+
 interface IPage {
+    type: PageType;
     path: string,
     enableNext: boolean,
     name: string,
@@ -12,26 +15,44 @@ interface ITaskPage extends IPage {
     score: number;
     success: boolean;
     comment?: string;
-    guesses?: string[];
-    showWords?: boolean;
-    hands?: {
-        targetTimestamp: ITimeStamp,
-        hour: IHand,
-        minute: IHand,
-    };
-    markers?: IMarker[];
 }
 
-interface ITimeStamp {
-    hour: number;
-    minute: number;
-    name: string;
+interface ITaskGuess extends ITaskPage {
+    guesses: string[];
+    showWords: boolean;
+}
+
+interface ITaskClockpoint extends ITaskPage {
+    hands: IHand[]
+    timestamp: string;
+}
+
+interface ITaskClockdraw extends ITaskPage {
+    markers: IMarker[];
+}
+
+interface ISUSPage extends IPage {
+    questions: [{
+        id: string;
+        question: string;
+        score?: number;
+    }
+    ];
+
+}
+
+interface IUser extends IPage {
+    phone: number | undefined;
+    gender: "male" | "female" | "other" | "prefer not to say" | undefined;
+    age: number | undefined;
+    domain: "design" | "UX" | "web development" | "programming" | "caregiver" | "games" | "psychology" | "other" | string | undefined; //come up with more examples
 }
 
 interface IHand {
     name: string;
     angle: number;
     active: boolean;
+    target?: number;
     pointsAt?: number;
     placed?: boolean;
 }
@@ -45,16 +66,10 @@ interface IMarker {
     angle?: number,
     isInsideClock?: boolean,
 }
-
-
-interface ISUSPage extends IPage {
-    questions: [{
-        id: string;
-        question: string;
-        score?: number;
-    }
-    ];
-
+interface ISettings {
+    wordcount: number;
+    language: string;
+    storageKey: string;
 }
 
 interface IMetaData {
@@ -62,29 +77,15 @@ interface IMetaData {
     version: string;
 }
 
-interface IUser extends IPage {
-    phone?: number | undefined;
-    gender?: "male" | "female" | "other" | "prefer not to say" | undefined;
-    age?: number | undefined;
-    domain?: "design" | "UX" | "web development" | "programming" | "caregiver" | "games" | "psychology" | "other" | string | undefined; //come up with more examples
-}
-
-
-interface ISettings {
-    wordcount: number;
-    language: string;
-    storageKey: string;
-}
-
 interface IAppData {
     metadata: IMetaData,
     settings: ISettings
     pages: {
         home: Writable<IPage>,
-        wordregistration: Writable<ITaskPage>,
-        clockpoint: Writable<ITaskPage>,
-        clockdraw: Writable<ITaskPage>,
-        wordrecall: Writable<ITaskPage>,
+        wordregistration: Writable<ITaskGuess>,
+        clockpoint: Writable<ITaskClockpoint>,
+        clockdraw: Writable<ITaskClockdraw>,
+        wordrecall: Writable<ITaskGuess>,
         result: Writable<IPage>,
         survey: Writable<IPage>,
         user: Writable<IUser>,
@@ -98,4 +99,4 @@ interface IAppData {
     }
 }
 
-export type { ITaskPage, IPage, IMetaData, IUser, ISUSPage, IHand, IMarker, IAppData, ISettings }
+export type { ITaskPage, IPage, IMetaData, IUser, ISUSPage, IHand, IMarker, IAppData, ISettings, ITaskClockdraw, ITaskClockpoint, ITaskGuess, PageType }

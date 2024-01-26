@@ -1,10 +1,11 @@
 <script lang="ts">
+	import { getAppState } from '$lib/state.svelte';
 	import RecallComponent from '../../../components/RecallComponent.svelte';
-	import type { ITaskGuesses } from '$lib/dataInterfaces';
-	import { getDataStore } from '$lib/state.svelte';
 
-	const store = getDataStore<ITaskGuesses>('wordrecall');
+	const appState = getAppState();
+	const store = appState.pages.wordrecall;
+	const words = appState.data.words;
 </script>
 
 <h2>Word recall</h2>
-<RecallComponent {store} />
+<RecallComponent {store} {words} />
