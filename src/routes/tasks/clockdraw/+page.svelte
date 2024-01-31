@@ -121,9 +121,7 @@
 	};
 </script>
 
-{$store.enableNext}
-{$store.score}
-<button
+<!-- <button
 	on:click={() =>
 		($store.markers = $store.markers.map((m) => ({
 			...m,
@@ -134,7 +132,11 @@
 			isInsideClock: false,
 			angle: undefined
 		})))}>Reset</button
->
+> -->
+
+<Clock>
+	<div class="dial" bind:this={dial}></div>
+</Clock>
 <span class="markerlist" id="markers">
 	{#each $store.markers as marker}
 		<div id={'marker-initial-slot-' + marker.id}>
@@ -152,9 +154,6 @@
 		</div>
 	{/each}
 </span>
-<Clock>
-	<div class="dial" bind:this={dial}></div>
-</Clock>
 
 <svelte:window
 	on:mouseup={handleMouseUp}
@@ -168,13 +167,11 @@
 		touch-action: none;
 		user-select: none;
 		cursor: pointer;
-		border: solid 3px #3c6ca8;
+		border: solid 0.5vh #3c6ca8;
 		position: relative;
 		z-index: 1;
-		width: 3rem;
-		height: 3rem;
-		min-height: 3rem;
-		min-width: 3rem;
+		min-height: 5vh;
+		min-width: 5vh;
 		border-radius: 50%;
 		text-align: center;
 		display: flex;
@@ -183,6 +180,8 @@
 		box-sizing: border-box;
 		margin: 0.1rem;
 		background-color: #f4ebec;
+
+		font-size: 3vh;
 	}
 	.dial {
 		position: absolute;
@@ -196,6 +195,9 @@
 	}
 
 	.markerlist {
+		padding: 1rem;
+		background-color: #f4ebec;
+		border-radius: 1rem;
 		display: flex;
 		flex-direction: row;
 		flex-wrap: wrap;
