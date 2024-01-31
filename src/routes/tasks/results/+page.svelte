@@ -10,8 +10,6 @@
 	let taskPages = pageArray
 		.filter((page) => get(page).type === 'task')
 		.map((page) => get(page)) as ITaskPage[];
-
-	console.log(taskPages);
 </script>
 
 <h1>Tasks completed!</h1>
