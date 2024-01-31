@@ -113,7 +113,7 @@ export const defaultAppData = {
         } as ITaskClockpoint,
         result: {
             type: "result" as PageType,
-            path: "/tasks/result",
+            path: "/tasks/results",
             enableNext: true,
             name: "Result",
             timesVisited: 0,

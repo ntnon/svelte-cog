@@ -2,9 +2,12 @@ import type { Writable } from "svelte/store";
 
 type PageType = "task" | "survey" | "result" | "about" | "end" | "home";
 
+type IPageType = ITaskPage | ISUSPage | IPage | IUser | ITaskClockdraw | ITaskClockpoint | ITaskGuess;
+
 interface IPage {
     type: PageType;
-    path: string,
+    path: string, //MUST start with a slash and contain the proper path to the page in the folder structure of the app.
+    //Perhaps it is possible to generate on the run!
     enableNext: boolean,
     name: string,
     timesVisited: number,
@@ -38,7 +41,6 @@ interface ISUSPage extends IPage {
         score?: number;
     }
     ];
-
 }
 
 interface IUser extends IPage {
@@ -80,18 +82,18 @@ interface IMetaData {
 interface IAppData {
     metadata: IMetaData,
     settings: ISettings
-    pages: {
+    pages: { //the order of pages will be reflected in the router
         home: Writable<IPage>,
         wordregistration: Writable<ITaskGuess>,
-        clockpoint: Writable<ITaskClockpoint>,
         clockdraw: Writable<ITaskClockdraw>,
+        clockpoint: Writable<ITaskClockpoint>,
         wordrecall: Writable<ITaskGuess>,
         result: Writable<IPage>,
-        survey: Writable<IPage>,
         user: Writable<IUser>,
+        survey: Writable<IPage>,
         sus: Writable<ISUSPage>,
         about: Writable<IPage>,
-        end: Writable<IPage>
+        end: Writable<IPage>,
     },
     data: {
         words: Writable<string[]>,
@@ -99,4 +101,29 @@ interface IAppData {
     }
 }
 
-export type { ITaskPage, IPage, IMetaData, IUser, ISUSPage, IHand, IMarker, IAppData, ISettings, ITaskClockdraw, ITaskClockpoint, ITaskGuess, PageType }
+interface IPages {
+    home: IPage,
+    wordregistration: ITaskGuess,
+    clockdraw: ITaskClockdraw,
+    clockpoint: ITaskClockpoint,
+    wordrecall: IPageType,
+    result: IPageType,
+    user: IPageType,
+    survey: IPageType,
+    sus: IPageType,
+    about: IPageType,
+    end: IPageType
+}
+
+
+
+interface IAppData2 {
+    metadata: IMetaData,
+    settings: ISettings
+    pages: Writable<IPages>,
+    words: Writable<string[]>,
+    consent: Writable<boolean>,
+}
+
+
+export type { ITaskPage, IPage, IMetaData, IUser, ISUSPage, IHand, IMarker, IAppData, ISettings, ITaskClockdraw, ITaskClockpoint, ITaskGuess, PageType, IPageType, IAppData2, IPages }

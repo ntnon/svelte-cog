@@ -3,6 +3,7 @@ import type { StorageType } from "./types";
 import type { IAppData, IPage, ISUSPage, ITaskClockdraw, ITaskClockpoint, ITaskGuess, IUser } from "./dataInterfaces"
 import { persistentStore } from "../scripts/persistentStore";
 import { defaultAppData } from "./defaultAppData";
+import { writable } from "svelte/store";
 
 function getDefaultAppData() {
     return JSON.parse(JSON.stringify(defaultAppData));
@@ -28,17 +29,12 @@ export function getData<T>(key: string, storageKey: StorageType, defaultValue: T
 
 const metadata = data.metadata;
 const settings = data.settings;
-const homeData = data.pages.home;
 const wordregistrationData = getData<ITaskGuess>(data.pages.wordregistration.path, "session", data.pages.wordregistration);
 const wordrecallData = getData<ITaskGuess>(data.pages.wordrecall.path, "session", data.pages.wordrecall);
 const clockpointData = getData<ITaskClockpoint>(data.pages.clockpoint.path, "session", data.pages.clockpoint);
 const clockdrawData = getData<ITaskClockdraw>(data.pages.clockdraw.path, "session", data.pages.clockdraw);
-const resultData = getData<IPage>(data.pages.result.path, "session", data.pages.result);
-const surveyData = getData<IPage>(data.pages.survey.path, "session", data.pages.survey);
 const userData = getData<IUser>(data.pages.user.path, "session", data.pages.user);
 const susData = getData<ISUSPage>(data.pages.sus.path, "session", data.pages.sus);
-const aboutData = data.pages.about;
-const endData = data.pages.end;
 const wordsData = getData<string[]>("/words", "session", data.data.words);
 
 
@@ -47,17 +43,17 @@ export function getAppData(): IAppData {
         metadata: metadata,
         settings: settings,
         pages: {
-            home: persistentStore<IPage>(homeData.path, "session", homeData),
+            home: writable<IPage>(data.pages.home),
             wordregistration: persistentStore<ITaskGuess>(wordregistrationData.path, "session", wordregistrationData),
-            clockpoint: persistentStore<ITaskClockpoint>(clockpointData.path, "session", clockpointData),
             clockdraw: persistentStore<ITaskClockdraw>(clockdrawData.path, "session", clockdrawData),
+            clockpoint: persistentStore<ITaskClockpoint>(clockpointData.path, "session", clockpointData),
             wordrecall: persistentStore<ITaskGuess>(wordrecallData.path, "session", wordrecallData),
-            result: persistentStore<IPage>(resultData.path, "session", resultData),
-            survey: persistentStore<IPage>(surveyData.path, "session", surveyData),
+            result: writable<IPage>(data.pages.result),
+            survey: writable<IPage>(data.pages.survey),
             user: persistentStore<IUser>(userData.path, "session", userData),
             sus: persistentStore<ISUSPage>(susData.path, "session", susData),
-            about: persistentStore<IPage>(aboutData.path, "session", aboutData),
-            end: persistentStore<IPage>(endData.path, "session", endData),
+            about: writable<IPage>(data.pages.about),
+            end: writable<IPage>(data.pages.end),
         },
         data: {
             consent: persistentStore<boolean>("/consent", "local", data.data.consent),
