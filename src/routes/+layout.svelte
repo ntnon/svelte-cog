@@ -1,4 +1,5 @@
 <script lang="ts">
+	import '../app.css';
 	import { getAppData } from '$lib/dataService';
 	import { setDataStore } from '$lib/state.svelte';
 	import NavBar from '../components/NavBar.svelte';
@@ -8,33 +9,20 @@
 	const context = setDataStore(allData);
 </script>
 
-<div class="centered">
+<div class="place-content-center">
 	<div class="slot">
 		<slot />
 	</div>
 
 	<Progress></Progress>
-	<NavBar debugMode={true} />
+	<NavBar debugMode={true}>HELLO</NavBar>
 </div>
 
 <!-- 
  -->
 
-<style>
-	.centered {
-		display: flex;
-		flex-direction: column;
-		height: 100vh;
-		align-items: center;
-	}
-
-	.slot {
-		justify-content: center;
-		padding-top: 10rem;
-		display: flex;
-		flex-direction: column;
-		height: 100vh;
-		align-items: center;
-		padding-bottom: 10rem;
+<style lang="postcss">
+	:global(html) {
+		background-color: theme(colors.gray.100);
 	}
 </style>

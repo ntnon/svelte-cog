@@ -51,8 +51,9 @@
 		>Next{debugMode ? ' (debug mode)' : ''}</a
 	>
 </footer>
+<slot />
 
-<style>
+<style lang="postcss">
 	footer {
 		display: flex;
 		position: fixed;
