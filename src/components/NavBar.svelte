@@ -45,47 +45,17 @@
 	}
 </script>
 
-<footer>
-	<a href={'/'} class={'back'}>Back</a>
-	<a href={nextPageId ? nextPageId : '/'} class={'next-' + enableNext ? '' : 'disabled'}
-		>Next{debugMode ? ' (debug mode)' : ''}</a
-	>
-</footer>
+<a href={'/'} class="back">Back</a>
+<a href={nextPageId ? nextPageId : '/'} class={enableNext ? '' : ' disabled'}
+	>Next{debugMode ? ' ()' : ''}</a
+>
+
 <slot />
 
-<style lang="postcss">
-	footer {
-		display: flex;
-		position: fixed;
-		bottom: 0;
-		height: 10vh;
-		width: 100%;
-		display: flex;
-		justify-content: center;
-		background-color: antiquewhite;
-	}
+<style>
 	a.disabled {
 		pointer-events: none;
-		color: grey;
+		color: rgb(188, 0, 0);
 		background-color: lightgrey;
-	}
-	a {
-		font-size: 3vh;
-		margin: 0.5vh;
-		border-radius: 1rem;
-		border: rgb(72, 71, 71) 1vh solid;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: 30vh;
-		color: rgb(7, 8, 7);
-		background-color: lightgreen;
-	}
-	a.back {
-		width: 20%;
-	}
-
-	a.next {
-		width: 80%; /* adjust as needed */
 	}
 </style>

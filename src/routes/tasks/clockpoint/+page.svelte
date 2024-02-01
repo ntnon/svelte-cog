@@ -2,7 +2,6 @@
 	import type { IHand, ITaskPage } from '$lib/dataInterfaces';
 	import { getAppState } from '$lib/state.svelte';
 	import type { InteractionEvent } from '$lib/types';
-	import Clock from '../../../components/Clock.svelte';
 	import { calculateMouseDialAngle } from '../../../scripts/calculateMouseDialAngle';
 	import { cssRotationToClockHours } from '../../../scripts/cssRotationToClockHours';
 	import { getClientCoordinates } from '../../../scripts/getClientCoordinates';
@@ -74,24 +73,11 @@
 	};
 </script>
 
-{$store.enableNext ? 'complete' : 'not complete'}<h></h>
-score: {$store.score}
-
-{$store.corrections}
-{$store.timestamp}
-{$store.success}
-
-<button
-	on:click={() => {
-		$store.hands = JSON.parse(JSON.stringify(defaultAppData.pages.clockpoint.hands));
-		$store.enableNext = false;
-	}}>Reset</button
->
-
-<Clock>
+<h2>Clock point</h2>
+<div class="clock aspect-square w-[50vh] border-orange bg-off-white border-solid border-[1.25vh]">
 	{#each $store.hands as hand}
 		<div
-			class="hand hand-{hand.name}"
+			class="hand h-4 bg-blue hand-{hand.name} top-1/2 left-1/2"
 			role="button"
 			tabindex="0"
 			on:mousedown={(e) => handleMouseDown(e, hand)}
@@ -99,8 +85,14 @@ score: {$store.score}
 			style={'transform: translate(-50%, -50%) rotate(' + hand.angle + 'deg) translate(50%, 0%);'}
 		/>
 	{/each}
-	<div class="dial" bind:this={dial}></div>
-</Clock>
+	<div class="dial bg-orange w-4 h-4 absolute top-1/2 left-1/2" bind:this={dial}></div>
+</div>
+<button
+	on:click={() => {
+		$store.hands = JSON.parse(JSON.stringify(defaultAppData.pages.clockpoint.hands));
+		$store.enableNext = false;
+	}}>Reset</button
+>
 
 <svelte:window
 	on:mouseup={handleMouseUp}
@@ -113,10 +105,6 @@ score: {$store.score}
 	.hand {
 		touch-action: none;
 		position: absolute;
-		background-color: #3c6ca8;
-		height: 3.5vh;
-		left: 50%;
-		top: 50%;
 		transform: translate(0%, -50%);
 		user-select: none;
 	}
@@ -130,12 +118,8 @@ score: {$store.score}
 	}
 
 	.dial {
-		position: absolute;
 		top: 50%;
 		left: 50%;
-		width: 3.5vh;
-		height: 3.5vh;
-		background: rgb(128, 127, 127);
 		border-radius: 50%;
 		transform: translate(-50%, -50%);
 	}

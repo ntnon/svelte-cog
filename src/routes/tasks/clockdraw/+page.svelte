@@ -1,6 +1,5 @@
 <script lang="ts">
 	import type { IMarker } from '$lib/dataInterfaces';
-	import Clock from '../../../components/Clock.svelte';
 	import { getAppState } from '$lib/state.svelte';
 	import type { InteractionEvent } from '$lib/types';
 	import { getClientCoordinates } from '../../../scripts/getClientCoordinates';
@@ -105,11 +104,9 @@
 
 	const handleMouseDown = (e: InteractionEvent, marker: IMarker) => {
 		const currentMarkerHTMLElement = document.getElementById('marker-' + marker.id);
-
 		if (!currentMarkerHTMLElement) {
 			return;
 		}
-
 		const { clientX, clientY } = getClientCoordinates(e);
 		const { x: offsetX, y: offsetY } = getPagePosition(currentMarkerHTMLElement);
 		mouseOffsetX = clientX - offsetX;
@@ -133,18 +130,30 @@
 			angle: undefined
 		})))}>Reset</button
 > -->
-
-<Clock>
-	<div class="dial" bind:this={dial}></div>
-</Clock>
-<span class="markerlist" id="markers">
+<h2>Clock draw</h2>
+<div
+	class="clock aspect-square w-[50vh] border-orange bg-off-white border-solid border-[1.25vh]"
+	id="clock"
+>
+	<div class="dial fixed" bind:this={dial}></div>
+</div>
+<span class="markerlist flex flex-row flex-wrap justify-center w-[50vw]" id="markers">
 	{#each $store.markers as marker}
-		<div id={'marker-initial-slot-' + marker.id}>
+		<div id={'marker-initial-slot-' + marker.id} class="">
 			<div
 				id={'marker-' + marker.id}
 				role="button"
 				tabindex="0"
-				class="marker"
+				class="marker
+				relative
+				text-[3.5vh]
+				h-[6vh]
+				w-[6vh]
+				cursor-pointer
+				border-blue
+				border-solid
+				border-[0.6vh]
+				aspect-[1/1]"
 				style="top: {marker.y}px; left: {marker.x}px;"
 				on:mousedown={(e) => handleMouseDown(e, marker)}
 				on:touchstart={(e) => handleMouseDown(e, marker)}
@@ -166,22 +175,17 @@
 	.marker {
 		touch-action: none;
 		user-select: none;
-		cursor: pointer;
-		border: solid 0.5vh #3c6ca8;
+
 		position: relative;
 		z-index: 1;
-		min-height: 5vh;
-		min-width: 5vh;
+
 		border-radius: 50%;
-		text-align: center;
+
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		box-sizing: border-box;
-		margin: 0.1rem;
 		background-color: #f4ebec;
-
-		font-size: 3vh;
 	}
 	.dial {
 		position: absolute;
@@ -192,15 +196,5 @@
 		background: rgb(128, 127, 127);
 		border-radius: 50%;
 		transform: translate(-50%, -50%);
-	}
-
-	.markerlist {
-		padding: 1rem;
-		background-color: #f4ebec;
-		border-radius: 1rem;
-		display: flex;
-		flex-direction: row;
-		flex-wrap: wrap;
-		width: 80%;
 	}
 </style>
