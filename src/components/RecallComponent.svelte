@@ -1,9 +1,9 @@
 <script lang="ts">
 	import type { Writable } from 'svelte/store';
 	import { validateInput } from '../scripts/validateInput';
-	import type { ITaskPage } from '$lib/dataInterfaces';
+	import type { ITaskGuess } from '$lib/interfaces';
 
-	export let store: Writable<ITaskPage>;
+	export let store: Writable<ITaskGuess>;
 	export let words: Writable<string[]>;
 
 	if (!$store.guesses) {

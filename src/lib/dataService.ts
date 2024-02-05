@@ -1,6 +1,6 @@
 import { browser } from "$app/environment";
 import type { StorageType } from "./types";
-import type { IAppData, IPage, ISUSPage, ITaskClockdraw, ITaskClockpoint, ITaskGuess, IUser } from "./dataInterfaces"
+import type { IAppData, IPage, ISUSPage, ITaskClockdraw, ITaskClockpoint, ITaskGuess, IUser } from "./interfaces"
 import { persistentStore } from "../scripts/persistentStore";
 import { defaultAppData } from "./defaultAppData";
 import { writable } from "svelte/store";

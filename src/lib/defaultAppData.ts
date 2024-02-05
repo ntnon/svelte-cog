@@ -1,6 +1,6 @@
 import { getRandomTimeStamp } from "../scripts/getRandomTimeStamp";
 import { getRandomWords } from "../scripts/getRandomWords";
-import type { IMarker, IMetaData, IPage, ISUSPage, ISettings, ITaskClockdraw, ITaskClockpoint, ITaskGuess, IUser, PageType } from "./dataInterfaces";
+import type { IMarker, IMetaData, IPage, ISUSPage, ISettings, ITaskClockdraw, ITaskClockpoint, ITaskGuess, IUser, PageType } from "./interfaces";
 import susQuestions from "./susQuestions.json";
 
 const generateMarkers = (): IMarker[] => {

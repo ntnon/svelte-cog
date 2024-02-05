@@ -2,7 +2,7 @@ import { getContext, setContext } from "svelte";
 import { dummyStore } from "../scripts/dummyStore";
 import { browser } from "$app/environment";
 import type { StorageType } from "./types";
-import type { IAppData } from "./dataInterfaces";
+import type { IAppData } from "./interfaces";
 
 
 export const storageSelector = (type: StorageType): Storage => {
