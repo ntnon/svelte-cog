@@ -5,7 +5,7 @@
 	import Clock from '../../../components/Clock.svelte';
 	import timestamps from '../../../lib/timestamps.json';
 	import { onMount } from 'svelte';
-	import type { ITaskData } from '$lib/dataInterfaces';
+	import type { ITaskData } from '$lib/interfaces';
 	import { getAppState } from '$lib/state.svelte';
 
 	const store = getAppState<ITaskData>('clockpoint');

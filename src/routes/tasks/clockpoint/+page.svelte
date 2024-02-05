@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { IHand, ITaskPage } from '$lib/dataInterfaces';
+	import type { IHand, ITaskPage } from '$lib/interfaces';
 	import { getAppState } from '$lib/state.svelte';
 	import type { InteractionEvent } from '$lib/types';
 	import { calculateMouseDialAngle } from '../../../scripts/calculateMouseDialAngle';

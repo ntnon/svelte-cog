@@ -1,4 +1,4 @@
-import type { ITaskData, ISUS } from "./dataInterfaces"
+import type { ITaskData, ISUS } from "./interfaces"
 
 
 type DataSchema = {

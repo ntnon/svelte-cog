@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import type { IPageType } from '$lib/dataInterfaces';
+	import type { IPageType } from '$lib/interfaces';
 	import { getAppState } from '$lib/state.svelte';
 	import { get, type Writable } from 'svelte/store';
 

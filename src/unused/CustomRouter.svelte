@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { getAppState } from '$lib/state.svelte';
-	import type { IRoute, ITaskData } from '$lib/dataInterfaces';
+	import type { IRoute, ITaskData } from '$lib/interfaces';
 	import { page } from '$app/stores';
 	import { setContext } from 'svelte';
 

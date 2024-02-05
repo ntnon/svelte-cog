@@ -3,7 +3,7 @@
 	import { navigate } from 'svelte-routing';
 	import { page } from '$app/stores';
 	import { getAppState, storageSelector } from '$lib/state.svelte';
-	import type { ITaskData } from '$lib/dataInterfaces';
+	import type { ITaskData } from '$lib/interfaces';
 	import { get, type Writable } from 'svelte/store';
 
 	let index = 0;

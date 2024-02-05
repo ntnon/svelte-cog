@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { ISUS } from '$lib/dataInterfaces';
+	import type { ISUS } from '$lib/interfaces';
 	import { getAppState } from '$lib/state.svelte';
 	const store = getAppState<ISUS[]>('sus');
 	const maxScore = 5;

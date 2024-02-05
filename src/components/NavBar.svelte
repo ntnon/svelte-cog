@@ -3,7 +3,7 @@
 
 	import { derived, get, type Writable } from 'svelte/store';
 	import { getAppState } from '$lib/state.svelte';
-	import type { IPageType } from '$lib/dataInterfaces';
+	import type { IPageType } from '$lib/interfaces';
 
 	export let debugMode: boolean = false;
 

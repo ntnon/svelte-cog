@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { IMarker } from '$lib/dataInterfaces';
+	import type { IMarker } from '$lib/interfaces';
 	import { getAppState } from '$lib/state.svelte';
 	import type { InteractionEvent } from '$lib/types';
 	import { getClientCoordinates } from '../../../scripts/getClientCoordinates';

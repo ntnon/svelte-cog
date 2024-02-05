@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { IBlock, IPosition } from '$lib/interfaces';
-	import type { ITaskData } from '$lib/dataInterfaces';
+	import type { ITaskData } from '$lib/interfaces';
 	import Draggable from '../components/Draggable.svelte';
 	import Clock from '../components/Clock.svelte';
 	import { getPagePosition } from '../scripts/getPagePosition';

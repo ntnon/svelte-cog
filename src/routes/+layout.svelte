@@ -14,7 +14,7 @@
 		<Progress></Progress>
 	</div>
 
-	<div class="h-[80vh] mt-[10vh] flex flex-col justify-between">
+	<div class="h-[80vh] mt-[10vh] mb-[10vh] flex flex-col justify-between">
 		<slot />
 	</div>
 	<div

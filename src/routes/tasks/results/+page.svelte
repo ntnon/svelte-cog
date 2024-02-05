@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { getAppState } from '$lib/state.svelte';
 	import { get } from 'svelte/store';
-	import type { ITaskPage } from '$lib/datainterfaces';
+	import type { ITaskPage } from '$lib/interfaces';
 
 	const appState = getAppState();
 	const pages = appState.pages;
