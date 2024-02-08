@@ -19,25 +19,50 @@
 
 h1 {
     font-family: 'Horizon';
-    font-size: 2.5rem;
+    font-size: 5vh;
+    display: flex;
+    justify-content: center;
 }
 
 h2 {
     font-family: 'Poppins-Bold';
-    font-size: 2rem;
+    font-size: 5vh;
+    display: flex;
+    justify-content: center;
 }
 
-font {
+p {
     font-family: 'Poppins-Medium';
-    font-size: 1.5rem;
+    font-size: 3vh;
+
 }
+
 
 .clock {
+    border: solid 2vh rgb(227 121 81);
+    border-radius: 50%;
+
+    width: 50vh;
+    height: 50vh;
+    aspect-ratio: 1 / 1;
     border-radius: 50%;
     position: relative;
     align-self: center;
 
 }
+
+.dial {
+    position: absolute;
+    width: 3vh;
+    height: 3vh;
+    top: 50%;
+    left: 50%;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    --tw-bg-opacity: 1;
+    background-color: rgb(227 121 81 / var(--tw-bg-opacity));
+}
+
 
 .circle {
     border-radius: 50%;

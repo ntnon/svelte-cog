@@ -74,10 +74,10 @@
 </script>
 
 <h2>Clock point</h2>
-<div class="clock aspect-square w-[50vh] border-orange bg-off-white border-solid border-[1.25vh]">
+<div class="clock">
 	{#each $store.hands as hand}
 		<div
-			class="hand h-4 bg-blue hand-{hand.name} top-1/2 left-1/2"
+			class="hand h-4 bg-blue hand-{hand.name} top-1/2 left-1/2 absolute"
 			role="button"
 			tabindex="0"
 			on:mousedown={(e) => handleMouseDown(e, hand)}
@@ -85,7 +85,7 @@
 			style={'transform: translate(-50%, -50%) rotate(' + hand.angle + 'deg) translate(50%, 0%);'}
 		/>
 	{/each}
-	<div class="dial bg-orange w-4 h-4 absolute top-1/2 left-1/2" bind:this={dial}></div>
+	<div class="dial" bind:this={dial}></div>
 </div>
 <button
 	on:click={() => {
@@ -111,10 +111,12 @@
 
 	.hand-minute {
 		width: 45%;
+		height: 3vh;
 	}
 
 	.hand-hour {
-		width: 30%;
+		width: 33%;
+		height: 3vh;
 	}
 
 	.dial {

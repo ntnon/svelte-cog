@@ -131,11 +131,8 @@
 		})))}>Reset</button
 > -->
 <h2>Clock draw</h2>
-<div
-	class="clock aspect-square w-[50vh] border-orange bg-off-white border-solid border-[1.25vh]"
-	id="clock"
->
-	<div class="dial fixed" bind:this={dial}></div>
+<div class="clock" id="clock">
+	<div class="dial" bind:this={dial}></div>
 </div>
 <span class="markerlist flex flex-row flex-wrap justify-center w-[50vw]" id="markers">
 	{#each $store.markers as marker}
@@ -175,26 +172,13 @@
 	.marker {
 		touch-action: none;
 		user-select: none;
-
 		position: relative;
 		z-index: 1;
-
 		border-radius: 50%;
-
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		box-sizing: border-box;
 		background-color: #f4ebec;
-	}
-	.dial {
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		width: 2.5vh;
-		height: 2.5vh;
-		background: rgb(128, 127, 127);
-		border-radius: 50%;
-		transform: translate(-50%, -50%);
 	}
 </style>

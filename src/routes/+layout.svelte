@@ -9,18 +9,18 @@
 	const context = setDataStore(allData);
 </script>
 
-<div class="h-screen flex flex-col justify-between">
+<div class="h-screen flex flex-col justify-between z-50">
 	<div class="text-[4vh] fixed top-0 w-full h-[10vh] bg-pink flex justify-center space-x-[6vh]">
 		<Progress></Progress>
 	</div>
 
-	<div class="h-[80vh] mt-[10vh] mb-[10vh] flex flex-col justify-between">
+	<div class="h-[80vh] mt-[10vh] mb-[10vh] flex flex-col">
 		<slot />
 	</div>
 	<div
-		class="text-[4vh] fixed bottom-0 h-[10vh] flex justify-center space-x-[6vh] flex-row bg-pink w-full"
+		class="text-[4vh] fixed bottom-0 h-[10vh] flex justify-center space-x-[6vh] flex-row bg-pink w-full z-50"
 	>
-		<NavBar debugMode={true}></NavBar>
+		<NavBar debugMode={true} />
 	</div>
 </div>
 
