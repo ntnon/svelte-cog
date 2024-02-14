@@ -71,13 +71,15 @@
 		const currentAngle = calculateMouseDialAngle(dial, clientX, clientY);
 		initialMouseAngle = currentAngle - hand.angle;
 	};
+
+	console.log($store.hands);
 </script>
 
 <h2>Clock point</h2>
 <div class="clock">
 	{#each $store.hands as hand}
 		<div
-			class="hand h-4 bg-blue hand-{hand.name} top-1/2 left-1/2 absolute"
+			class={'hand hand-' + hand.name}
 			role="button"
 			tabindex="0"
 			on:mousedown={(e) => handleMouseDown(e, hand)}
@@ -103,7 +105,10 @@
 
 <style>
 	.hand {
+		top: 50%;
+		left: 50%;
 		touch-action: none;
+		background-color: #3c6ca8;
 		position: absolute;
 		transform: translate(0%, -50%);
 		user-select: none;

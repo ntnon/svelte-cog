@@ -1,31 +1,37 @@
 <script lang="ts">
-	import type { ISUS } from '$lib/interfaces';
 	import { getAppState } from '$lib/state.svelte';
-	const store = getAppState<ISUS[]>('sus');
+	const appState = getAppState();
+	const store = appState.pages.sus;
 	const maxScore = 5;
 </script>
 
 <form>
 	<span> 1: Strongly disagree 5: Strongly agree </span>
 	<ul>
-		{#each $store as s, index}
+		{#each $store.questions as s, index}
 			{s.question}
-			{#each Array.from({ length: maxScore }) as _, i}
-				<div style="display:block">
-					<input
-						type="radio"
-						name={s.id + index}
-						value={i + 1}
-						bind:group={s.score}
-						class="radio-input"
-					/>{i + 1}
-				</div>
-			{/each}
+			<div class="questionlist">
+				{#each Array.from({ length: maxScore }) as _, i}
+					<div style="display:block">
+						<input
+							type="radio"
+							name={s.id + index}
+							value={i + 1}
+							bind:group={s.score}
+							class="radio-input"
+						/>{i + 1}
+					</div>
+				{/each}
+			</div>
 		{/each}
 	</ul>
 </form>
 
 <style>
+	.questionlist {
+		display: flex;
+		flex-direction: row;
+	}
 	form {
 		display: flex;
 		flex-direction: column;
