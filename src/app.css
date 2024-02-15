@@ -1,3 +1,8 @@
+/*
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+*/
 .clock {
     border: solid 2vh rgb(227 121 81);
     border-radius: 50%;
