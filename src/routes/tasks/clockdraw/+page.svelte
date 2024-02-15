@@ -134,23 +134,14 @@
 <div class="clock" id="clock">
 	<div class="dial" bind:this={dial}></div>
 </div>
-<span class="markerlist flex flex-row flex-wrap justify-center w-[50vw]" id="markers">
+<span class="markerlist" id="markers">
 	{#each $store.markers as marker}
 		<div id={'marker-initial-slot-' + marker.id} class="">
 			<div
 				id={'marker-' + marker.id}
 				role="button"
 				tabindex="0"
-				class="marker
-				relative
-				text-[3.5vh]
-				h-[6vh]
-				w-[6vh]
-				cursor-pointer
-				border-blue
-				border-solid
-				border-[0.6vh]
-				aspect-[1/1]"
+				class="marker"
 				style="top: {marker.y}px; left: {marker.x}px;"
 				on:mousedown={(e) => handleMouseDown(e, marker)}
 				on:touchstart={(e) => handleMouseDown(e, marker)}
@@ -170,6 +161,9 @@
 
 <style>
 	.marker {
+		border: solid 5px #3c6ca8;
+		width: 30px;
+		height: 30px;
 		touch-action: none;
 		user-select: none;
 		position: relative;
@@ -180,5 +174,10 @@
 		justify-content: center;
 		box-sizing: border-box;
 		background-color: #f4ebec;
+	}
+
+	.markerlist {
+		display: flex;
+		flex-direction: row;
 	}
 </style>

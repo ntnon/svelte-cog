@@ -5,7 +5,7 @@
 	import { getAppState } from '$lib/state.svelte';
 	import type { IPageType } from '$lib/interfaces';
 
-	export let debugMode: boolean = false;
+	export let debug: boolean = false;
 
 	let allPages = getAppState().pages;
 	let allPageStores: Writable<IPageType>[] = Object.values(allPages);
@@ -20,12 +20,12 @@
 				if (pageStore && pageStore.enableNext !== lastEnableNext) {
 					lastEnableNext = pageStore.enableNext;
 					set({
-						enableNext: debugMode ? true : pageStore.enableNext,
+						enableNext: debug ? true : pageStore.enableNext,
 						path: pageStore.path
 					});
 				}
 			},
-			{ enableNext: debugMode ? true : lastEnableNext, path: get(pageStore)?.path }
+			{ enableNext: debug ? true : lastEnableNext, path: get(pageStore)?.path }
 		);
 	});
 
@@ -47,7 +47,7 @@
 
 <a href={'/'} class="back">Back</a>
 <a href={nextPageId ? nextPageId : '/'} class={enableNext ? '' : ' disabled'}
-	>Next{debugMode ? ' ()' : ''}</a
+	>Next{debug ? '()' : ''}</a
 >
 
 <slot />
@@ -55,7 +55,12 @@
 <style>
 	a.disabled {
 		pointer-events: none;
-		color: rgb(188, 0, 0);
+		background-color: rgb(190, 88, 88);
 		background-color: lightgrey;
+	}
+	a {
+		text-decoration: none;
+		color: black;
+		background-color: rgb(70, 167, 70);
 	}
 </style>

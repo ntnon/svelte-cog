@@ -1,50 +1,14 @@
+/*
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@font-face {
-    font-family: 'Poppins-Medium';
-    src: url('/src/fonts/Poppins/Poppins-Medium.ttf') format('truetype')
-}
-
-@font-face {
-    font-family: 'Poppins-Bold';
-    src: url('/src/fonts/Poppins/Poppins-Bold.ttf') format('truetype')
-}
-
-@font-face {
-    font-family: 'Horizon';
-    src: url('/src/fonts/Horizon-updated/Horizon-updated/NEW_UPDATED_VERSION/horizon.otf') format('opentype');
-}
-
-h1 {
-    font-family: 'Horizon';
-    font-size: 5vh;
-    display: flex;
-    justify-content: center;
-}
-
-h2 {
-    font-family: 'Poppins-Bold';
-    font-size: 5vh;
-    display: flex;
-    justify-content: center;
-}
-
-p {
-    font-family: 'Poppins-Medium';
-    font-size: 3vh;
-
-}
-
-
+*/
 .clock {
     border: solid 2vh rgb(227 121 81);
     border-radius: 50%;
-
     width: 50vh;
     height: 50vh;
-    aspect-ratio: 1 / 1;
+    aspect-ratio: 1/1;
     border-radius: 50%;
     position: relative;
     align-self: center;

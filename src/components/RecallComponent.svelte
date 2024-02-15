@@ -54,17 +54,17 @@
 
 <style>
 	input[type='text']:focus {
-		outline: 1px solid rgb(0, 0, 0); /* Change as needed */
+		/***/ /* Change as needed */
 	}
 	input {
-		text-align: center;
+		/***/
 	}
 
 	.correct {
-		background-color: rgba(0, 128, 0, 0.437);
+		/***/
 	}
 
 	.incorrect {
-		background-color: rgba(164, 9, 9, 0.475);
+		/***/
 	}
 </style>
