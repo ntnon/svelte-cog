@@ -1,11 +1,12 @@
 import type { Writable } from "svelte/store";
 
-type PageType = "task" | "survey" | "result" | "about" | "end" | "home";
+type PageType = "task" | "survey" | "result" | "about" | "end" | "home" | "error" | "tutorial" | "user";
 
-type IPageType = ITaskPage | ISUSPage | IPage | IUser | ITaskClockdraw | ITaskClockpoint | ITaskGuess;
+type IPageType = ITaskPage | ISUSPage | IPage | IUser | ITaskClockdraw | ITaskClockpoint | ITaskGuess
 
 interface IPage {
     type: PageType;
+    info?: string;
     path: string, //MUST start with a slash and contain the proper path to the page in the folder structure of the app.
     //Perhaps it is possible to generate on the run!
     enableNext: boolean,
@@ -64,10 +65,20 @@ interface IMarker {
     x: number,
     y: number,
     active: boolean,
-    pointsAt?: number,
-    angle?: number,
-    isInsideClock?: boolean,
+    pointsAt: number,
+    angle: number,
+    isInsideClock: boolean,
 }
+
+interface IHands {
+    name: string;
+    angle: number;
+    active: boolean;
+    target?: number;
+    pointsAt?: number;
+    placed?: boolean;
+}
+
 interface ISettings {
     wordcount: number;
     language: string;
@@ -82,7 +93,7 @@ interface IMetaData {
 interface IAppData {
     metadata: IMetaData,
     settings: ISettings
-    pages: { //the order of pages will be reflected in the router
+    pages?: { //the order of pages will be reflected in the router
         home: Writable<IPage>,
         wordregistration: Writable<ITaskGuess>,
         clockdraw: Writable<ITaskClockdraw>,
@@ -98,6 +109,9 @@ interface IAppData {
     data: {
         words: Writable<string[]>,
         consent: Writable<boolean>,
+        guesses: Writable<string[]>,
+        hands: Writable<IHands[]>,
+        markers: Writable<IMarker[]>,
     }
 }
 
@@ -126,4 +140,4 @@ interface IAppData2 {
 }
 
 
-export type { ITaskPage, IPage, IMetaData, IUser, ISUSPage, IHand, IMarker, IAppData, ISettings, ITaskClockdraw, ITaskClockpoint, ITaskGuess, PageType, IPageType, IAppData2, IPages }
+export type { ITaskPage, IPage, IMetaData, IUser, ISUSPage, IHand, IMarker, IAppData, ISettings, ITaskClockdraw, ITaskClockpoint, ITaskGuess, PageType, IPageType, IAppData2, IPages, IHands }

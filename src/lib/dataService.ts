@@ -1,63 +1,96 @@
 import { browser } from "$app/environment";
 import type { StorageType } from "./types";
-import type { IAppData, IPage, ISUSPage, ITaskClockdraw, ITaskClockpoint, ITaskGuess, IUser } from "./interfaces"
+import type { IAppData, IHands, IMarker } from "./interfaces"
 import { persistentStore } from "../scripts/persistentStore";
-import { defaultAppData } from "./defaultAppData";
-import { writable } from "svelte/store";
+import { getRandomTimeStamp } from "../scripts/getRandomTimeStamp";
+import { getRandomWords } from "../scripts/getRandomWords";
 
-function getDefaultAppData() {
-    return JSON.parse(JSON.stringify(defaultAppData));
+const timestamp = getRandomTimeStamp();
+
+const storageKey = "nydon-website"
+
+const randomAngle = () => {
+    return Math.floor(Math.random() * 360);
 }
 
-const data = getDefaultAppData() // creates a copy of the default values
+const generateMarkers = (): IMarker[] => {
+    return Array.from({ length: 12 }, (_, i) => {
+        return {
+            id: i + 1,
+            x: 0,
+            y: 0,
+            angle: 0,
+            active: false,
+            pointsAt: 0,
+            isInsideClock: false,
+        }
+    })
+}
+
+const hands: IHands[] = [
+    {
+        name: "hour",
+        angle: randomAngle(),
+        active: false,
+        pointsAt: 0,
+        placed: false,
+        target: timestamp.hour
+    },
+    {
+        name: "minute",
+        angle: randomAngle(),
+        active: false,
+        pointsAt: 0,
+        placed: false,
+        target: timestamp.minute / 5
+    }
+]
 
 
 export function getData<T>(key: string, storageKey: StorageType, defaultValue: T): T {
     if (!browser) {
         return defaultValue
     }
-    const fullKey = data.settings.storageKey + key;
+    const fullKey = storageKey + key;
     const storageObject: Storage = storageKey === "local" ? window.localStorage : window.sessionStorage;
     const returnData = storageObject.getItem(fullKey)
     if (returnData === null || returnData === "undefined") { // TODO: Ensure the type for the return object matches T
-
         return defaultValue;
     }
-
     return JSON.parse(returnData);
 }
 
-const metadata = data.metadata;
-const settings = data.settings;
-const wordregistrationData = getData<ITaskGuess>(data.pages.wordregistration.path, "session", data.pages.wordregistration);
-const wordrecallData = getData<ITaskGuess>(data.pages.wordrecall.path, "session", data.pages.wordrecall);
-const clockpointData = getData<ITaskClockpoint>(data.pages.clockpoint.path, "session", data.pages.clockpoint);
-const clockdrawData = getData<ITaskClockdraw>(data.pages.clockdraw.path, "session", data.pages.clockdraw);
-const userData = getData<IUser>(data.pages.user.path, "session", data.pages.user);
-const susData = getData<ISUSPage>(data.pages.sus.path, "session", data.pages.sus);
-const wordsData = getData<string[]>("/words", "session", data.data.words);
+// const wordregistrationData = getData<ITaskGuess>(data.pages.wordregistration.path, "session", data.pages.wordregistration);
+// const wordrecallData = getData<ITaskGuess>(data.pages.wordrecall.path, "session", data.pages.wordrecall);
+// const clockpointData = getData<ITaskClockpoint>(data.pages.clockpoint.path, "session", data.pages.clockpoint);
+// const clockdrawData = getData<ITaskClockdraw>(data.pages.clockdraw.path, "session", data.pages.clockdraw);
+// const userData = getData<IUser>(data.pages.user.path, "session", data.pages.user);
+// const susData = getData<ISUSPage>(data.pages.sus.path, "session", data.pages.sus);
+const wordsData = getData<string[]>("/words", "session", getRandomWords());
+const guessData = getData<string[]>("/guess", "session", []);
+
+const consentData = getData<boolean>("/consent", "local", false);
+const handsData = getData<IHands[]>("/clockpoint", "session", hands);
+const markersData = getData<IMarker[]>("/markers", "session", generateMarkers());
 
 
 export function getAppData(): IAppData {
     return {
-        metadata: metadata,
-        settings: settings,
-        pages: {
-            home: writable<IPage>(data.pages.home),
-            wordregistration: persistentStore<ITaskGuess>(wordregistrationData.path, "session", wordregistrationData),
-            clockdraw: persistentStore<ITaskClockdraw>(clockdrawData.path, "session", clockdrawData),
-            clockpoint: persistentStore<ITaskClockpoint>(clockpointData.path, "session", clockpointData),
-            wordrecall: persistentStore<ITaskGuess>(wordrecallData.path, "session", wordrecallData),
-            result: writable<IPage>(data.pages.result),
-            survey: writable<IPage>(data.pages.survey),
-            user: persistentStore<IUser>(userData.path, "session", userData),
-            sus: persistentStore<ISUSPage>(susData.path, "session", susData),
-            about: writable<IPage>(data.pages.about),
-            end: writable<IPage>(data.pages.end),
+        metadata: {
+            date: new Date(),
+            version: "1.0",
+        },
+        settings: {
+            wordcount: 3,
+            language: "english",
+            storageKey: storageKey,
         },
         data: {
-            consent: persistentStore<boolean>("/consent", "local", data.data.consent),
+            consent: persistentStore<boolean>("/consent", "local", consentData),
             words: persistentStore<string[]>("/words", "session", wordsData),
+            guesses: persistentStore<string[]>("/guess", "session", guessData),
+            hands: persistentStore<IHands[]>("/clockpoint", "session", handsData),
+            markers: persistentStore<IMarker[]>("/markers", "session", markersData),
         },
     }
 }

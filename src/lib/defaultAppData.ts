@@ -163,6 +163,6 @@ export const defaultAppData = {
     data: {
         consent: false,
         words: getRandomWords(),
-
+        guesses: [],
     }
 }
