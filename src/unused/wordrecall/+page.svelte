@@ -8,4 +8,4 @@
 </script>
 
 <h2>Word recall</h2>
-<RecallComponent {store} {words} />
+<RecallComponent />

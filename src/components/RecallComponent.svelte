@@ -1,35 +1,34 @@
 <script lang="ts">
 	import type { Writable } from 'svelte/store';
 	import { validateInput } from '../scripts/validateInput';
-	import type { ITaskPage } from '$lib/dataInterfaces';
+	import type { ITaskGuess, ITaskPage } from '$lib/interfaces';
+	import { getAppState } from '$lib/state.svelte';
 
-	export let store: Writable<ITaskPage>;
-	export let words: Writable<string[]>;
+	const appState = getAppState();
 
-	if (!$store.guesses) {
-		$store.guesses = [];
-	}
-
-	let guesses = $store.guesses;
+	let guesses: string[] = [];
+	export let words: Writable<string[]> = appState.data.words;
+	export let enableNext: boolean = false;
+	export let score: number = 0;
 
 	const calculateScore = () => {
 		let correctGuesses = Array.from(new Set(guesses as string[])).filter((v) => $words.includes(v));
-		return correctGuesses.length;
+		score = correctGuesses.length;
 	};
 
 	const calculateComplete = () => {
 		if (guesses.length === $words.length && !guesses.includes('')) {
-			return true;
+			enableNext = true;
+			console.log('heelloo');
 		}
-		return false;
 	};
 
 	const handleInput = (e: Event, index: number) => {
 		const input = (e.target as HTMLInputElement).value;
 		let validatedInput = validateInput(input) ? input.toLowerCase() : '';
 		guesses[index] = validatedInput;
-		$store.score = calculateScore();
-		$store.enableNext = calculateComplete();
+		calculateScore();
+		calculateComplete();
 	};
 
 	const handleBlur = (e: Event) => {
@@ -62,6 +61,7 @@
 
 	.correct {
 		/***/
+		background-color: green;
 	}
 
 	.incorrect {

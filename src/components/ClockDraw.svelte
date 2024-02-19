@@ -2,14 +2,17 @@
 	import type { IMarker } from '$lib/interfaces';
 	import { getAppState } from '$lib/state.svelte';
 	import type { InteractionEvent } from '$lib/types';
-	import { getClientCoordinates } from '../../../scripts/getClientCoordinates';
-	import { calculateMouseDialAngle } from '../../../scripts/calculateMouseDialAngle';
-	import { cssRotationToClockHours } from '../../../scripts/cssRotationToClockHours';
-	import { getPagePosition } from '../../../scripts/getPagePosition';
-	import { adjustClockwiseDistance } from '../../../scripts/adjustClockwiseDistance';
+	import { getClientCoordinates } from '../scripts/getClientCoordinates';
+	import { calculateMouseDialAngle } from '../scripts/calculateMouseDialAngle';
+	import { cssRotationToClockHours } from '../scripts/cssRotationToClockHours';
+	import { getPagePosition } from '../scripts/getPagePosition';
+	import { adjustClockwiseDistance } from '../scripts/adjustClockwiseDistance';
 
 	const appState = getAppState();
-	const store = appState.pages.clockdraw;
+	export let data = appState.data.markers;
+
+	export let score: number = 0;
+	export let enableNext: boolean = false;
 
 	let mouseOffsetX = 0;
 	let mouseOffsetY = 0;
@@ -19,14 +22,13 @@
 	const calculateScore = () => {
 		let newScore = 0;
 		let offDistance = 0;
-		$store.markers.map((m) => {
+		$data.map((m) => {
 			if (m.isInsideClock && m.pointsAt) {
 				newScore += 1;
 				let diff = Math.abs(m.pointsAt - m.id);
 				offDistance += adjustClockwiseDistance(diff);
 			}
 		});
-
 		// return $store.markers.reduce((acc, marker) => {
 		// 	if (marker.isInsideClock && marker.pointsAt) {
 		// 		acc += 1;
@@ -35,7 +37,7 @@
 		// 	}
 		// 	return acc;
 		// }, 0);
-		return offDistance;
+		score = offDistance;
 	};
 
 	const isMarkerInCircle = (markerId: string) => {
@@ -64,7 +66,7 @@
 		if (!touch) {
 			e.preventDefault();
 		}
-		const currentMarker = $store.markers.find((m) => m.active === true);
+		const currentMarker = $data.find((m) => m.active === true);
 		if (!currentMarker) return;
 		const currentMarkerHTMLElement = document.getElementById(
 			'marker-initial-slot-' + currentMarker.id
@@ -75,12 +77,9 @@
 		const { clientX, clientY } = getClientCoordinates(e);
 
 		const newAngle = calculateMouseDialAngle(dial, clientX, clientY);
-
 		const newPointsAt = cssRotationToClockHours(newAngle);
-
 		const newInsideClock = isMarkerInCircle(currentMarker.id.toString());
-
-		const newMarkers = $store.markers.map((m) => {
+		const newMarkers = $data.map((m) => {
 			if (m.id === currentMarker?.id) {
 				return {
 					...currentMarker,
@@ -93,13 +92,13 @@
 			}
 			return m;
 		});
-		store.update((value) => ({ ...value, markers: newMarkers }));
+		data.update((value) => newMarkers);
 	};
 
 	const handleMouseUp = () => {
-		$store.markers.map((m) => (m.active = false));
-		$store.score = calculateScore();
-		$store.enableNext = !$store.markers.find((m) => !m.isInsideClock);
+		$data.map((m) => (m.active = false));
+		calculateScore();
+		enableNext = !$data.find((m) => !m.isInsideClock);
 	};
 
 	const handleMouseDown = (e: InteractionEvent, marker: IMarker) => {
@@ -112,7 +111,7 @@
 		mouseOffsetX = clientX - offsetX;
 		mouseOffsetY = clientY - offsetY;
 		if (marker.isInsideClock) {
-			$store.corrections += 1;
+			// $store.corrections += 1;
 		}
 		marker.active = true;
 	};
@@ -130,12 +129,11 @@
 			angle: undefined
 		})))}>Reset</button
 > -->
-<h2>Clock draw</h2>
 <div class="clock" id="clock">
 	<div class="dial" bind:this={dial}></div>
 </div>
 <span class="markerlist" id="markers">
-	{#each $store.markers as marker}
+	{#each $data as marker}
 		<div id={'marker-initial-slot-' + marker.id} class="">
 			<div
 				id={'marker-' + marker.id}
