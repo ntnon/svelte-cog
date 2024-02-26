@@ -2,16 +2,28 @@
 @tailwind components;
 @tailwind utilities;
 
+.words {
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+    margin: 2vh;
+    gap: 2rem;
+
+}
+
+.input-field {
+    background-color: #f4ebec;
+
+
+    text-align: center;
+}
+
 .clock {
-    border: solid 2vh rgb(227 121 81);
-    border-radius: 50%;
-    width: 50vh;
-    height: 50vh;
-    aspect-ratio: 1/1;
+    border: solid 2vh #e37951;
     border-radius: 50%;
     position: relative;
     align-self: center;
-
+    display: inline-block;
 }
 
 .dial {
@@ -26,13 +38,39 @@
     background-color: rgb(227 121 81 / var(--tw-bg-opacity));
 }
 
+.clickable {
+    touch-action: none;
+    user-select: none;
+    position: relative;
+    z-index: 1;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    background-color: #f4ebec;
+}
+
+.marker {
+    border: solid 5px #3c6ca8;
+    touch-action: none;
+    user-select: none;
+    position: relative;
+    z-index: 1;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    background-color: #f4ebec;
+}
 
 .circle {
     border-radius: 50%;
-    border: solid #e37951;
+    border: solid 1rem #e37951;
 }
 
-button {
+.btn {
     background-color: #e37951;
     color: white;
     padding: 2vh 3vh;
@@ -49,4 +87,31 @@ button {
 
 .enabled {
     background-color: green;
+}
+
+.highlight {
+    outline: solid 0.5rem #000000;
+    animation: pulse 2s infinite;
+    z-index: 4;
+}
+
+.inactive {
+    opacity: 0.3;
+    background-color: gray;
+    pointer-events: none;
+    cursor: none;
+}
+
+@keyframes pulse {
+    0% {
+        outline: solid 0.5rem #000000;
+    }
+
+    50% {
+        outline: solid 0.7rem #000000;
+    }
+
+    100% {
+        outline: solid 0.5rem #000000;
+    }
 }

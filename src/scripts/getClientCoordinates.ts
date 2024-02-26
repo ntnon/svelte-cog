@@ -1,4 +1,4 @@
-import type { InteractionEvent } from '$lib/types';
+import type { InteractionEvent } from '../oldLib/types';
 
 export const getClientCoordinates = (e: InteractionEvent) => {
 	if (e instanceof TouchEvent && e.touches.length > 0) {

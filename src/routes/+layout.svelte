@@ -1,10 +1,10 @@
 <script lang="ts">
 	import '../app.css';
-	import { getAppData } from '$lib/dataService';
-	import { setDataStore } from '$lib/state.svelte';
 
-	const allData = getAppData();
-	const context = setDataStore(allData);
+	import { setDataStore } from '$lib/state.svelte';
+	import { defaultAppData } from '$lib/defaultAppData';
+
+	const context = setDataStore(defaultAppData);
 	let debug: boolean = false;
 </script>
 

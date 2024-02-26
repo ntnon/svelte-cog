@@ -1,7 +1,7 @@
 import { getContext, setContext } from "svelte";
 import { dummyStore } from "../scripts/dummyStore";
 import { browser } from "$app/environment";
-import type { StorageType } from "./types";
+import type { StorageType } from "../oldLib/types";
 import type { IAppData } from "./interfaces";
 
 
