@@ -7,17 +7,36 @@
 	const appState = getAppState();
 	let guesses: IResettableStore<string[]> = appState.recallGuesses;
 
+	interface data {
+		guesses: {
+			[key: number]: {
+				value: string;
+				correct: boolean;
+			};
+		};
+	}
+
 	let words: Writable<string[]> = appState.words;
 
 	const nextField = () => {
-		console.log('next field');
-		console.log();
-		let openField = $guesses.findIndex((v) => v === '') ?? 0;
-		return Math.max(openField, 0);
+		for (let i = 0; i < $words.length; i++) {
+			if ($guesses[i] === '' || $guesses[i] === undefined) {
+				currentFieldIndex = i;
+				break;
+			}
+		}
 	};
 
-	let activeInputField: number = nextField();
-	const inputFields: HTMLInputElement[] = [];
+	let currentFieldIndex: number = 0;
+	let inputFields: { [key: number]: HTMLInputElement } = {};
+
+	$: if (inputFields) {
+		console.log(inputFields);
+		nextField();
+	}
+	$: if (inputFields[currentFieldIndex]) {
+		inputFields[currentFieldIndex].focus();
+	}
 
 	// const calculateScore = () => {
 	// 	let correctGuesses = Array.from(new Set($guesses as string[])).filter((v) =>
@@ -37,18 +56,9 @@
 		let validatedInput = validateInput(input) ? input.toLowerCase() : '';
 		$guesses[index] = validatedInput;
 	};
-
-	const handleFoucs = (e: Event, index: number) => {
-		const target = e.target as HTMLInputElement;
-		//if the input is correct, automatically "activate" the next input
-		activeInputField = index;
-	};
-	const isCorrect = (index: number) => {
-		return $words.includes($guesses[index]) && new Set($guesses).size === $guesses.length;
-	};
 </script>
 
-<span class="flex flex-col words">
+<ul class="flex flex-col words">
 	{#each $words as guess, index}
 		<input
 			bind:this={inputFields[index]}
@@ -56,18 +66,18 @@
 				{$words.includes($guesses[index]) && new Set($guesses).size === $guesses.length
 				? 'correct'
 				: 'incorrect'}
-				text-center"
+				text-center
+			"
 			type="text"
 			value={$guesses[index] ?? ''}
 			on:input={(e) => handleInput(e, index)}
-			on:focus={(e) => handleFoucs(e, index)}
 		/>
 	{/each}
-</span>
+</ul>
 <svelte:window
 	on:keydown={(e) => {
 		if (e.key === 'Enter') {
-			nextField();
+			currentFieldIndex = (currentFieldIndex + 1) % $words.length;
 		}
 	}}
 />
@@ -77,5 +87,8 @@
 		/***/
 
 		background-color: green;
+	}
+	.incorrect {
+		font-style: italic;
 	}
 </style>

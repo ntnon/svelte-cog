@@ -13,6 +13,7 @@
 <span class="size-full flex justify-center" bind:this={container}>
 	<span
 		class="absolute clock flex justify-center items-center"
+		id="clock"
 		style="width: {size}px; height: {size}px"><slot /></span
 	>
 </span>

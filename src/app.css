@@ -8,13 +8,10 @@
     text-align: center;
     margin: 2vh;
     gap: 2rem;
-
 }
 
 .input-field {
     background-color: #f4ebec;
-
-
     text-align: center;
 }
 
@@ -87,6 +84,12 @@
 
 .enabled {
     background-color: green;
+}
+
+input:focus {
+    outline: solid 0.5rem #000000;
+    animation: pulse 2s infinite;
+    z-index: 4;
 }
 
 .highlight {

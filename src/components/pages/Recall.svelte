@@ -25,7 +25,7 @@
 			text: '0/1'
 		},
 		info: {
-			text: 'Do you recall the words? Write them in the boxes below!'
+			text: 'Do you recall the words from earlier? Write them in the boxes below!'
 		},
 		main: {
 			component: WordRecallTask
