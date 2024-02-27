@@ -58,7 +58,7 @@
 				component: WordRecallTask
 			} as IElement,
 			reset: {
-				text: 'see words',
+				text: 'reveal words',
 				function: () => (stages[0].completed = false)
 			},
 			help: {

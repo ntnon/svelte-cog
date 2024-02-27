@@ -17,7 +17,7 @@
 				text: '0/2'
 			},
 			info: {
-				text: 'Press hint to learn how to use the website!'
+				text: 'Press "start" to learn how to use the website!'
 			},
 			main: {
 				hidden: true
@@ -26,40 +26,37 @@
 				hidden: true
 			},
 			help: {
-				highlight: true,
-				text: defaultHelpLabel,
-				function: nextFn
+				hidden: true
 			},
 			next: {
-				hidden: true
+				text: 'Start',
+				highlight: true,
+				function: nextFn
 			}
 		},
 		{
 			completed: false,
 			name: {
-				text: 'Introduction',
-				highlight: true
+				text: 'Introduction'
 			},
 			progress: {
-				text: '1/2',
-				highlight: true
+				text: '1/2'
 			},
 			info: {
-				text: 'Press hint to learn how to use the website!',
-				highlight: true
+				text: 'Press "next" to continue the tutorial!"'
 			},
 			main: {
-				text: 'Above you can see the task name, a task description, as well your progress.'
+				text: 'Above you can see the task name, a task description, as well your progress.',
+				highlight: true
 			},
 			reset: {
 				hidden: true
 			},
 			help: {
-				text: defaultHelpLabel,
-				function: nextFn
+				hidden: true
 			},
 			next: {
-				hidden: true
+				function: nextFn
 			}
 		},
 		{
@@ -76,14 +73,11 @@
 			main: {
 				text: 'The "next" button will start the example task. Press it to continue the tutorial.'
 			},
-			reset: {
-				hidden: true
-			},
+			reset: {},
 			help: {
 				text: defaultHelpLabel
 			},
 			next: {
-				text: defaultNextLabel,
 				highlight: true,
 				function: nextFn
 			}

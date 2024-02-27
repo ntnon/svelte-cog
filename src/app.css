@@ -2,6 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+    font-family: 'Poppins-Medium';
+    src: url('/src/fonts/Poppins/Poppins-Medium.ttf') format('truetype')
+}
+
+@font-face {
+    font-family: 'Poppins-Bold';
+    src: url('/src/fonts/Poppins/Poppins-Bold.ttf') format('truetype')
+}
+
+@font-face {
+    font-family: 'Horizon';
+    src: url('/src/fonts/Horizon-updated/Horizon-updated/NEW_UPDATED_VERSION/horizon.otf') format('opentype');
+}
+
 .words {
     font-size: 2rem;
     font-weight: bold;

@@ -11,3 +11,10 @@
 <main class="w-[100vw] h-[100vh] flex justify-center">
 	<slot />
 </main>
+
+<style>
+	main {
+		font-family: Verdana, Geneva, Tahoma, sans-serif;
+		font-size: larger;
+	}
+</style>

@@ -24,7 +24,7 @@
 				text: '2/4'
 			},
 			info: {
-				text: 'Put tge numbers in the right place!'
+				text: 'This clock is completely broken! Put the numbers in their right place!'
 			},
 			main: {
 				component: ClockDrawTask

@@ -1,11 +1,13 @@
 <script lang="ts">
 	import type { Writable } from 'svelte/store';
 	import { validateInput } from '../../scripts/validateInput';
-	import type { IResettableStore } from '$lib/interfaces';
+	import type { IResettableStore, IStage } from '$lib/interfaces';
 	import { getAppState } from '$lib/state.svelte';
 
 	const appState = getAppState();
-	let guesses: IResettableStore<string[]> = appState.recallGuesses;
+	export let stage: IStage;
+	export let data = stage.data as IResettableStore<string[]>;
+	let guesses = data;
 
 	interface data {
 		guesses: {
@@ -30,26 +32,11 @@
 	let currentFieldIndex: number = 0;
 	let inputFields: { [key: number]: HTMLInputElement } = {};
 
-	$: if (inputFields) {
-		console.log(inputFields);
-		nextField();
-	}
+	$: if (inputFields) nextField();
+
 	$: if (inputFields[currentFieldIndex]) {
 		inputFields[currentFieldIndex].focus();
 	}
-
-	// const calculateScore = () => {
-	// 	let correctGuesses = Array.from(new Set($guesses as string[])).filter((v) =>
-	// 		$words.includes(v)
-	// 	);
-	// 	// score = correctGuesses.length;
-	// };
-
-	// const calculateComplete = () => {
-	// 	if ($guesses.length === $words.length && !$guesses.includes('')) {
-	// 		// enableNext = true;
-	// 	}
-	// };
 
 	const handleInput = (e: Event, index: number) => {
 		const input = (e.target as HTMLInputElement).value;
@@ -67,6 +54,7 @@
 				? 'correct'
 				: 'incorrect'}
 				text-center
+				w-full
 			"
 			type="text"
 			value={$guesses[index] ?? ''}

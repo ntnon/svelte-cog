@@ -17,11 +17,11 @@ function createPage(fallbackFn: () => void): IPage {
             return this.content.find((element: IStage) => element.completed === false) ?? fallbackFn();
         },
         nextFn: function () {
-            console.log("next")
+
             page.content.find((element: IStage) => element.completed === false);
         },
         redoFn: function (ids: number[]) {
-            console.log("redo")
+
             this.content = page.content.map((element: IStage) => {
                 return ids.includes(element.id) ? { ...element, completed: false } : element;
             });

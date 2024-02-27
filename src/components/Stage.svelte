@@ -1,48 +1,53 @@
 <script lang="ts">
+	import { defaultNextLabel, defaultResetLabel } from '$lib/constants';
 	import type { IStage } from '$lib/interfaces';
-	import TextElement from './TextElement.svelte';
-	import ButtonElement from './ButtonElement.svelte';
 
 	export let stage: IStage;
+	console.log('stage: ', stage);
 </script>
 
 {#if stage}
-	<div class="container m-10">
-		<span class="name {stage.name.highlight && 'highlight'}">
-			<TextElement element={stage.name} />
+	<div class="container m-3">
+		<span class="name center text-2xl font-bold {stage.name.highlight && 'highlight'}">
+			{stage.name.text}
 		</span>
 
 		<span class="progress center {stage.progress.highlight && 'highlight'}">
-			<TextElement element={stage.progress} />
+			{stage.progress.text}
 		</span>
 
-		<span class="info {stage.info.highlight && 'highlight'}">
-			<TextElement element={stage.info} />
+		<span class="info text-2xl {stage.info.highlight && 'highlight'}">
+			{stage.info.text}
 		</span>
 
-		<span class="main center {stage.main.highlight && 'highlight'}">
-			<TextElement element={stage.main} {stage} />
+		<span class="main center text-2xl {stage.main.highlight && 'highlight'}">
+			{#if stage.main.text}
+				{stage.main.text}
+			{/if}
+			{#if stage.main.component}
+				<svelte:component this={stage.main.component} data={stage.data} />
+			{/if}
 		</span>
 
-		<span class="helpButton center {stage.help.highlight && 'highlight'}">
-			<ButtonElement element={stage.help} />
-		</span>
+		<!-- <button
+			class="helpButton center {stage.help.highlight && 'highlight'}"
+			on:click={stage.help.function}>help</button
+		> -->
+		<span class="navbar">
+			<button
+				class="reset center {stage.reset.highlight && 'highlight'}"
+				on:click={stage.reset.function}>{stage.reset.text ?? defaultResetLabel}</button
+			>
 
-		<span class="reset center {stage.reset.highlight && 'highlight'}">
-			<ButtonElement element={stage.reset} />
-		</span>
-
-		<span class="next center {stage.next.highlight && 'highlight'}">
-			<ButtonElement element={stage.next} />
+			<button
+				class="next center {stage.next.highlight && 'highlight'}"
+				on:click={stage.next.function}>{stage.next.text ?? defaultNextLabel}</button
+			>
 		</span>
 	</div>
 {/if}
 
 <style>
-	span {
-		width: 100%;
-		height: 100%;
-	}
 	.center {
 		display: flex;
 		justify-content: center;
@@ -58,13 +63,21 @@
 			'name name progress'
 			'info info info'
 			'main main main'
-			'reset help next';
+			'navbar navbar navbar';
 	}
+
+	.navbar {
+		grid-area: navbar;
+		display: grid;
+		gap: 1rem;
+		grid-template-areas: 'reset next';
+	}
+
 	.name {
 		grid-area: name;
 		display: flex;
 		align-items: center;
-		background-color: green;
+		background-color: rgb(220, 174, 125);
 	}
 	.progress {
 		grid-area: progress;

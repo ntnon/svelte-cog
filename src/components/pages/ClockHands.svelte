@@ -47,13 +47,9 @@
 	let stage: IStage = stages[0];
 
 	hands.subscribe((v) => {
-		console.log(v.minute.target * 5);
 		timestamp = v.hour.target + ':' + v.minute.target * 5;
 		stages[0].info.text = 'Adjust the clock to display ' + timestamp;
 		stage = stages[0];
-		//effin hack
-		console.log('hour: ' + v.hour.pointsAt);
-		console.log('minute: ' + v.minute.pointsAt);
 	});
 </script>
 

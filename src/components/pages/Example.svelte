@@ -3,11 +3,12 @@
 	import Stage from '../Stage.svelte';
 	import { defaultHelpLabel, defaultNextLabel, defaultResetLabel } from '$lib/constants';
 	import ExampleTask from '../tasks/ExampleTask.svelte';
+
 	export let fallbackFn: () => void;
 
 	const nextFn = () => {
+		console.log('step completed');
 		stage.completed = true;
-		console.log('stage completed');
 	};
 
 	const redoFn = (ids: number | number[]) => {
@@ -38,22 +39,11 @@
 				text: 'Tap all the circles!'
 			},
 			main: {
-				hidden: false,
 				component: ExampleTask
 			} as IElement,
-			reset: {
-				inactive: true,
-				text: defaultResetLabel
-			},
-			help: {
-				hidden: false,
-				inactive: true,
-				text: defaultHelpLabel
-			},
+			reset: {},
+			help: {},
 			next: {
-				hidden: false,
-
-				text: defaultNextLabel,
 				function: nextFn
 			}
 		},
@@ -72,16 +62,11 @@
 				text: 'Want to start the task over?'
 			} as IElement,
 			reset: {
-				text: defaultResetLabel,
 				highlight: true,
-				function: () => redoFn([0, 1])
+				function: () => redoFn([0])
 			},
-			help: {
-				text: defaultHelpLabel,
-				inactive: true
-			},
+			help: {},
 			next: {
-				text: defaultNextLabel,
 				function: nextFn
 			}
 		}
@@ -91,8 +76,11 @@
 
 	$: if (stage) {
 		let newStage = stages.find((stage) => !stage.completed);
-		if (newStage) stage = newStage;
-		else fallbackFn();
+
+		if (newStage) {
+			stage = newStage;
+			console.log('new stage found');
+		} else fallbackFn();
 	}
 </script>
 
