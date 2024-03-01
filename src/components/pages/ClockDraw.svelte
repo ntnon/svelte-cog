@@ -1,49 +1,20 @@
 <script lang="ts">
 	import ClockDrawTask from '../tasks/ClockDrawTask.svelte';
 	import { getAppState } from '$lib/state.svelte';
-	import type { IElement, IMarker, IResettableStore, IStage } from '$lib/interfaces';
+
 	import Stage from '../Stage.svelte';
-	import { defaultHelpLabel, defaultNextLabel } from '$lib/constants';
+	import { defaultNextLabel, defaultResetLabel } from '$lib/constants';
 
 	export let fallbackFn: () => void;
 
-	const appState = getAppState();
-	let markers: IResettableStore<IMarker[]> = appState.markers;
-
-	const nextFn = () => {
-		stage.completed = true;
-	};
-
-	const stages: IStage[] = [
-		{
-			completed: false,
-			name: {
-				text: 'Clock Draw'
-			},
-			progress: {
-				text: '2/4'
-			},
-			info: {
-				text: 'This clock is completely broken! Drag the numbers to where they belong using your mouse or finger'
-			},
-			main: {
-				component: ClockDrawTask
-			} as IElement,
-			reset: {
-				text: 'reset',
-				function: () => markers.reset()
-			},
-			help: {
-				text: defaultHelpLabel,
-				function: nextFn
-			},
-			next: {
-				text: defaultNextLabel,
-				function: fallbackFn
-			}
-		}
-	];
-	let stage: IStage = stages[0];
+	const taskState = getAppState().taskData.markers;
 </script>
 
-<Stage {stage} />
+<Stage>
+	<span slot="name">Clock Draw</span>
+	<span slot="info">The clock is broken!... Drag the numbers back in place using your finger</span>
+	<span slot="progress">progress component!</span>
+	<span slot="component" class="size-full"><ClockDrawTask /></span>
+	<button slot="reset" on:click={taskState.resetData}>{defaultResetLabel}</button>
+	<button slot="next" on:click={fallbackFn}>{defaultNextLabel}</button>
+</Stage>

@@ -9,8 +9,10 @@
 	import { adjustClockwiseDistance } from '../../scripts/adjustClockwiseDistance';
 	import Clock from '../Clock.svelte';
 
-	const appState = getAppState();
-	export let data = appState.markers;
+	const taskState = getAppState().taskData.markers;
+	let markers = $taskState.data;
+
+	let activeMarkerId: number | undefined = undefined;
 
 	let mouseOffsetX = 0;
 	let mouseOffsetY = 0;
@@ -20,7 +22,7 @@
 	const calculateScore = () => {
 		let newScore = 0;
 		let offDistance = 0;
-		$data.map((m) => {
+		markers.map((m) => {
 			if (m.isInsideClock && m.pointsAt) {
 				newScore += 1;
 				let diff = Math.abs(m.pointsAt - m.id);
@@ -64,37 +66,24 @@
 		if (!touch) {
 			e.preventDefault();
 		}
-		const currentMarker = $data.find((m) => m.active === true);
-		if (!currentMarker) return;
-		const currentMarkerHTMLElement = document.getElementById(
-			'marker-initial-slot-' + currentMarker.id
-		);
+		const activeMarker = markers.find((m) => m.id === activeMarkerId);
+		if (!activeMarker) {
+			console.log('no active marker');
+			return;
+		}
+		console.log('active marker!');
 
-		if (!currentMarkerHTMLElement) return;
-		const { x: offsetX, y: offsetY } = getPagePosition(currentMarkerHTMLElement);
 		const { clientX, clientY } = getClientCoordinates(e);
 
-		const newAngle = calculateMouseDialAngle(dial, clientX, clientY);
-		const newPointsAt = cssRotationToClockHours(newAngle);
-		const newInsideClock = isMarkerInCircle(currentMarker.id.toString());
-		const newMarkers = $data.map((m) => {
-			if (m.id === currentMarker?.id) {
-				return {
-					...currentMarker,
-					pointsAt: newPointsAt,
-					angle: newAngle,
-					x: clientX - offsetX - mouseOffsetX,
-					y: clientY - offsetY - mouseOffsetY,
-					isInsideClock: newInsideClock
-				};
-			}
-			return m;
-		});
-		data.update((value) => newMarkers);
+		activeMarker.angle = calculateMouseDialAngle(dial, clientX, clientY);
+		activeMarker.pointsAt = cssRotationToClockHours(activeMarker.angle);
+		activeMarker.isInsideClock = isMarkerInCircle(activeMarker.id.toString());
+		activeMarker.x = clientX - mouseOffsetX;
+		activeMarker.y = clientY - mouseOffsetY;
 	};
 
 	const handleMouseUp = () => {
-		$data.map((m) => (m.active = false));
+		activeMarkerId = undefined;
 		calculateScore();
 		// enableNext = !$data.find((m) => !m.isInsideClock);
 	};
@@ -111,8 +100,12 @@
 		if (marker.isInsideClock) {
 			// $store.corrections += 1;
 		}
-		marker.active = true;
+		activeMarkerId = marker.id;
 	};
+
+	$: if (markers) {
+		console.log('markers!');
+	}
 </script>
 
 <!-- <button
@@ -149,13 +142,23 @@
 		{/each}
 	</span>
 </span> -->
+
+<button
+	on:click={() => {
+		console.log('hi');
+		markers.map((m) => {
+			m.x += Math.random() * 100 - 50;
+			m.y += Math.random() * 100 - 50;
+		});
+	}}>randomize</button
+>
 <span class="flex flex-col size-full items-center">
 	<Clock>
 		<span class="dial" bind:this={dial} />
 	</Clock>
 
 	<span class="markers w-[100%] flex flex-row justify-center items-center flex-wrap"
-		>{#each $data as marker}
+		>{#each $taskState.data as marker}
 			<div id={'marker-initial-slot-' + marker.id}>
 				<div
 					id={'marker-' + marker.id}

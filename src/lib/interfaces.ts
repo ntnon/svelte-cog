@@ -1,9 +1,17 @@
 import type { SvelteComponent } from "svelte";
 import type { Writable } from "svelte/store";
+import type { resettableStore, resettableTaskStore } from "../scripts/resettableStore";
 
 interface IResettableStore<T> extends Writable<T> {
     reset: () => void;
 }
+
+interface IResettableTaskStore<T> extends Writable<T> {
+    resetData: () => void;
+    reset: () => void;
+    incrementHint: () => void;
+}
+
 interface IStage {
     completed: boolean;
     name: IElement;
@@ -45,7 +53,7 @@ interface IHand {
 
 interface IHands {
     hour: IHand,
-    minute: IHand
+    minute: IHand,
 }
 
 interface IMarker {
@@ -58,14 +66,35 @@ interface IMarker {
     isInsideClock: boolean,
 }
 
-interface IAppData {
-    consent: IResettableStore<boolean>,
-    words: IResettableStore<string[]>,
-    markers: IResettableStore<IMarker[]>,
-    hands: IResettableStore<IHands>,
-    recallGuesses: IResettableStore<string[]>,
-    registrationGuesses: IResettableStore<string[]>
+interface ITaskData<T> {
+    score: number;
+    completed: false;
+    data: T;
+    hints: number
 }
 
+interface ITasks {
+    markers: ReturnType<typeof resettableTaskStore<IMarker[]>>;
+    hands: ReturnType<typeof resettableTaskStore<IHands>>;
+    recallGuesses: ReturnType<typeof resettableTaskStore<string[]>>;
+    registrationGuesses: ReturnType<typeof resettableTaskStore<string[]>>;
+    [key: string]: ReturnType<typeof resettableTaskStore<unknown>>;
+}
 
-export type { IAppData, IHand, IMarker, IResettableStore, IElement, IButtonElement, IStage, ITimestamp, IHands }
+interface IAppData {
+    consent: ReturnType<typeof resettableStore>;
+    words: ReturnType<typeof resettableStore>;
+    taskData: ITasks;
+}
+
+// interface IAppData {
+//     consent: IResettableStore<boolean>,
+//     words: IResettableStore<string[]>,
+//     markers: IResettableStore<IMarker[]>,
+//     hands: IResettableStore<IHands>,
+//     recallGuesses: IResettableStore<string[]>,
+//     registrationGuesses: IResettableStore<string[]>
+// }
+
+
+export type { IAppData, IHand, IMarker, IResettableStore, IElement, IButtonElement, IStage, ITimestamp, IHands, ITaskData, ITasks, IResettableTaskStore }

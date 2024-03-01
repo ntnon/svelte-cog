@@ -1,54 +1,24 @@
 <script lang="ts">
 	import ClockHandsTask from '../tasks/ClockHandsTask.svelte';
 	import { getAppState } from '$lib/state.svelte';
-	import type { IElement, IHands, IResettableStore, IStage } from '$lib/interfaces';
 	import Stage from '../Stage.svelte';
-	import { defaultHelpLabel, defaultNextLabel } from '$lib/constants';
+	import { defaultNextLabel, defaultResetLabel } from '$lib/constants';
 
 	export let fallbackFn: () => void;
 
-	const appState = getAppState();
-	let hands: IResettableStore<IHands> = appState.hands;
-	let timestamp: string = '';
-
-	const nextFn = () => {
-		stage.completed = true;
-	};
-
-	const stages: IStage[] = [
-		{
-			completed: false,
-			name: {
-				text: 'Clock Hands'
-			},
-			progress: {
-				text: '2/4'
-			},
-			info: {},
-			main: {
-				component: ClockHandsTask
-			} as IElement,
-			reset: {
-				text: 'reset',
-				function: () => hands.reset()
-			},
-			help: {
-				text: defaultHelpLabel,
-				function: nextFn
-			},
-			next: {
-				text: defaultNextLabel,
-				function: fallbackFn
-			}
-		}
-	];
-	let stage: IStage = stages[0];
-
-	hands.subscribe((v) => {
-		timestamp = v.hour.target + ':' + v.minute.target * 5;
-		stages[0].info.text = 'Adjust the clock hands using your finger to display ' + timestamp;
-		stage = stages[0];
-	});
+	const taskState = getAppState().taskData.hands;
 </script>
 
-<Stage {stage} />
+<Stage>
+	<span slot="name">Clock Hands</span>
+	<span slot="info"
+		>{'Adjust the clock hands using your finger to display ' +
+			$taskState.data.hour.target +
+			':' +
+			$taskState.data.minute.target * 5}</span
+	>
+	<span slot="progress">progress component!</span>
+	<span slot="component" class="size-full"><ClockHandsTask /></span>
+	<button slot="reset" on:click={taskState.resetData}>{defaultResetLabel}</button>
+	<button slot="next" on:click={fallbackFn}>{defaultNextLabel}</button>
+</Stage>

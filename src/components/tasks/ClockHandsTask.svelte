@@ -8,10 +8,8 @@
 	import { adjustClockwiseDistance } from '../../scripts/adjustClockwiseDistance';
 	import Clock from '../Clock.svelte';
 
-	const appState = getAppState();
-	export let handsData = appState.hands;
-	let data = [$handsData.hour, $handsData.minute];
-	handsData.subscribe((v) => (data = [v.hour, v.minute]));
+	const taskState = getAppState().taskData.hands;
+	let data = [$taskState.data.hour, $taskState.data.minute];
 
 	export let score: number = 0;
 	export let enableNext: boolean = false;
@@ -51,11 +49,6 @@
 				hand.pointsAt = cssRotationToClockHours(newAngle);
 			}
 			return hand;
-		});
-		handsData.update((v) => {
-			v.hour = data[0];
-			v.minute = data[1];
-			return v;
 		});
 	};
 
