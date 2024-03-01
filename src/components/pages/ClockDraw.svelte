@@ -24,7 +24,7 @@
 				text: '2/4'
 			},
 			info: {
-				text: 'This clock is completely broken! Put the numbers in their right place!'
+				text: 'This clock is completely broken! Drag the numbers to where they belong using your mouse or finger'
 			},
 			main: {
 				component: ClockDrawTask

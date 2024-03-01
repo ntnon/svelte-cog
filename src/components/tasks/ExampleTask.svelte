@@ -9,8 +9,6 @@
 
 	export let stage: IStage;
 
-	console.log('stage in task');
-
 	$: if (taskArea) {
 		balls = createBalls(taskArea);
 	}

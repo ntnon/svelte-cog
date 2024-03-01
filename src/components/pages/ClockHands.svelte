@@ -24,9 +24,7 @@
 			progress: {
 				text: '2/4'
 			},
-			info: {
-				text: 'Adjust the clock to display ' + timestamp
-			},
+			info: {},
 			main: {
 				component: ClockHandsTask
 			} as IElement,
@@ -48,7 +46,7 @@
 
 	hands.subscribe((v) => {
 		timestamp = v.hour.target + ':' + v.minute.target * 5;
-		stages[0].info.text = 'Adjust the clock to display ' + timestamp;
+		stages[0].info.text = 'Adjust the clock hands using your finger to display ' + timestamp;
 		stage = stages[0];
 	});
 </script>

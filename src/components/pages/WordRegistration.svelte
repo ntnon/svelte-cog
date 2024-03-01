@@ -31,8 +31,7 @@
 				component: WordRegistrationTask
 			} as IElement,
 			reset: {
-				text: 'new words',
-				function: () => words.reset()
+				hidden: true
 			},
 			help: {
 				text: defaultHelpLabel,

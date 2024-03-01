@@ -59,7 +59,7 @@
 				text: 'Tap all the circles!'
 			},
 			main: {
-				text: 'Want to start the task over?'
+				text: 'Start over, or continue?'
 			} as IElement,
 			reset: {
 				highlight: true,
@@ -67,6 +67,7 @@
 			},
 			help: {},
 			next: {
+				highlight: true,
 				function: nextFn
 			}
 		}

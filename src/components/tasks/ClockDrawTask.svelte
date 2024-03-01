@@ -154,14 +154,14 @@
 		<span class="dial" bind:this={dial} />
 	</Clock>
 
-	<span class="markers w-[80%] flex flex-row justify-center items-center flex-wrap"
+	<span class="markers w-[100%] flex flex-row justify-center items-center flex-wrap"
 		>{#each $data as marker}
 			<div id={'marker-initial-slot-' + marker.id}>
 				<div
 					id={'marker-' + marker.id}
 					role="button"
 					tabindex="0"
-					class="marker size-[3rem]"
+					class="marker size-[6vh]"
 					style="top: {marker.y}px; left: {marker.x}px;"
 					on:mousedown={(e) => handleMouseDown(e, marker)}
 					on:touchstart={(e) => handleMouseDown(e, marker)}

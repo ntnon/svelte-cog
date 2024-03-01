@@ -17,19 +17,16 @@
 				text: '0/2'
 			},
 			info: {
-				text: 'Press "start" to learn how to use the website!'
+				text: 'Press "next" to continue'
 			},
 			main: {
-				hidden: true
+				text: "Welcome to the web-cog! This is a simple introduction to the test. Press 'next' to continue."
 			},
 			reset: {
 				hidden: true
 			},
-			help: {
-				hidden: true
-			},
+			help: {},
 			next: {
-				text: 'Start',
 				highlight: true,
 				function: nextFn
 			}
@@ -43,10 +40,10 @@
 				text: '1/2'
 			},
 			info: {
-				text: 'Press "next" to continue the tutorial!"'
+				text: 'Press "next" to continue'
 			},
 			main: {
-				text: 'Above you can see the task name, a task description, as well your progress.',
+				text: 'Above you can see the task name, a brief description, and your progress.',
 				highlight: true
 			},
 			reset: {
@@ -56,29 +53,6 @@
 				hidden: true
 			},
 			next: {
-				function: nextFn
-			}
-		},
-		{
-			completed: false,
-			name: {
-				text: 'Introduction'
-			},
-			progress: {
-				text: '2/2'
-			},
-			info: {
-				text: 'Press hint to learn how to use the website!'
-			},
-			main: {
-				text: 'The "next" button will start the example task. Press it to continue the tutorial.'
-			},
-			reset: {},
-			help: {
-				text: defaultHelpLabel
-			},
-			next: {
-				highlight: true,
 				function: nextFn
 			}
 		}

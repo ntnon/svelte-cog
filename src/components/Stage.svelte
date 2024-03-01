@@ -3,29 +3,28 @@
 	import type { IStage } from '$lib/interfaces';
 
 	export let stage: IStage;
-	console.log('stage: ', stage);
 </script>
 
 {#if stage}
 	<div class="container m-3">
 		<span class="name center text-2xl font-bold {stage.name.highlight && 'highlight'}">
-			{stage.name.text}
+			<span class="mx-3">{stage.name.text}</span>
 		</span>
 
 		<span class="progress center {stage.progress.highlight && 'highlight'}">
-			{stage.progress.text}
+			<span class="mx-7">{stage.progress.text}</span>
 		</span>
 
 		<span class="info text-2xl {stage.info.highlight && 'highlight'}">
-			{stage.info.text}
+			<span class="mx-7">{stage.info.text}</span>
 		</span>
 
 		<span class="main center text-2xl {stage.main.highlight && 'highlight'}">
 			{#if stage.main.text}
-				{stage.main.text}
+				<span class="mx-7">{stage.main.text}</span>
 			{/if}
 			{#if stage.main.component}
-				<svelte:component this={stage.main.component} data={stage.data} />
+				<svelte:component this={stage.main.component} data={stage.data} {stage} />
 			{/if}
 		</span>
 
@@ -34,15 +33,17 @@
 			on:click={stage.help.function}>help</button
 		> -->
 		<span class="navbar">
-			<button
-				class="reset center {stage.reset.highlight && 'highlight'}"
-				on:click={stage.reset.function}>{stage.reset.text ?? defaultResetLabel}</button
-			>
-
-			<button
-				class="next center {stage.next.highlight && 'highlight'}"
-				on:click={stage.next.function}>{stage.next.text ?? defaultNextLabel}</button
-			>
+			{#if !stage.reset.hidden}
+				<button
+					class="reset w-full text-3xl center {stage.reset.highlight && 'highlight'}"
+					on:click={stage.reset.function}>{stage.reset.text ?? defaultResetLabel}</button
+				>
+			{/if}
+			{#if !stage.next.hidden}
+				<button
+					class="next w-fill text-3xl center {stage.next.highlight && 'highlight'}"
+					on:click={stage.next.function}>{stage.next.text ?? defaultNextLabel}</button
+				>{/if}
 		</span>
 	</div>
 {/if}
@@ -68,9 +69,9 @@
 
 	.navbar {
 		grid-area: navbar;
-		display: grid;
+		display: flex;
+		justify-content: space-around;
 		gap: 1rem;
-		grid-template-areas: 'reset next';
 	}
 
 	.name {
@@ -104,6 +105,7 @@
 		background-color: rgb(220, 136, 125);
 	}
 	.next {
+		width: 100%;
 		grid-area: next;
 		background-color: rgb(220, 125, 171);
 	}
