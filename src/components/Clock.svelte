@@ -1,5 +1,6 @@
 <script lang="ts">
 	let container: HTMLElement;
+	export let clock: HTMLElement | null = null;
 	let size: number = 0;
 	const handleResize = () => {
 		let rect = container.getBoundingClientRect();
@@ -12,6 +13,7 @@
 
 <span class="size-full flex justify-center" bind:this={container}>
 	<span
+		bind:this={clock}
 		class="absolute clock flex justify-center items-center"
 		id="clock"
 		style="width: {size}px; height: {size}px"><slot /></span
