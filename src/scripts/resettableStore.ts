@@ -7,7 +7,8 @@ export const resettableTaskStore = <T>(generator: () => T): IResettableTaskStore
     const { set, update, subscribe } = writable<ITaskData<T>>({
         data,
         completed: false,
-        score: 0
+        score: 0,
+        hints: 0
     });
 
     const resetData = () => update(
@@ -17,21 +18,36 @@ export const resettableTaskStore = <T>(generator: () => T): IResettableTaskStore
     const reset = () => set({
         data: generator(),
         completed: false,
-        score: 0
+        score: 0,
+        hints: 0
     });
+
+    const incrementHint = () => update(
+        (v) => ({ ...v, hints: v.hints + 1 })
+    );
+
+    const complete = (bool: boolean) => update(
+        (v) => ({ ...v, completed: bool })
+    );
+
 
     return {
         subscribe,
         set,
         update,
         resetData,
-        reset
+        incrementHint,
+        reset,
+        complete: (bool: boolean) => complete(bool)
     }
 }
 
 export const resettableStore = <T>(generator: () => T): IResettableStore<T> => {
     const { subscribe, set, update } = writable<T>(generator());
-    const reset = () => set(generator());
+    const reset = () => {
+        console.log("resetting");
+        set(generator());
+    }
     return {
         subscribe,
         set,
