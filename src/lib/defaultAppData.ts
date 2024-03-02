@@ -3,6 +3,7 @@ import { resettableStore, resettableTaskStore } from "../scripts/resettableStore
 import { generateClockMarkers } from "../scripts/generateClockMarkers";
 import { generateClockHands } from "../scripts/generateClockHands";
 import { generateRandomWords } from "../scripts/generateRandomWords";
+import { generateExampleBalls } from "../scripts/generateExampleBalls";
 
 
 export const defaultAppData: IAppData = {
@@ -13,6 +14,7 @@ export const defaultAppData: IAppData = {
         hands: resettableTaskStore<IHands>(() => generateClockHands()),
         recallGuesses: resettableTaskStore<string[]>(() => []),
         registrationGuesses: resettableTaskStore<string[]>(() => []),
+        exampleTask: resettableTaskStore(() => generateExampleBalls(4))
         //expandable
     }
     //expandable
