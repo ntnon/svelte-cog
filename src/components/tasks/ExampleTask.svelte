@@ -1,53 +1,38 @@
 <script lang="ts">
-	import type { IStage } from '$lib/interfaces';
+	import type { IBall } from '$lib/interfaces';
 
-	let numBalls = 4;
-	let balls: { id: number; left: number; top: number }[] = [];
-	let ballSize = 10;
+	export let balls: IBall[];
 
-	let taskArea: Element;
+	let container: HTMLElement;
+	let width: number;
+	let height: number;
+	let centerX: number;
+	let centerY: number;
 
-	export let stage: IStage;
-
-	$: if (taskArea) {
-		balls = createBalls(taskArea);
+	$: if (container) {
+		updateOffset();
 	}
 
-	const createBalls = (taskArea: Element) => {
-		const rect = taskArea.getBoundingClientRect();
-		if (!rect) return [];
-		return Array.from(
-			{ length: numBalls },
-			(_, index) =>
-				({
-					id: index,
-					left: Math.random() * (rect.width - ballSize),
-					top: Math.random() * (rect.height - ballSize)
-				}) as { id: number; left: number; top: number }
-		);
-	};
-
-	const handleClick = (index: number) => {
-		const ball = balls[index];
-		balls = balls.filter((b) => b.id !== ball.id);
-		if (balls.length === 0) {
-			stage.next.function?.();
-		}
+	const updateOffset = () => {
+		let rect = container.getBoundingClientRect();
+		width = rect.width;
+		height = rect.height;
+		centerX = rect.left + width / 2;
+		centerY = rect.top + height / 2;
 	};
 </script>
 
-<div class="container size-[80%]" bind:this={taskArea}>
-	{#each balls as ball, index}
-		<button
-			class="clickable size-[5rem] highlight"
-			style="position: absolute; left: {ball.left}px; top: {ball.top}px; transform: translate(-50%, -50%);"
-			on:click={() => handleClick(index)}
-		></button>
+<span class="container size-full" bind:this={container}>
+	{#each balls as ball}
+		{#if !ball.completed}
+			<button
+				class="clickable size-[5rem] highlight"
+				style="position: absolute; left: {centerX + (width / 2) * ball.left}px; top: {centerY +
+					(height / 2) * ball.top}px; transform: translate(-50%, -50%);"
+				on:click={() => (ball.completed = true)}
+			></button>
+		{/if}
 	{/each}
-</div>
+</span>
 
-<style>
-	.container {
-		position: relative;
-	}
-</style>
+<svelte:window on:resize={updateOffset} />

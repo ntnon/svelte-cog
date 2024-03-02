@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { IMarker } from '$lib/interfaces';
+	import type { IMarker, ITaskData } from '$lib/interfaces';
 	import { getAppState } from '$lib/state.svelte';
 	import type { InteractionEvent } from '$lib/types';
 	import { getClientCoordinates } from '../../scripts/getClientCoordinates';
@@ -9,56 +9,36 @@
 	import { adjustClockwiseDistance } from '../../scripts/adjustClockwiseDistance';
 	import Clock from '../Clock.svelte';
 
-	const taskState = getAppState().taskData.markers;
-	let markers = $taskState.data;
+	export let markers: IMarker[];
 
-	let activeMarkerId: number | undefined = undefined;
+	let activeMarker: IMarker | undefined = undefined;
 
 	let mouseOffsetX = 0;
 	let mouseOffsetY = 0;
 
 	let dial: HTMLElement;
+	let clock: HTMLElement;
+	let clockContainer: HTMLElement;
 
-	const calculateScore = () => {
-		let newScore = 0;
-		let offDistance = 0;
-		markers.map((m) => {
-			if (m.isInsideClock && m.pointsAt) {
-				newScore += 1;
-				let diff = Math.abs(m.pointsAt - m.id);
-				offDistance += adjustClockwiseDistance(diff);
-			}
-		});
-		// return $store.markers.reduce((acc, marker) => {
-		// 	if (marker.isInsideClock && marker.pointsAt) {
-		// 		acc += 1;
-		// 		let diff = Math.abs(marker.pointsAt - marker.id);
-		// 		acc += adjustClockwiseDistance(diff);
-		// 	}
-		// 	return acc;
-		// }, 0);
-		// score = offDistance;
-	};
-
-	const isMarkerInCircle = (markerId: string) => {
-		const clockHTMLElement = document.getElementById('clock');
-		const markerHTMLElement = document.getElementById('marker-' + markerId);
-
-		if (!clockHTMLElement) {
-			console.warn('clock not found');
+	const isMarkerInCircle = (marker: IMarker) => {
+		if (!clock) {
+			console.warn('no clock');
 			return false;
 		}
-		if (!markerHTMLElement) {
-			console.warn('marker not found');
+		if (!marker.DOMElement) {
+			console.warn('no marker');
 			return false;
 		}
-		const markerPosition = getPagePosition(markerHTMLElement);
-		const clockPosition = getPagePosition(clockHTMLElement);
-		const clockRadius = clockHTMLElement.offsetWidth / 2;
-		const dx = clockPosition.x - markerPosition.x;
-		const dy = clockPosition.y - markerPosition.y;
+		const markerPosition = getPagePosition(marker.DOMElement);
+
+		const clockPosition = getPagePosition(clock);
+
+		const clockRadius = clock.offsetWidth / 2;
+		const dx = clockPosition.offsetX - markerPosition.offsetX;
+		const dy = clockPosition.offsetY - markerPosition.offsetY;
 		const distance = Math.sqrt(dx * dx + dy * dy);
 		const overlap = distance <= clockRadius;
+		console.log(overlap);
 		return overlap;
 	};
 
@@ -66,104 +46,80 @@
 		if (!touch) {
 			e.preventDefault();
 		}
-		const activeMarker = markers.find((m) => m.id === activeMarkerId);
-		if (!activeMarker) {
-			console.log('no active marker');
+
+		if (!activeMarker || !activeMarker.initialDOMElement) {
 			return;
 		}
-		console.log('active marker!');
 
 		const { clientX, clientY } = getClientCoordinates(e);
 
-		activeMarker.angle = calculateMouseDialAngle(dial, clientX, clientY);
-		activeMarker.pointsAt = cssRotationToClockHours(activeMarker.angle);
-		activeMarker.isInsideClock = isMarkerInCircle(activeMarker.id.toString());
-		activeMarker.x = clientX - mouseOffsetX;
-		activeMarker.y = clientY - mouseOffsetY;
+		const { offsetX, offsetY } = getPagePosition(activeMarker.initialDOMElement);
+		// Adjust the marker position
+
+		activeMarker = {
+			...activeMarker,
+			x: clientX - offsetX - mouseOffsetX,
+			y: clientY - offsetY - mouseOffsetY,
+			angle: calculateMouseDialAngle(dial, clientX, clientY),
+			pointsAt: cssRotationToClockHours(activeMarker.angle),
+			completed: isMarkerInCircle(activeMarker)
+		};
+
+		markers = markers.map((m: IMarker) => {
+			if (m.id === activeMarker!.id) {
+				return activeMarker!;
+			}
+			return m;
+		});
 	};
 
 	const handleMouseUp = () => {
-		activeMarkerId = undefined;
-		calculateScore();
-		// enableNext = !$data.find((m) => !m.isInsideClock);
+		activeMarker = undefined;
 	};
 
+	// const handleMouseDown = (e: InteractionEvent, marker: IMarker) => {
+	// 	activeMarker = marker;
+	// 	if (!activeMarker.DOMElement) {
+	// 		console.warn('no DOM element');
+	// 		return;
+	// 	}
+
+	// 	const rect = activeMarker.DOMElement.getBoundingClientRect();
+	// 	offsetX = rect.x;
+	// 	offsetY = rect.y;
+
+	// 	e.preventDefault();
+	// };
+
 	const handleMouseDown = (e: InteractionEvent, marker: IMarker) => {
-		const currentMarkerHTMLElement = document.getElementById('marker-' + marker.id);
-		if (!currentMarkerHTMLElement) {
+		activeMarker = marker;
+		if (!activeMarker.DOMElement) {
+			console.warn('no DOM element');
 			return;
 		}
 		const { clientX, clientY } = getClientCoordinates(e);
-		const { x: offsetX, y: offsetY } = getPagePosition(currentMarkerHTMLElement);
+
+		const { offsetX, offsetY } = getPagePosition(activeMarker.DOMElement);
+
 		mouseOffsetX = clientX - offsetX;
 		mouseOffsetY = clientY - offsetY;
-		if (marker.isInsideClock) {
-			// $store.corrections += 1;
-		}
-		activeMarkerId = marker.id;
-	};
 
-	$: if (markers) {
-		console.log('markers!');
-	}
+		e.preventDefault();
+	};
 </script>
 
-<!-- <button
-	on:click={() =>
-		($store.markers = $store.markers.map((m) => ({
-			...m,
-			active: false,
-			x: 0,
-			y: 0,
-			pointsAt: undefined,
-			isInsideClock: false,
-			angle: undefined
-		})))}>Reset</button
-> -->
-<!-- <span class="container flex flex-col">
-	<div class="clock size-[80%]" id="clock">
-		<div class="dial" bind:this={dial}></div>
-	</div>
-	<span class="markerlist flex flex-wrap" id="markers">
-		{#each $data as marker}
-			<div id={'marker-initial-slot-' + marker.id}>
-				<div
-					id={'marker-' + marker.id}
-					role="button"
-					tabindex="0"
-					class="marker size-[3rem]"
-					style="top: {marker.y}px; left: {marker.x}px;"
-					on:mousedown={(e) => handleMouseDown(e, marker)}
-					on:touchstart={(e) => handleMouseDown(e, marker)}
-				>
-					{marker.id}
-				</div>
-			</div>
-		{/each}
-	</span>
-</span> -->
-
-<button
-	on:click={() => {
-		console.log('hi');
-		markers.map((m) => {
-			m.x += Math.random() * 100 - 50;
-			m.y += Math.random() * 100 - 50;
-		});
-	}}>randomize</button
->
 <span class="flex flex-col size-full items-center">
-	<Clock>
+	<Clock bind:clock>
 		<span class="dial" bind:this={dial} />
 	</Clock>
-
 	<span class="markers w-[100%] flex flex-row justify-center items-center flex-wrap"
-		>{#each $taskState.data as marker}
-			<div id={'marker-initial-slot-' + marker.id}>
+		>{#each markers as marker}
+			<span bind:this={marker.initialDOMElement}>
 				<div
-					id={'marker-' + marker.id}
+					bind:this={marker.DOMElement}
 					role="button"
 					tabindex="0"
+					id="marker-{marker.id}"
 					class="marker size-[6vh]"
 					style="top: {marker.y}px; left: {marker.x}px;"
 					on:mousedown={(e) => handleMouseDown(e, marker)}
@@ -171,7 +127,7 @@
 				>
 					{marker.id}
 				</div>
-			</div>
+			</span>
 		{/each}</span
 	>
 </span>

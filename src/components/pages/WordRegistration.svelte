@@ -1,83 +1,31 @@
 <script lang="ts">
 	import { getAppState } from '$lib/state.svelte';
-	import type { IElement, IResettableStore, IStage } from '$lib/interfaces';
 	import Stage from '../Stage.svelte';
-	import { defaultHelpLabel, defaultNextLabel } from '$lib/constants';
+	import { defaultNextLabel } from '$lib/constants';
 	import WordRegistrationTask from '../tasks/WordRegistrationTask.svelte';
-	import WordRecallTask from '../tasks/WordRecallTask.svelte';
+	import Button from '../Button.svelte';
 	export let fallbackFn: () => void;
 
-	const appState = getAppState();
-	let words: IResettableStore<string[]> = appState.words;
-	let guesses: IResettableStore<string[]> = appState.registrationGuesses;
+	const words = getAppState().words;
+	const taskState = getAppState().taskData.registrationGuesses;
 
-	const nextFn = () => {
-		stage.completed = true;
-	};
+	$taskState.completed =
+		$taskState.data.length === $words.length && $taskState.data.every((guess) => guess !== '');
 
-	const stages: IStage[] = [
-		{
-			completed: false,
-			name: {
-				text: 'Word Registration'
-			},
-			progress: {
-				text: '1/2'
-			},
-			info: {
-				text: 'Remember these words!'
-			},
-			main: {
-				component: WordRegistrationTask
-			} as IElement,
-			reset: {
-				hidden: true
-			},
-			help: {
-				text: defaultHelpLabel,
-				function: nextFn
-			},
-			next: {
-				text: defaultNextLabel,
-				function: nextFn
-			}
-		},
-		{
-			completed: false,
-			name: {
-				text: 'Word Registration'
-			},
-			progress: {
-				text: '2/2'
-			},
-			info: {
-				text: 'Do you remember the words? Write them in the boxes below!'
-			},
-			main: {
-				component: WordRecallTask
-			} as IElement,
-			reset: {
-				text: 'reveal words',
-				function: () => (stages[0].completed = false)
-			},
-			help: {
-				text: defaultHelpLabel,
-				function: nextFn
-			},
-			next: {
-				text: defaultNextLabel,
-				function: nextFn
-			},
-			data: guesses
-		}
-	];
-	let stage: IStage = stages[0];
-
-	$: if (stage) {
-		let newStage = stages.find((stage) => !stage.completed);
-		if (newStage) stage = newStage;
-		else fallbackFn();
+	$: {
+		let completed =
+			$taskState.data.length === $words.length && $taskState.data.every((guess) => guess !== '');
+		taskState.complete(completed);
 	}
 </script>
 
-<Stage {stage} />
+<Stage>
+	<span slot="name">Word Recall</span>
+	<span slot="info">Remember the words below! When ready, press "guess"!</span>
+	<span slot="progress">progress component!</span>
+	<span slot="component" class="size-full">
+		<WordRegistrationTask words={$words} bind:guesses={$taskState.data} />
+	</span>
+
+	<Button active={$taskState.completed} slot="next" fn={fallbackFn}>{defaultNextLabel}</Button>
+</Stage>

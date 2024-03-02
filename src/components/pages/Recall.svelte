@@ -1,51 +1,34 @@
 <script lang="ts">
 	import { getAppState } from '$lib/state.svelte';
-	import type { IElement, IResettableStore, IStage } from '$lib/interfaces';
 	import Stage from '../Stage.svelte';
-	import { defaultHelpLabel, defaultNextLabel } from '$lib/constants';
-	import WordRegistrationTask from '../tasks/WordRegistrationTask.svelte';
+	import { defaultNextLabel } from '$lib/constants';
+
 	import WordRecallTask from '../tasks/WordRecallTask.svelte';
+	import Button from '../Button.svelte';
 	export let fallbackFn: () => void;
 
-	const appState = getAppState();
-	let words: IResettableStore<string[]> = appState.words;
-	let guesses: IResettableStore<string[]> = appState.recallGuesses;
+	const words = getAppState().words;
+	const taskState = getAppState().taskData.recallGuesses;
 
-	const nextFn = () => {
-		stage.completed = true;
-		fallbackFn();
-	};
+	$taskState.completed =
+		$taskState.data.length === $words.length && $taskState.data.every((guess) => guess !== '');
 
-	const stage = {
-		completed: false,
-		name: {
-			text: 'Word Recall'
-		},
-		progress: {
-			text: '0/1'
-		},
-		info: {
-			text: 'Do you recall the words from earlier? Write them in the boxes below!'
-		},
-		main: {
-			component: WordRecallTask
-		} as IElement,
-		reset: {
-			text: 'reset',
-			function: () => {
-				guesses.reset();
-			}
-		},
-		help: {
-			text: defaultHelpLabel,
-			function: nextFn
-		},
-		next: {
-			text: defaultNextLabel,
-			function: nextFn
-		},
-		data: guesses
-	};
+	$: {
+		let completed =
+			$taskState.data.length === $words.length && $taskState.data.every((guess) => guess !== '');
+		taskState.complete(completed);
+	}
 </script>
 
-<Stage {stage} />
+<Stage>
+	<span slot="name">Word Recall</span>
+	<span slot="info"
+		>You will be shown a list of words. Try to remember as many as you can. You will be asked to
+		recall them later.</span
+	>
+	<span slot="progress">progress component!</span>
+	<span slot="component" class="size-full"
+		><WordRecallTask words={$words} bind:guesses={$taskState.data} /></span
+	>
+	<Button active={$taskState.completed} slot="next" fn={fallbackFn}>{defaultNextLabel}</Button>
+</Stage>

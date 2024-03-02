@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { IHand } from '$lib/interfaces';
+	import type { IHand, IHands } from '$lib/interfaces';
 	import { getAppState } from '$lib/state.svelte';
 	import type { InteractionEvent } from '$lib/types';
 	import { calculateMouseDialAngle } from '../../scripts/calculateMouseDialAngle';
@@ -8,68 +8,50 @@
 	import { adjustClockwiseDistance } from '../../scripts/adjustClockwiseDistance';
 	import Clock from '../Clock.svelte';
 
-	const taskState = getAppState().taskData.hands;
-	let data = [$taskState.data.hour, $taskState.data.minute];
-
-	export let score: number = 0;
-	export let enableNext: boolean = false;
+	export let hands: IHands;
 
 	let dial: HTMLElement;
 	let initialMouseAngle: number;
-
-	const calculateScore = () => {
-		score = data.reduce((acc, hand) => {
-			if (hand.pointsAt && hand.target) {
-				acc += adjustClockwiseDistance(Math.abs(hand.pointsAt - hand.target));
-			}
-			return acc;
-		}, 0);
-	};
-
-	const calculateComplete = () => {
-		let complete = data.every((hand) => hand.placed && hand.placed === true);
-		enableNext = complete;
-	};
+	let container: HTMLElement;
+	let activeHand: IHand | null = null;
 
 	const handleMouseMove = (e: InteractionEvent, touch: boolean = false) => {
+		if (!activeHand) {
+			return;
+		}
 		if (!touch) {
 			e.preventDefault();
 		}
 		const { clientX, clientY } = getClientCoordinates(e);
 		const newAngle = calculateMouseDialAngle(dial, clientX, clientY);
-		let activeHand = data.find((hand) => hand.active);
-		if (!activeHand) {
-			return;
-		}
-		activeHand.angle = newAngle - initialMouseAngle;
 
-		data = data.map((hand) => {
-			if (hand.active) {
-				hand.angle = newAngle - initialMouseAngle;
-				hand.pointsAt = cssRotationToClockHours(newAngle);
-			}
-			return hand;
-		});
+		activeHand.angle = newAngle - initialMouseAngle;
+		activeHand.pointsAt = cssRotationToClockHours(newAngle);
+		if (activeHand.name === 'hour') {
+			hands.hour = activeHand;
+		}
+		if (activeHand.name === 'minute') {
+			hands.minute = activeHand;
+		}
 	};
 
 	const handleMouseUp = () => {
-		//calculate score and make all hands inactive
-
-		data.map((hand) => {
-			if (hand.active) {
-				hand.placed = true;
+		if (activeHand) {
+			activeHand.completed = true;
+			if (activeHand.name === 'hour') {
+				hands.hour = activeHand;
 			}
-			hand.active = false;
-			return hand;
-		});
-
-		calculateScore();
-		calculateComplete();
+			if (activeHand.name === 'minute') {
+				hands.minute = activeHand;
+			}
+		}
+		//calculate score and make all hands inactive
+		activeHand = null;
 	};
 
 	const handleMouseDown = (e: InteractionEvent, hand: IHand) => {
 		// update initial mouse position
-		hand.active = true;
+		activeHand = hand;
 		const { clientX, clientY } = getClientCoordinates(e);
 		const currentAngle = calculateMouseDialAngle(dial, clientX, clientY);
 		initialMouseAngle = currentAngle - hand.angle;
@@ -92,8 +74,8 @@
 	</span>
 </Clock> -->
 
-<Clock
-	>{#each data as hand}
+<Clock>
+	{#each [hands.hour, hands.minute] as hand}
 		<div
 			class={'hand hand-' + hand.name}
 			role="button"
@@ -105,6 +87,7 @@
 	{/each}
 	<span class="dial" bind:this={dial} /></Clock
 >
+
 <svelte:window
 	on:mouseup={handleMouseUp}
 	on:touchend={handleMouseUp}
