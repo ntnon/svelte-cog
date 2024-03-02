@@ -25,6 +25,12 @@
     gap: 2rem;
 }
 
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .input-field {
     background-color: #f4ebec;
     text-align: center;

@@ -1,14 +1,14 @@
 <div class="container m-3">
 	<span class="name center text-2xl font-bold">
-		<span class="mx-3"><slot name="name" /></span>
+		<slot name="name" />
 	</span>
 
 	<span class="progress center">
-		<span class="mx-7"><slot name="progress" /></span>
+		<slot name="progress" />
 	</span>
 
 	<span class="info center text-2xl">
-		<span class="mx-7"><slot name="info" /></span>
+		<slot name="info" />
 	</span>
 
 	<span class="main center text-2xl size-full">
@@ -20,18 +20,11 @@
 			on:click={stage.help.function}>help</button
 		> -->
 	<span class="navbar flex gap-[1rem]">
-		<span class="reset flex-grow center navbtn"><slot name="reset" /></span>
 		<span class="next flex-grow center navbtn"><slot name="next" /></span>
 	</span>
 </div>
 
 <style>
-	.center {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-	}
-
 	.container {
 		display: grid;
 		grid-template-columns: 1fr 1fr 1fr;
