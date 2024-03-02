@@ -10,6 +10,7 @@ interface IResettableTaskStore<T> extends Writable<T> {
     resetData: () => void;
     reset: () => void;
     incrementHint: () => void;
+    complete: (T: boolean) => void;
 }
 
 interface IStage {
@@ -48,7 +49,7 @@ interface IHand {
     active: boolean;
     target: number;
     pointsAt?: number;
-    placed?: boolean;
+    completed: boolean;
 }
 
 interface IHands {
@@ -58,19 +59,29 @@ interface IHands {
 
 interface IMarker {
     id: number,
+    DOMElement: undefined | HTMLElement,
+    initialDOMElement: undefined | HTMLElement,
     x: number,
     y: number,
     active: boolean,
     pointsAt: number,
     angle: number,
-    isInsideClock: boolean,
+    completed: boolean,
+}
+
+interface IBall {
+    id: number;
+    left: number;
+    top: number;
+    completed: boolean;
 }
 
 interface ITaskData<T> {
     score: number;
-    completed: false;
+    completed: boolean;
     data: T;
-    hints: number
+    hints: number;
+
 }
 
 interface ITasks {
@@ -78,12 +89,13 @@ interface ITasks {
     hands: ReturnType<typeof resettableTaskStore<IHands>>;
     recallGuesses: ReturnType<typeof resettableTaskStore<string[]>>;
     registrationGuesses: ReturnType<typeof resettableTaskStore<string[]>>;
+    exampleTask: ReturnType<typeof resettableTaskStore<IBall[]>>;
     [key: string]: ReturnType<typeof resettableTaskStore<unknown>>;
 }
 
 interface IAppData {
-    consent: ReturnType<typeof resettableStore>;
-    words: ReturnType<typeof resettableStore>;
+    consent: ReturnType<typeof resettableStore<boolean>>;
+    words: ReturnType<typeof resettableStore<string[]>>;
     taskData: ITasks;
 }
 
@@ -97,4 +109,4 @@ interface IAppData {
 // }
 
 
-export type { IAppData, IHand, IMarker, IResettableStore, IElement, IButtonElement, IStage, ITimestamp, IHands, ITaskData, ITasks, IResettableTaskStore }
+export type { IAppData, IHand, IMarker, IResettableStore, IElement, IButtonElement, IStage, ITimestamp, IHands, ITaskData, ITasks, IResettableTaskStore, IBall }

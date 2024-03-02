@@ -1,88 +1,27 @@
 <script lang="ts">
-	import type { IElement, IStage } from '$lib/interfaces';
 	import Stage from '../Stage.svelte';
-	import { defaultHelpLabel, defaultNextLabel, defaultResetLabel } from '$lib/constants';
+	import { defaultNextLabel } from '$lib/constants';
+	import Button from '../Button.svelte';
 	import ExampleTask from '../tasks/ExampleTask.svelte';
+	import { getAppState } from '$lib/state.svelte';
+
+	const taskState = getAppState().taskData.exampleTask;
 
 	export let fallbackFn: () => void;
 
-	const nextFn = () => {
-		console.log('step completed');
-		stage.completed = true;
-	};
-
-	const redoFn = (ids: number | number[]) => {
-		if (Array.isArray(ids)) {
-			ids.forEach((id) => {
-				stages[id].completed = false;
-				stages[id].reset.hidden = false;
-				stages[id].reset.text = defaultResetLabel;
-				stages[id].reset.highlight = false;
-				stages[id].next.inactive = false;
-				stages[id].help.inactive = false;
-			});
-		} else {
-			stages[ids].completed = false;
-		}
-	};
-
-	const stages: IStage[] = [
-		{
-			completed: false,
-			name: {
-				text: 'Example task'
-			},
-			progress: {
-				text: '0/3'
-			},
-			info: {
-				text: 'Tap all the circles!'
-			},
-			main: {
-				component: ExampleTask
-			} as IElement,
-			reset: {},
-			help: {},
-			next: {
-				function: nextFn
-			}
-		},
-		{
-			completed: false,
-			name: {
-				text: 'Example task'
-			},
-			progress: {
-				text: '0/5'
-			},
-			info: {
-				text: 'Tap all the circles!'
-			},
-			main: {
-				text: 'Start over, or continue?'
-			} as IElement,
-			reset: {
-				highlight: true,
-				function: () => redoFn([0])
-			},
-			help: {},
-			next: {
-				highlight: true,
-				function: nextFn
-			}
-		}
-	];
-
-	let stage: IStage = stages[0];
-
-	$: if (stage) {
-		let newStage = stages.find((stage) => !stage.completed);
-
-		if (newStage) {
-			stage = newStage;
-			console.log('new stage found');
-		} else fallbackFn();
+	$: if ($taskState.data.every((ball) => ball.completed)) {
+		taskState.update((v) => ({ ...v, completed: true }));
 	}
 </script>
 
-<Stage {stage} />
+<Stage>
+	<span slot="name">Example task</span>
+	<span slot="info">
+		Tap all the <span class="inline-block"><span class="clickable size-[1rem]"></span></span>'s
+	</span>
+	<span slot="progress">Your progress</span>
+	<span slot="component" class="size-full center">
+		<ExampleTask bind:balls={$taskState.data} />
+	</span>
+	<Button active={$taskState.completed} fn={fallbackFn} slot="next">{defaultNextLabel}</Button>
+</Stage>
