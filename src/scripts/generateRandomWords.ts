@@ -1,7 +1,7 @@
 import settings from "../lib/settings.json";
 import dictionary from '../lib/words.json';
 
-export const getRandomWords = () => {
+export const generateRandomWords = () => {
     const count = settings.wordRecallCount;
     const totalWords = dictionary.length;
     const sample = new Set<string>();

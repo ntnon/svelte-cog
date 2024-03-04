@@ -61,7 +61,6 @@
 	const handleMouseDown = (block: IBlock, draggableElement: HTMLElement) => {
 		if (placedBlockIDs.has(block.id)) {
 			$store.corrections += 1;
-			console.log('corrections', $store.corrections);
 		}
 	};
 

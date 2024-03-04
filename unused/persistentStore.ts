@@ -1,7 +1,7 @@
 import { storageSelector } from "$lib/state.svelte";
-import type { StorageType } from "$lib/types";
+import type { StorageType } from "../oldLib/types";
 import { writable } from "svelte/store";
-import { defaultAppData as data } from "$lib/defaultAppData";
+import { defaultAppData as data } from "../oldLib/defaultAppData";
 
 export const persistentStore = <T>(key: string, storage: StorageType, initialData: T) => {
     const { subscribe, set, update } = writable<T>(initialData);

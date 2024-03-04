@@ -24,7 +24,6 @@
 
 		currentPageRoute = $allRoutes.find((p) => p.path === v.route.id);
 		if (currentPageRoute === undefined) {
-			console.log('current route not found');
 			return;
 		}
 

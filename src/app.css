@@ -1,18 +1,47 @@
-/*
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-*/
+
+@font-face {
+    font-family: 'Poppins-Medium';
+    src: url('/src/fonts/Poppins/Poppins-Medium.ttf') format('truetype')
+}
+
+@font-face {
+    font-family: 'Poppins-Bold';
+    src: url('/src/fonts/Poppins/Poppins-Bold.ttf') format('truetype')
+}
+
+@font-face {
+    font-family: 'Horizon';
+    src: url('/src/fonts/Horizon-updated/Horizon-updated/NEW_UPDATED_VERSION/horizon.otf') format('opentype');
+}
+
+.words {
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+    margin: 2vh;
+    gap: 2rem;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.input-field {
+    background-color: #f4ebec;
+    text-align: center;
+}
+
 .clock {
-    border: solid 2vh rgb(227 121 81);
-    border-radius: 50%;
-    width: 50vh;
-    height: 50vh;
-    aspect-ratio: 1/1;
+    border: solid 2vh #e37951;
     border-radius: 50%;
     position: relative;
     align-self: center;
-
+    display: inline-block;
 }
 
 .dial {
@@ -27,8 +56,86 @@
     background-color: rgb(227 121 81 / var(--tw-bg-opacity));
 }
 
+.clickable {
+    touch-action: none;
+    user-select: none;
+    position: relative;
+    z-index: 1;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    background-color: #f4ebec;
+}
+
+.marker {
+    border: solid 5px #3c6ca8;
+    touch-action: none;
+    user-select: none;
+    position: relative;
+    z-index: 1;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    background-color: #f4ebec;
+}
 
 .circle {
     border-radius: 50%;
-    border: solid #e37951;
+    border: solid 1rem #e37951;
+}
+
+.btn {
+    background-color: #e37951;
+    color: white;
+    padding: 2vh 3vh;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.5rem;
+    margin: 1vh;
+}
+
+.disabled {
+    background-color: red;
+}
+
+.enabled {
+    background-color: green;
+}
+
+input:focus {
+    outline: solid 0.5rem #000000;
+    animation: pulse 2s infinite;
+    z-index: 4;
+}
+
+.highlight {
+    outline: solid 0.5rem #000000;
+    animation: pulse 2s infinite;
+    z-index: 4;
+}
+
+.inactive {
+    opacity: 0.3;
+    background-color: gray;
+    pointer-events: none;
+    cursor: none;
+}
+
+@keyframes pulse {
+    0% {
+        outline: solid 0.5rem #000000;
+    }
+
+    50% {
+        outline: solid 0.7rem #000000;
+    }
+
+    100% {
+        outline: solid 0.5rem #000000;
+    }
 }
