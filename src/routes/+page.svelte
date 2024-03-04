@@ -5,9 +5,10 @@
 	import ClockDraw from '../components/pages/ClockDraw.svelte';
 	import ClockHands from '../components/pages/ClockHands.svelte';
 	import Recall from '../components/pages/Recall.svelte';
+	import Results from '../components/pages/Results.svelte';
 
-	const pages = [Introduction, Example, WordRegistration, ClockDraw, ClockHands, Recall];
-	let index = 0;
+	const pages = [Introduction, Example, WordRegistration, ClockDraw, ClockHands, Recall, Results];
+	let index = 6;
 
 	const fallbackFn = () => {
 		index = (index + 1) % pages.length;

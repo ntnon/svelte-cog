@@ -81,6 +81,7 @@ interface ITaskData<T> {
     completed: boolean;
     data: T;
     hints: number;
+    name: string;
 
 }
 

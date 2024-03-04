@@ -2,9 +2,10 @@ import { writable } from "svelte/store";
 import type { IResettableStore, ITaskData, IResettableTaskStore } from "$lib/interfaces";
 
 
-export const resettableTaskStore = <T>(generator: () => T): IResettableTaskStore<ITaskData<T>> => {
+export const resettableTaskStore = <T>(taskName: string, generator: () => T): IResettableTaskStore<ITaskData<T>> => {
     const data = generator();
     const { set, update, subscribe } = writable<ITaskData<T>>({
+        name: taskName,
         data,
         completed: false,
         score: 0,
@@ -16,6 +17,7 @@ export const resettableTaskStore = <T>(generator: () => T): IResettableTaskStore
     );
 
     const reset = () => set({
+        name: taskName,
         data: generator(),
         completed: false,
         score: 0,

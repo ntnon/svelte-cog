@@ -10,11 +10,11 @@ export const defaultAppData: IAppData = {
     consent: resettableStore<boolean>(() => false),
     words: resettableStore<string[]>(() => generateRandomWords()),
     taskData: {
-        markers: resettableTaskStore<IMarker[]>(() => generateClockMarkers()),
-        hands: resettableTaskStore<IHands>(() => generateClockHands()),
-        recallGuesses: resettableTaskStore<string[]>(() => []),
-        registrationGuesses: resettableTaskStore<string[]>(() => []),
-        exampleTask: resettableTaskStore(() => generateExampleBalls(4))
+        markers: resettableTaskStore<IMarker[]>("Clock Draw", () => generateClockMarkers()),
+        hands: resettableTaskStore<IHands>("Clock Hands", () => generateClockHands()),
+        recallGuesses: resettableTaskStore<string[]>("Recall", () => []),
+        registrationGuesses: resettableTaskStore<string[]>("Registration", () => []),
+        exampleTask: resettableTaskStore("Example", () => generateExampleBalls(4))
         //expandable
     }
     //expandable
