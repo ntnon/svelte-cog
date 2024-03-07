@@ -8,6 +8,7 @@
 
 	const words = getAppState().words;
 	const taskState = getAppState().taskData.registrationGuesses;
+	let showWords = true;
 
 	$taskState.completed =
 		$taskState.data.length === $words.length && $taskState.data.every((guess) => guess !== '');
@@ -17,14 +18,32 @@
 			$taskState.data.length === $words.length && $taskState.data.every((guess) => guess !== '');
 		taskState.complete(completed);
 	}
+	let button: HTMLButtonElement;
 </script>
 
 <Stage>
 	<span slot="name">Word Recall</span>
-	<span slot="info">Remember the words below! When ready, press "guess"!</span>
+
+	<span slot="info">
+		{#if showWords}
+			Remember the words below! Then press the guess button
+		{:else}
+			Stuck? Press hint to reveal the words.
+		{/if}
+	</span>
+
 	<span slot="progress"><slot /></span>
+
 	<span slot="component" class="size-full">
-		<WordRegistrationTask words={$words} bind:guesses={$taskState.data} />
+		<span class="center flex-col">
+			<button
+				class="btn"
+				bind:this={button}
+				on:click={() => (showWords = !showWords) && taskState.incrementHint()}
+				>{showWords ? 'guess' : 'hint'}</button
+			>
+			<WordRegistrationTask {showWords} words={$words} bind:guesses={$taskState.data} />
+		</span>
 	</span>
 
 	<Button active={$taskState.completed} slot="next" fn={fallbackFn}>{defaultNextLabel}</Button>

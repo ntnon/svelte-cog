@@ -5,10 +5,12 @@
 
 	import WordRecallTask from '../tasks/WordRecallTask.svelte';
 	import Button from '../Button.svelte';
+	import WordRegistrationTask from '../tasks/WordRegistrationTask.svelte';
 	export let fallbackFn: () => void;
 
 	const words = getAppState().words;
 	const taskState = getAppState().taskData.recallGuesses;
+	let showWords = false;
 
 	$taskState.completed =
 		$taskState.data.length === $words.length && $taskState.data.every((guess) => guess !== '');
@@ -22,10 +24,21 @@
 
 <Stage>
 	<span slot="name">Word Recall</span>
-	<span slot="info">Do you remember the words from earlier? Write them in the fields below!</span>
+	<span slot="info">
+		{#if showWords}
+			Remember the words below! Then press the guess button
+		{:else}
+			Stuck? Press hint to reveal the words.
+		{/if}
+	</span>
 	<span slot="progress"><slot /></span>
-	<span slot="component" class="size-full"
-		><WordRecallTask words={$words} bind:guesses={$taskState.data} /></span
-	>
+	<span slot="component" class="size-full">
+		<span class="center flex-col">
+			<button class="btn" on:click={() => (showWords = !showWords) && taskState.incrementHint()}
+				>{showWords ? 'guess' : 'hint'}</button
+			>
+			<WordRegistrationTask {showWords} words={$words} bind:guesses={$taskState.data} /></span
+		>
+	</span>
 	<Button active={$taskState.completed} slot="next" fn={fallbackFn}>{defaultNextLabel}</Button>
 </Stage>
