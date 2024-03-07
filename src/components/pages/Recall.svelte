@@ -22,10 +22,7 @@
 
 <Stage>
 	<span slot="name">Word Recall</span>
-	<span slot="info"
-		>You will be shown a list of words. Try to remember as many as you can. You will be asked to
-		recall them later.</span
-	>
+	<span slot="info">Do you remember the words from earlier? Write them in the fields below!</span>
 	<span slot="progress">progress component!</span>
 	<span slot="component" class="size-full"
 		><WordRecallTask words={$words} bind:guesses={$taskState.data} /></span
