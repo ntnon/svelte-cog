@@ -17,7 +17,6 @@
 
 	let dial: HTMLElement;
 	let clock: HTMLElement;
-	let clockContainer: HTMLElement;
 
 	const isMarkerInCircle = (marker: IMarker) => {
 		if (!clock) {
@@ -60,8 +59,7 @@
 			x: clientX - offsetX - mouseOffsetX,
 			y: clientY - offsetY - mouseOffsetY,
 			angle: calculateMouseDialAngle(dial, clientX, clientY),
-			pointsAt: cssRotationToClockHours(activeMarker.angle),
-			completed: isMarkerInCircle(activeMarker)
+			pointsAt: cssRotationToClockHours(activeMarker.angle)
 		};
 
 		markers = markers.map((m: IMarker) => {
@@ -73,6 +71,18 @@
 	};
 
 	const handleMouseUp = () => {
+		if (activeMarker) {
+			activeMarker = {
+				...activeMarker,
+				completed: true //isMarkerInCircle(activeMarker)
+			};
+			markers = markers.map((m: IMarker) => {
+				if (m.id === activeMarker!.id) {
+					return activeMarker!;
+				}
+				return m;
+			});
+		}
 		activeMarker = undefined;
 	};
 
