@@ -17,10 +17,6 @@
 	let page = pages[index];
 </script>
 
-{#if page}
-	<svelte:component this={page} {fallbackFn}>
-		{index} / 5
-	</svelte:component>
-{:else}
-	<p>Page not found</p>
-{/if}
+<svelte:component this={pages[index]} {fallbackFn}>
+	{index} / 5
+</svelte:component>
