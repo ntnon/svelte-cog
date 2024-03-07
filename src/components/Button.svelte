@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { defaultNextLabel } from '$lib/constants';
-
 	export let active: boolean = true;
 
 	export let fn: (() => void) | null = null;
