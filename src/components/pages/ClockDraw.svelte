@@ -1,7 +1,6 @@
 <script lang="ts">
 	import ClockDrawTask from '../tasks/ClockDrawTask.svelte';
 	import { getAppState } from '$lib/state.svelte';
-
 	import Stage from '../Stage.svelte';
 	import { defaultNextLabel } from '$lib/constants';
 	import Button from '../Button.svelte';

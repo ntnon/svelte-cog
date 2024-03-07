@@ -6,7 +6,6 @@
 	import { calculateMouseDialAngle } from '../../scripts/calculateMouseDialAngle';
 	import { cssRotationToClockHours } from '../../scripts/cssRotationToClockHours';
 	import { getPagePosition } from '../../scripts/getPagePosition';
-	import { adjustClockwiseDistance } from '../../scripts/adjustClockwiseDistance';
 	import Clock from '../Clock.svelte';
 
 	export let markers: IMarker[];

@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { getAppState } from '$lib/state.svelte';
-	import type { IResettableStore } from '$lib/interfaces';
 	import WordRecallTask from './WordRecallTask.svelte';
 
 	const appState = getAppState();
