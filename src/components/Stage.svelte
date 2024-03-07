@@ -31,7 +31,7 @@
 		grid-template-rows: 1fr 1fr 5fr 1fr;
 		gap: 1rem;
 		grid-template-areas:
-			'name name name' /*replace the last "name" with progress!*/
+			'name name progress'
 			'info info info'
 			'main main main'
 			'navbar navbar navbar';
@@ -46,7 +46,7 @@
 		background-color: rgb(220, 174, 125);
 	}
 	.progress {
-		/* grid-area: progress;  */
+		grid-area: progress;
 		background-color: rgb(141, 125, 220);
 	}
 

@@ -23,7 +23,7 @@
 			':' +
 			$taskState.data.minute.target * 5}</span
 	>
-	<span slot="progress">progress component!</span>
+	<span slot="progress"><slot /></span>
 	<span slot="component" class="size-full"><ClockHandsTask bind:hands={$taskState.data} /></span>
 	<Button slot="next" active={$taskState.completed} fn={fallbackFn}>{defaultNextLabel}</Button>
 </Stage>

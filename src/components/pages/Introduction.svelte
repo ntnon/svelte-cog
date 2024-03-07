@@ -9,7 +9,7 @@
 <Stage>
 	<span slot="name">Task name</span>
 	<span slot="info">Instructions</span>
-	<span slot="progress">Your progress</span>
+	<span slot="progress">Progress</span>
 	<span slot="component" class="size-full center">
 		Press<span class="inline-block"><Button>{defaultNextLabel}</Button></span> to continue
 	</span>

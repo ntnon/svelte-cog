@@ -19,7 +19,7 @@
 	<span slot="info">
 		Tap all the <span class="inline-block"><span class="clickable size-[1rem]"></span></span>'s
 	</span>
-	<span slot="progress">Your progress</span>
+	<span slot="progress"><slot /></span>
 	<span slot="component" class="size-full center">
 		<ExampleTask bind:balls={$taskState.data} />
 	</span>

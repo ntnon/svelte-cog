@@ -22,7 +22,7 @@
 <Stage>
 	<span slot="name">Word Recall</span>
 	<span slot="info">Remember the words below! When ready, press "guess"!</span>
-	<span slot="progress">progress component!</span>
+	<span slot="progress"><slot /></span>
 	<span slot="component" class="size-full">
 		<WordRegistrationTask words={$words} bind:guesses={$taskState.data} />
 	</span>
