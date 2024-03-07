@@ -115,7 +115,7 @@ input:focus {
 }
 
 .highlight {
-    outline: solid 0.5rem #000000;
+    outline: solid #000000;
     animation: pulse 2s infinite;
     z-index: 4;
 }

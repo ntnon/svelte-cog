@@ -7,7 +7,7 @@
 	import Recall from '../components/pages/Recall.svelte';
 
 	const pages = [Introduction, Example, WordRegistration, ClockDraw, ClockHands, Recall];
-	let index = 0;
+	let index = 4;
 
 	const fallbackFn = () => {
 		index = (index + 1) % pages.length;

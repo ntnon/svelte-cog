@@ -50,7 +50,6 @@
 		}
 
 		const { clientX, clientY } = getClientCoordinates(e);
-
 		const { offsetX, offsetY } = getPagePosition(activeMarker.initialDOMElement);
 		// Adjust the marker position
 
