@@ -19,7 +19,7 @@
 
 {#if page}
 	<svelte:component this={page} {fallbackFn}>
-		{index} / 6
+		{index} / 5
 	</svelte:component>
 {:else}
 	<p>Page not found</p>
