@@ -11,7 +11,6 @@
 
 	let dial: HTMLElement;
 	let initialMouseAngle: number;
-	let container: HTMLElement;
 	let activeHand: IHand | null = null;
 
 	const handleMouseMove = (e: InteractionEvent, touch: boolean = false) => {
