@@ -11,7 +11,7 @@
 		<slot name="info" />
 	</span>
 
-	<span class="main text-2xl size-full p-4">
+	<span class="main text-3xl size-full p-4">
 		<slot name="component" />
 	</span>
 
