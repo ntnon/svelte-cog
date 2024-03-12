@@ -39,6 +39,7 @@ interface IButtonElement extends IElement {
 }
 
 interface ITimestamp {
+    name: string,
     hour: number;
     minute: number
 }
@@ -55,6 +56,7 @@ interface IHand {
 interface IHands {
     hour: IHand,
     minute: IHand,
+    timestamp: ITimestamp,
 }
 
 interface IMarker {
