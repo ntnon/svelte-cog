@@ -49,7 +49,9 @@
 
 	const handleMouseDown = (e: InteractionEvent, hand: IHand) => {
 		// update initial mouse position
+		hand.completed = true;
 		activeHand = hand;
+
 		const { clientX, clientY } = getClientCoordinates(e);
 		const currentAngle = calculateMouseDialAngle(dial, clientX, clientY);
 		initialMouseAngle = currentAngle - hand.angle;
@@ -75,7 +77,7 @@
 <Clock>
 	{#each [hands.hour, hands.minute] as hand}
 		<div
-			class={'hand hand-' + hand.name}
+			class="{'hand hand-' + hand.name} {hand.completed ? '' : 'opacity-55'}"
 			role="button"
 			tabindex="0"
 			on:mousedown={(e) => handleMouseDown(e, hand)}
