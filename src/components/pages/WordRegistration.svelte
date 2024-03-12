@@ -33,18 +33,9 @@
 	</span>
 
 	<span slot="progress"><slot /></span>
-
-	<span slot="component" class="size-full">
-		<span class="center flex-col">
-			<button
-				class="btn"
-				bind:this={button}
-				on:click={() => (showWords = !showWords) && taskState.incrementHint()}
-				>{showWords ? 'guess' : 'hint'}</button
-			>
-			<WordRegistrationTask {showWords} words={$words} bind:guesses={$taskState.data} />
-		</span>
-	</span>
+	<div slot="component" class="size-full flex flex-col">
+		<WordRegistrationTask bind:showWords words={$words} bind:guesses={$taskState.data} />
+	</div>
 
 	<Button active={$taskState.completed} slot="next" fn={fallbackFn}>{defaultNextLabel}</Button>
 </Stage>

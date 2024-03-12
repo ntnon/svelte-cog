@@ -9,7 +9,12 @@
 	export let showWords: boolean = true;
 </script>
 
-<span class="flex flex-col words justify-between">
+<button
+	class="btn"
+	on:click={() => (showWords = !showWords) && appState.taskData.recallGuesses.incrementHint()}
+	>{showWords ? 'guess' : 'hint'}</button
+>
+<span class="flex flex-grow flex-col center gap-[1rem]">
 	{#if showWords}
 		{#each words as word}
 			<p>{word}</p>

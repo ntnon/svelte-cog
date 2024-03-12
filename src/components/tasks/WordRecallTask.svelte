@@ -29,23 +29,22 @@
 	};
 </script>
 
-<ul class="flex flex-col words">
-	{#each words as guess, index}
-		<input
-			bind:this={inputFields[index]}
-			class="
+{#each words as guess, index}
+	<input
+		bind:this={inputFields[index]}
+		class="
 				{words.includes(guesses[index]) && new Set(guesses).size === guesses.length
-				? 'correct'
-				: 'incorrect'}
+			? 'correct'
+			: 'incorrect'}
 				text-center
 				w-full
 			"
-			type="text"
-			value={guesses[index] ?? ''}
-			on:input={(e) => handleInput(e, index)}
-		/>
-	{/each}
-</ul>
+		type="text"
+		value={guesses[index] ?? ''}
+		on:input={(e) => handleInput(e, index)}
+	/>
+{/each}
+
 <svelte:window
 	on:keydown={(e) => {
 		if (e.key === 'Enter') {
