@@ -2,8 +2,6 @@
 	import { getAppState } from '$lib/state.svelte';
 	import Stage from '../Stage.svelte';
 	import { defaultNextLabel } from '$lib/constants';
-
-	import WordRecallTask from '../tasks/WordRecallTask.svelte';
 	import Button from '../Button.svelte';
 	import WordRegistrationTask from '../tasks/WordRegistrationTask.svelte';
 	export let fallbackFn: () => void;
@@ -33,8 +31,7 @@
 	</span>
 	<span slot="progress"><slot /></span>
 	<span slot="component" class="size-full flex flex-col">
-		<WordRegistrationTask {showWords} words={$words} bind:guesses={$taskState.data} /></span
-	>
-
+		<WordRegistrationTask bind:showWords words={$words} bind:guesses={$taskState.data} />
+	</span>
 	<Button active={$taskState.completed} slot="next" fn={fallbackFn}>{defaultNextLabel}</Button>
 </Stage>

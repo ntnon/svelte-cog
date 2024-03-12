@@ -9,17 +9,19 @@
 	export let showWords: boolean = true;
 </script>
 
-<button
-	class="btn"
-	on:click={() => (showWords = !showWords) && appState.taskData.recallGuesses.incrementHint()}
-	>{showWords ? 'guess' : 'hint'}</button
->
 <span class="flex flex-grow flex-col center gap-[1rem]">
-	{#if showWords}
-		{#each words as word}
-			<p>{word}</p>
-		{/each}
-	{:else}
-		<WordRecallTask bind:guesses {words} />
-	{/if}
+	<button
+		class="btn w-60"
+		on:click={() => (showWords = !showWords) && appState.taskData.recallGuesses.incrementHint()}
+		>{showWords ? 'guess' : 'hint'}</button
+	>
+	<span class="flex-col center gap-[1rem]">
+		{#if showWords}
+			{#each words as word}
+				<p>{word}</p>
+			{/each}
+		{:else}
+			<WordRecallTask bind:guesses {words} />
+		{/if}
+	</span>
 </span>
