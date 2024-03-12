@@ -107,13 +107,13 @@
 	}
 
 	.hand-minute {
-		width: 45%;
-		height: 3vh;
+		width: 13rem;
+		height: 2rem;
 	}
 
 	.hand-hour {
-		width: 33%;
-		height: 3vh;
+		width: 9rem;
+		height: 2rem;
 	}
 
 	.dial {

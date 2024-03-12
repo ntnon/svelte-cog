@@ -28,7 +28,7 @@
 	.container {
 		display: grid;
 		grid-template-columns: 1fr 1fr 1fr;
-		grid-template-rows: 4rem 10rem 5fr 6rem;
+		grid-template-rows: 4rem 10rem auto 6rem;
 		grid-template-areas:
 			'name name progress'
 			'info info info'
