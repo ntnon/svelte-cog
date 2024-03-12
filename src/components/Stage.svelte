@@ -1,17 +1,17 @@
-<div class="container m-3">
+<div class="container">
 	<span class="name center text-2xl font-bold">
 		<slot name="name" />
 	</span>
 
-	<span class="progress center">
+	<span class="progress center p-4">
 		<slot name="progress" />
 	</span>
 
-	<span class="info center text-2xl">
+	<span class="info center text-2xl p-4">
 		<slot name="info" />
 	</span>
 
-	<span class="main center text-2xl size-full">
+	<span class="main text-2xl size-full p-4">
 		<slot name="component" />
 	</span>
 
@@ -19,8 +19,8 @@
 			class="helpButton center {stage.help.highlight && 'highlight'}"
 			on:click={stage.help.function}>help</button
 		> -->
-	<span class="navbar flex gap-[1rem]">
-		<span class="next flex-grow center navbtn"><slot name="next" /></span>
+	<span class="navbar flex">
+		<span class="next center navbtn mb-5 w-60 mx-auto"><slot name="next" /></span>
 	</span>
 </div>
 
@@ -28,8 +28,7 @@
 	.container {
 		display: grid;
 		grid-template-columns: 1fr 1fr 1fr;
-		grid-template-rows: 1fr 1fr 5fr 1fr;
-		gap: 1rem;
+		grid-template-rows: 4rem 10rem 5fr 6rem;
 		grid-template-areas:
 			'name name progress'
 			'info info info'
@@ -39,6 +38,7 @@
 
 	.navbar {
 		grid-area: navbar;
+		background-color: rgb(125, 220, 136);
 	}
 
 	.name {
@@ -58,19 +58,5 @@
 	.main {
 		grid-area: main;
 		background-color: rgb(125, 220, 136);
-	}
-
-	.reset {
-		grid-area: reset;
-		background-color: rgb(199, 220, 125);
-	}
-
-	.helpButton {
-		grid-area: help;
-		background-color: rgb(220, 136, 125);
-	}
-	.next {
-		grid-area: next;
-		background-color: rgb(220, 125, 171);
 	}
 </style>
