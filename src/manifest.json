@@ -1,0 +1,8 @@
+{
+    "name": "Web-Cog",
+    "short_name": "Web-Cog",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#fff",
+    "description": "Web based cognitive assessment game for mobile devices"
+}
