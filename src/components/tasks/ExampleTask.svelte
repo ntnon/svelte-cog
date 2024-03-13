@@ -4,10 +4,10 @@
 	export let balls: IBall[];
 
 	let container: HTMLElement;
-	let width: number;
-	let height: number;
-	let centerX: number;
-	let centerY: number;
+	let width: number = 0;
+	let height: number = 0;
+	let centerX: number = 0;
+	let centerY: number = 0;
 
 	$: if (container) {
 		updateOffset();
