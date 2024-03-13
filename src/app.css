@@ -18,11 +18,10 @@
 }
 
 .words {
-    font-size: 2rem;
     font-weight: bold;
     text-align: center;
     margin: 2vh;
-    gap: 2rem;
+    gap: 2vh;
 }
 
 .hand {
