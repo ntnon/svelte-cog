@@ -15,10 +15,6 @@
 		<slot name="component" />
 	</span>
 
-	<!-- <button
-			class="helpButton center {stage.help.highlight && 'highlight'}"
-			on:click={stage.help.function}>help</button
-		> -->
 	<span class="navbar flex">
 		<span class="next center navbtn mb-5 w-60 mx-auto"><slot name="next" /></span>
 	</span>
