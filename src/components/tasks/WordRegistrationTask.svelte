@@ -9,16 +9,16 @@
 	export let showWords: boolean = true;
 </script>
 
-<span class="flex flex-grow flex-col p-1 center gap-[1rem]">
+<span class="flex flex-grow flex-col p-1 center gap-[7vh]">
 	<button
 		class="bg-amber-500 md:p-5 p-3 rounded-full"
 		on:click={() => (showWords = !showWords) && appState.taskData.recallGuesses.incrementHint()}
 		>{showWords ? 'I remember the words' : "I don't remember the words"}</button
 	>
-	<span class="flex-col center gap-[1rem]">
+	<span class="flex-col justify-between center gap-[4vh]">
 		{#if showWords}
 			{#each words as word}
-				<p>{word}</p>
+				<div class="h-[4vh] text-center">{word}</div>
 			{/each}
 		{:else}
 			<WordRecallTask bind:guesses {words} />

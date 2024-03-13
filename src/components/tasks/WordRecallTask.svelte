@@ -33,11 +33,12 @@
 	<input
 		bind:this={inputFields[index]}
 		class="
-				{words.includes(guesses[index]) && new Set(guesses).size === guesses.length
-			? 'correct'
-			: 'incorrect'}
+				{words.includes(guesses[index]) && new Set(guesses).size === guesses.length ? 'bg-green-500' : ''}
 				text-center
-				w-full
+				border-none
+				outline-none
+				p-0
+				h-[4vh]
 			"
 		type="text"
 		value={guesses[index] ?? ''}
