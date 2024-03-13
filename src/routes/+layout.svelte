@@ -13,7 +13,7 @@
 	<link rel="manifest" href="src/manifest.json" />
 </svelte:head>
 
-<main class="h-[100vh] flex justify-center text-lg">
+<main class="h-[100vh] flex justify-center text-lg md:text-4xl">
 	<slot />
 </main>
 
