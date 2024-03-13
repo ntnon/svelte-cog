@@ -1,5 +1,5 @@
 <div class="container">
-	<span class="name center text-2xl font-bold">
+	<span class="name center font-bold">
 		<slot name="name" />
 	</span>
 
@@ -7,11 +7,11 @@
 		<slot name="progress" />
 	</span>
 
-	<span class="info center text-2xl p-4">
+	<span class="info center p-4">
 		<slot name="info" />
 	</span>
 
-	<span class="main text-3xl size-full p-4">
+	<span class="main size-full p-4">
 		<slot name="component" />
 	</span>
 
