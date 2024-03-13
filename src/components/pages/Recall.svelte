@@ -24,9 +24,9 @@
 	<span slot="name">Word Recall</span>
 	<span slot="info">
 		{#if showWords}
-			Remember the words below! Then press the guess button
+			Remember the words! Then press the button
 		{:else}
-			Stuck? Press hint to reveal the words.
+			Write the words below
 		{/if}
 	</span>
 	<span slot="progress"><slot /></span>

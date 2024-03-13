@@ -10,7 +10,7 @@
 </script>
 
 <button
-	class="bg-green-500 size-full rounded-full {active ? '' : 'inactive'} {fn
+	class="bg-green-500 size-full p-2 rounded-full {active ? '' : 'inactive'} {fn
 		? ''
 		: 'cursor-default'}"
 	on:click={handleClick}><span class="mx-3"><slot /></span></button

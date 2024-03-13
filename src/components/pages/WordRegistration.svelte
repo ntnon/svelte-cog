@@ -21,12 +21,12 @@
 </script>
 
 <Stage>
-	<span slot="name">Word Recall</span>
+	<span slot="name">Word Registration</span>
 	<span slot="info">
 		{#if showWords}
-			Remember the words below! Then press the guess button
+			Remember the words! Then press the button
 		{:else}
-			Write the words below. Press hint to reveal the words.
+			Write the words below
 		{/if}
 	</span>
 	<span slot="progress"><slot /></span>
