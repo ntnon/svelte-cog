@@ -7,7 +7,7 @@ const config = {
 			fallback: '404.html'
 		}),
 		paths: {
-			base: process.argv.includes('dev') ? '' : process.env.BASE_PATH
+			base: process.argv.includes('dev') ? 'https://ntnon.github.io/svelte-cog' : process.env.BASE_PATH
 		}
 	}
 };
