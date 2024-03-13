@@ -13,7 +13,7 @@
 	<button
 		class="btn w-60"
 		on:click={() => (showWords = !showWords) && appState.taskData.recallGuesses.incrementHint()}
-		>{showWords ? 'guess' : 'hint'}</button
+		>{showWords ? 'guess words' : 'see words again'}</button
 	>
 	<span class="flex-col center gap-[1rem]">
 		{#if showWords}

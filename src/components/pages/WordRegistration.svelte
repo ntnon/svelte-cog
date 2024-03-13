@@ -26,7 +26,7 @@
 		{#if showWords}
 			Remember the words below! Then press the guess button
 		{:else}
-			Stuck? Press hint to reveal the words.
+			Write the words below. Press hint to reveal the words.
 		{/if}
 	</span>
 	<span slot="progress"><slot /></span>
