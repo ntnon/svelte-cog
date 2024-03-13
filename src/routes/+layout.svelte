@@ -5,7 +5,6 @@
 	import { defaultAppData } from '$lib/defaultAppData';
 
 	const context = setDataStore(defaultAppData);
-	let debug: boolean = false;
 </script>
 
 <main class="w-[100vw] h-[100vh] flex justify-center">
