@@ -21,15 +21,8 @@ button {
     padding: 4vh;
 }
 
-.words {
-    font-weight: bold;
-    text-align: center;
-    margin: 2vh;
-    gap: 2vh;
-}
-
 .hand {
-    height: 4vh;
+    height: 3.5vh;
 }
 
 .center {
@@ -53,8 +46,8 @@ button {
 
 .dial {
     position: absolute;
-    width: 4vh;
-    height: 4vh;
+    width: 3.5vh;
+    height: 3.5vh;
     top: 50%;
     left: 50%;
     border-radius: 50%;
