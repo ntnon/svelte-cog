@@ -7,16 +7,19 @@
 	setDataStore(defaultAppData);
 </script>
 
+<meta content="viewport-fit=cover" />
+
 <svelte:head>
 	<link rel="manifest" href="src/manifest.json" />
 </svelte:head>
 
-<main class="w-[100vw] h-[100vh] flex justify-center text-2xl">
+<main class="h-[100vh] flex justify-center text-2xl">
 	<slot />
 </main>
 
 <style>
 	main {
 		font-family: Verdana, Geneva, Tahoma, sans-serif;
+		padding-bottom: env(safe-area-inset-bottom);
 	}
 </style>
