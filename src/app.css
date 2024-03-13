@@ -17,6 +17,10 @@
     src: url('/src/fonts/Horizon-updated/Horizon-updated/NEW_UPDATED_VERSION/horizon.otf') format('opentype');
 }
 
+button {
+    padding: 4vh;
+}
+
 .words {
     font-weight: bold;
     text-align: center;
@@ -25,7 +29,7 @@
 }
 
 .hand {
-    height: 2vh;
+    height: 4vh;
 }
 
 .center {
@@ -49,8 +53,8 @@
 
 .dial {
     position: absolute;
-    width: 2vh;
-    height: 2vh;
+    width: 4vh;
+    height: 4vh;
     top: 50%;
     left: 50%;
     border-radius: 50%;
@@ -73,7 +77,7 @@
 }
 
 .marker {
-    border: solid 5px #3c6ca8;
+    border: solid 0.5vh #3c6ca8;
     touch-action: none;
     user-select: none;
     position: relative;

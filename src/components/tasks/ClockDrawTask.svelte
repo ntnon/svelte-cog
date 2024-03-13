@@ -128,7 +128,7 @@
 					role="button"
 					tabindex="0"
 					id="marker-{marker.id}"
-					class="marker size-[6vh]"
+					class="marker size-[7vh]"
 					style="top: {marker.y}px; left: {marker.x}px;"
 					on:mousedown={(e) => handleMouseDown(e, marker)}
 					on:touchstart={(e) => handleMouseDown(e, marker)}
