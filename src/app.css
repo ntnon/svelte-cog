@@ -25,6 +25,10 @@
     gap: 2rem;
 }
 
+.hand {
+    height: 2vh;
+}
+
 .center {
     display: flex;
     justify-content: center;
@@ -37,7 +41,7 @@
 }
 
 .clock {
-    border: solid 2rem #e37951;
+    border: solid 2vh #e37951;
     border-radius: 50%;
     position: relative;
     align-self: center;
@@ -46,8 +50,8 @@
 
 .dial {
     position: absolute;
-    width: 2rem;
-    height: 2rem;
+    width: 2vh;
+    height: 2vh;
     top: 50%;
     left: 50%;
     border-radius: 50%;
@@ -89,12 +93,11 @@
 }
 
 .btn {
-    background-color: #e37951;
-    color: white;
+    background-color: rgb(216, 132, 77);
     border: none;
     border-radius: 1rem;
     cursor: pointer;
-
+    padding: 1rem;
 }
 
 .disabled {
