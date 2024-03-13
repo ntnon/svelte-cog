@@ -7,6 +7,8 @@
 	setDataStore(defaultAppData);
 </script>
 
+<meta name="apple-mobile-web-app-capable" content="yes" />
+
 <svelte:head>
 	<link rel="manifest" href="src/manifest.json" />
 </svelte:head>
