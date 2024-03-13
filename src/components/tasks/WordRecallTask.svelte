@@ -35,10 +35,7 @@
 		class="
 				{words.includes(guesses[index]) && new Set(guesses).size === guesses.length ? 'bg-green-500' : ''}
 				text-center
-				border-none
-				outline-none
-				p-0
-				h-[4vh]
+				h-[40%]
 			"
 		type="text"
 		value={guesses[index] ?? ''}

@@ -18,7 +18,7 @@
 	<span class="flex-col justify-between center gap-[4vh]">
 		{#if showWords}
 			{#each words as word}
-				<div class="h-[4vh] text-center">{word}</div>
+				<div class="h-[40%] text-center">{word}</div>
 			{/each}
 		{:else}
 			<WordRecallTask bind:guesses {words} />
