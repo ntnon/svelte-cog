@@ -11,7 +11,7 @@
 	<link rel="manifest" href="src/manifest.json" />
 </svelte:head>
 
-<main class="fixed w-[100vw] h-[100vh] flex justify-center text-2xl">
+<main class="w-[100vw] h-[100vh] flex justify-center text-2xl">
 	<slot />
 </main>
 
