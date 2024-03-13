@@ -26,7 +26,7 @@
 		{#if showWords}
 			Remember the words! Then press the button
 		{:else}
-			Write the words below
+			Recall the words from earlier!
 		{/if}
 	</span>
 	<span slot="progress"><slot /></span>
