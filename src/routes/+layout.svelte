@@ -4,10 +4,10 @@
 	import { setDataStore } from '$lib/state.svelte';
 	import { defaultAppData } from '$lib/defaultAppData';
 
-	const context = setDataStore(defaultAppData);
+	setDataStore(defaultAppData);
 </script>
 
-<main class="w-[100vw] h-[100vh] flex justify-center">
+<main class="pt-12 w-[100vw] h-[100vh] flex justify-center">
 	<slot />
 </main>
 
