@@ -6,31 +6,10 @@
 
 	setDataStore(defaultAppData);
 
-	let myElement: Element;
-
-	function makeFullscreen() {
-		if (myElement) {
-			if (myElement.requestFullscreen) {
-				myElement.requestFullscreen();
-			} else if ((myElement as any).mozRequestFullScreen) {
-				/* Firefox */
-				(myElement as any).mozRequestFullScreen();
-			} else if ((myElement as any).webkitRequestFullscreen) {
-				/* Chrome, Safari and Opera */
-				(myElement as any).webkitRequestFullscreen();
-			} else if ((myElement as any).msRequestFullscreen) {
-				/* IE/Edge */
-				(myElement as any).msRequestFullscreen();
-			}
-		}
-	}
-
-	$: if (myElement) {
-		makeFullscreen();
-	}
+	window.scrollTo(0, 1); // hide the address bar on mobile devices
 </script>
 
-<main bind:this={myElement} class="w-[100vw] h-[100vh] flex justify-center text-2xl sm:text-2xl">
+<main class="w-[100vw] h-[100vh] flex justify-center text-2xl">
 	<slot />
 </main>
 
