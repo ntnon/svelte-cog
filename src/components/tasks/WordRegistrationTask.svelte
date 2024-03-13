@@ -13,7 +13,7 @@
 	<button
 		class="bg-amber-500 md:p-5 p-3 rounded-full"
 		on:click={() => (showWords = !showWords) && appState.taskData.recallGuesses.incrementHint()}
-		>{showWords ? 'I remember the words' : 'Show me the words again'}</button
+		>{showWords ? 'I remember the words' : "I don't remember the words"}</button
 	>
 	<span class="flex-col center gap-[1rem]">
 		{#if showWords}
