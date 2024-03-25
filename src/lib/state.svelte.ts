@@ -1,22 +1,5 @@
 import { getContext, setContext } from "svelte";
-import { dummyStore } from "../scripts/dummyStore";
-import { browser } from "$app/environment";
-import type { StorageType } from "../oldLib/types";
 import type { IAppData } from "./interfaces";
-
-
-export const storageSelector = (type: StorageType): Storage => {
-	if (!browser) {
-		return dummyStore
-	}
-	switch (type) {
-		case "local":
-			return window.localStorage
-		case "session":
-			return window.sessionStorage;
-	}
-}
-
 
 const CTX = "appState"; //retrieve from default data settings?
 
@@ -32,3 +15,21 @@ export function getAppState(): IAppData {
 	}
 	return context
 }
+
+
+
+
+// import { dummyStore } from "../scripts/dummyStore";
+// import { browser } from "$app/environment";
+
+// export const storageSelector = (type: StorageType) => {
+// 	if (!browser) {
+// 		return dummyStore
+// 	}
+// 	switch (type) {
+// 		case "local":
+// 			return window.localStorage
+// 		case "session":
+// 			return window.sessionStorage;
+// 	}
+// }
