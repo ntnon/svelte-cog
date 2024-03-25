@@ -11,7 +11,8 @@
 	<span slot="info">Instructions</span>
 	<span slot="progress">Progress</span>
 	<span slot="component" class="size-full center">
-		Press<span class="inline-block"><Button>{defaultNextLabel}</Button></span> to continue
+		Press<span class="inline-block">
+			<Button fn={fallbackFn} active={true}>{defaultNextLabel}</Button></span
+		> to continue
 	</span>
-	<Button fn={fallbackFn} active={true} slot="next">{defaultNextLabel}</Button>
 </Stage>
