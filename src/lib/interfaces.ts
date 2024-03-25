@@ -98,6 +98,7 @@ interface ITasks {
 interface IAppData {
     consent: ReturnType<typeof resettableStore<boolean>>;
     words: ReturnType<typeof resettableStore<string[]>>;
+    isAnimating: Writable<boolean>;
     taskData: ITasks;
 }
 
