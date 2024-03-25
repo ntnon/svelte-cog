@@ -34,5 +34,4 @@
 		{/if}
 	{/each}
 </span>
-
 <svelte:window on:resize={updateOffset} />
