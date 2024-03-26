@@ -6,9 +6,10 @@
 	import { browser } from '$app/environment';
 
 	let browserName: string = '';
+	let userAgent: string = '';
 
 	if (browser) {
-		let userAgent = navigator.userAgent;
+		userAgent = navigator.userAgent;
 
 		if (userAgent.indexOf('Chrome') > -1) {
 			browserName = 'Chrome';
@@ -33,10 +34,11 @@
 </svelte:head>
 
 {#if browserName}
+	<div class="z-[10] absolute">{userAgent}</div>
 	<main
-		class=" w-[100vw] absolute text-lg md:text-4xl {browserName === 'Safari'
-			? 'h-[90vh]'
-			: 'h-[100vh]'}"
+		class=" w-[100%] absolute text-lg md:text-4xl {browserName === 'Safari'
+			? 'h-[90%]'
+			: 'h-[100%]'}"
 	>
 		<slot />
 		<div class="h-5">ff</div>
