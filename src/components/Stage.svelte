@@ -7,14 +7,14 @@
 </script>
 
 <div
-	in:fly={{ x: view.clientWidth, duration: 2500, opacity: 100 }}
-	out:fly={{ x: view.clientWidth * -1, duration: 2500, opacity: 100 }}
+	in:fly={{ x: view.clientWidth, duration: 700, opacity: 100 }}
+	out:fly={{ x: view.clientWidth * -1, duration: 700, opacity: 100 }}
 	on:introstart={() => isAnimating.set(true)}
 	on:introend={() => isAnimating.set(false)}
 	on:outrostart={() => isAnimating.set(true)}
 	on:outroend={() => isAnimating.set(false)}
 	bind:this={view}
-	class="container absolute"
+	class="container absolute flex-grow"
 >
 	<span class="name center font-bold">
 		<slot name="name" />
@@ -28,7 +28,7 @@
 		<slot name="info" />
 	</span>
 
-	<span class="main size-full p-4">
+	<span class="task size-full p-4">
 		{#if !$isAnimating}
 			<span in:fade={{ duration: 500 }} out:fade={{ duration: 500 }}>
 				<slot name="component" />
@@ -43,13 +43,15 @@
 
 <style>
 	.container {
+		height: 100%;
+		width: 100%;
 		display: grid;
 		grid-template-columns: 35% 30% 35%;
-		grid-template-rows: 10vh 10vh 70vh 10vh;
+		grid-template-rows: 10% 10% 70% 10%;
 		grid-template-areas:
 			'name name progress'
 			'info info info'
-			'main main main'
+			'task task task'
 			'navbar navbar navbar';
 	}
 
@@ -72,8 +74,8 @@
 		background-color: rgb(220, 125, 125);
 	}
 
-	.main {
-		grid-area: main;
+	.task {
+		grid-area: task;
 		background-color: rgb(125, 220, 136);
 	}
 </style>
