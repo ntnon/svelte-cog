@@ -4,9 +4,6 @@
 
 	const isAnimating = getAppState().isAnimating;
 	let view: HTMLElement;
-
-	let browserName: string = '';
-	let userAgent: string = '';
 </script>
 
 <div
@@ -17,7 +14,7 @@
 	on:outrostart={() => isAnimating.set(true)}
 	on:outroend={() => isAnimating.set(false)}
 	bind:this={view}
-	class="container h-full fixed"
+	class="container absolute h-[100dvh] w-full text-lg"
 >
 	<span class="name center font-bold">
 		<slot name="name" />
@@ -46,8 +43,9 @@
 
 <style>
 	.container {
+		font-family: Verdana, Geneva, Tahoma, sans-serif;
 		display: grid;
-		grid-template-columns: 35% 30% 35%;
+		grid-template-columns: 1fr 1fr 1fr;
 		grid-template-rows: 10% 10% 70% 10%;
 		grid-template-areas:
 			'name name progress'

@@ -5,18 +5,10 @@
 	setDataStore(defaultAppData);
 </script>
 
-<!-- <svelte:head>
+<svelte:head>
 	<link rel="manifest" href="src/manifest.json" />
-</svelte:head> -->
+</svelte:head>
 
 <main>
-	<div class="text-lg md:text-4xl">
-		<slot />
-	</div>
+	<slot />
 </main>
-
-<style>
-	main {
-		font-family: Verdana, Geneva, Tahoma, sans-serif;
-	}
-</style>
