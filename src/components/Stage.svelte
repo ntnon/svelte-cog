@@ -1,23 +1,12 @@
 <script lang="ts">
 	import { getAppState } from '$lib/state.svelte';
 	import { fade, fly } from 'svelte/transition';
-	import { browser } from '$app/environment';
 
 	const isAnimating = getAppState().isAnimating;
 	let view: HTMLElement;
 
 	let browserName: string = '';
 	let userAgent: string = '';
-
-	if (browser) {
-		userAgent = navigator.userAgent;
-		if (userAgent.indexOf('Safari') > -1 && userAgent.indexOf('Mobile') > -1) {
-			console.log('has safari... and is a mobile device');
-			browserName = 'SafariMobile';
-		} else {
-			browserName = 'Other';
-		}
-	}
 </script>
 
 <div
@@ -28,9 +17,8 @@
 	on:outrostart={() => isAnimating.set(true)}
 	on:outroend={() => isAnimating.set(false)}
 	bind:this={view}
-	class="container h-full absolute {browserName === 'SafariMobile' ? 'pb-10' : ''}"
+	class="container h-full fixed"
 >
-	{browserName}
 	<span class="name center font-bold">
 		<slot name="name" />
 	</span>
