@@ -2,6 +2,7 @@
 	import { getAppState } from '$lib/state.svelte';
 	import { fade, fly } from 'svelte/transition';
 
+	let points = getAppState().points;
 	const isAnimating = getAppState().isAnimating;
 	let view: HTMLElement;
 </script>
@@ -21,7 +22,7 @@
 	</span>
 
 	<span class="progress center p-4">
-		<slot name="progress" />
+		{points} points
 	</span>
 
 	<span class="info center p-4">
@@ -43,7 +44,6 @@
 
 <style>
 	.container {
-		font-family: Verdana, Geneva, Tahoma, sans-serif;
 		display: grid;
 		grid-template-columns: 1fr 1fr 1fr;
 		grid-template-rows: 10% 10% 70% 10%;

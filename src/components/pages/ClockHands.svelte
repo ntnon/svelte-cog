@@ -20,7 +20,6 @@
 	<span slot="info"
 		>{'Adjust the clock hands using your finger to display ' + $taskState.data.timestamp.name}</span
 	>
-	<span slot="progress"><slot /></span>
 	<span slot="component" class="size-full"><ClockHandsTask bind:hands={$taskState.data} /></span>
 	<Button slot="next" active={$taskState.completed} fn={fallbackFn}>{defaultNextLabel}</Button>
 </Stage>

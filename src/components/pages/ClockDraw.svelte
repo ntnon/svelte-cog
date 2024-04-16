@@ -18,7 +18,6 @@
 <Stage>
 	<span slot="name">Clock Draw</span>
 	<span slot="info">The clock is broken!... Drag the numbers back in place using your finger</span>
-	<span slot="progress"><slot /></span>
 	<span slot="component" class="size-full"><ClockDrawTask bind:markers={$taskState.data} /></span>
 
 	<Button active={$taskState.completed} slot="next" fn={fallbackFn}>{defaultNextLabel}</Button>

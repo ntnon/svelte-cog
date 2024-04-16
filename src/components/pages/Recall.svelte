@@ -29,7 +29,6 @@
 			Recall the words from earlier!
 		{/if}
 	</span>
-	<span slot="progress"><slot /></span>
 	<span slot="component" class="size-full flex flex-col">
 		<WordRegistrationTask bind:showWords words={$words} bind:guesses={$taskState.data} />
 	</span>
