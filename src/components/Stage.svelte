@@ -22,7 +22,7 @@
 	</span>
 
 	<span class="progress center p-4">
-		{points} points
+		{$points} points
 	</span>
 
 	<span class="info center p-4">
