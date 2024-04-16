@@ -86,6 +86,12 @@ interface ITaskData<T> {
 
 }
 
+interface IEmoji {
+    name: string;
+    char: string;
+
+}
+
 interface ITasks {
     markers: ReturnType<typeof resettableTaskStore<IMarker[]>>;
     hands: ReturnType<typeof resettableTaskStore<IHands>>;
@@ -96,9 +102,9 @@ interface ITasks {
 }
 
 interface IAppData {
-    points: number;
+    points: Writable<number>;
     consent: ReturnType<typeof resettableStore<boolean>>;
-    words: ReturnType<typeof resettableStore<string[]>>;
+    words: ReturnType<typeof resettableStore<IEmoji[]>>;
     isAnimating: Writable<boolean>;
     taskData: ITasks;
 }
@@ -113,4 +119,4 @@ interface IAppData {
 // }
 
 
-export type { IAppData, IHand, IMarker, IResettableStore, IElement, IButtonElement, IStage, ITimestamp, IHands, ITaskData, ITasks, IResettableTaskStore, IBall }
+export type { IEmoji, IAppData, IHand, IMarker, IResettableStore, IElement, IButtonElement, IStage, ITimestamp, IHands, ITaskData, ITasks, IResettableTaskStore, IBall }
