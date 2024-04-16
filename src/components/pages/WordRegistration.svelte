@@ -30,7 +30,11 @@
 		{/if}
 	</span>
 	<span slot="component" class="size-full flex flex-col">
-		<WordRegistrationTask bind:showWords words={$words} bind:guesses={$taskState.data} />
+		<WordRegistrationTask
+			bind:showWords
+			words={$words.map((e) => e.name)}
+			bind:guesses={$taskState.data}
+		/>
 	</span>
 	<Button active={$taskState.completed} slot="next" fn={fallbackFn}>{defaultNextLabel}</Button>
 </Stage>
