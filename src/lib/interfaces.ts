@@ -89,7 +89,10 @@ interface ITaskData<T> {
 interface IEmoji {
     name: string;
     char: string;
-
+}
+interface IEmojiPool {
+    correct: IEmoji[];
+    pool: IEmoji[];
 }
 
 interface ITasks {
@@ -104,7 +107,7 @@ interface ITasks {
 interface IAppData {
     points: Writable<number>;
     consent: ReturnType<typeof resettableStore<boolean>>;
-    words: ReturnType<typeof resettableStore<IEmoji[]>>;
+    recallItems: ReturnType<typeof resettableStore<IEmojiPool>>;
     isAnimating: Writable<boolean>;
     taskData: ITasks;
 }
@@ -119,4 +122,4 @@ interface IAppData {
 // }
 
 
-export type { IEmoji, IAppData, IHand, IMarker, IResettableStore, IElement, IButtonElement, IStage, ITimestamp, IHands, ITaskData, ITasks, IResettableTaskStore, IBall }
+export type { IEmojiPool, IEmoji, IAppData, IHand, IMarker, IResettableStore, IElement, IButtonElement, IStage, ITimestamp, IHands, ITaskData, ITasks, IResettableTaskStore, IBall }
