@@ -98,8 +98,8 @@ interface IEmojiPool {
 interface ITasks {
     markers: ReturnType<typeof resettableTaskStore<IMarker[]>>;
     hands: ReturnType<typeof resettableTaskStore<IHands>>;
-    recallGuesses: ReturnType<typeof resettableTaskStore<string[]>>;
-    registrationGuesses: ReturnType<typeof resettableTaskStore<string[]>>;
+    shortRecall: ReturnType<typeof resettableTaskStore<IEmoji[]>>;
+    longRecall: ReturnType<typeof resettableTaskStore<IEmoji[]>>;
     exampleTask: ReturnType<typeof resettableTaskStore<IBall[]>>;
     [key: string]: ReturnType<typeof resettableTaskStore<unknown>>;
 }
