@@ -17,11 +17,13 @@
 <Stage>
 	<span slot="name">Example task</span>
 	<span slot="info">
-		Tap all the <span class="inline-block"><span class="clickable size-[1rem]"></span></span>'s
+		Let us begin with an example task, to get you started! Tap all the <span class="inline-block"
+			><span class="clickable size-[1rem]"></span></span
+		>'s
 	</span>
-	<span slot="progress"><slot /></span>
 	<span slot="component" class="size-full center">
 		<ExampleTask bind:balls={$taskState.data} />
 	</span>
-	<Button active={$taskState.completed} fn={fallbackFn} slot="next">{defaultNextLabel}</Button>
+
+	<Button slot="next" active={$taskState.completed} fn={fallbackFn}>{defaultNextLabel}</Button>
 </Stage>
