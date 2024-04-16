@@ -96,6 +96,7 @@ interface ITasks {
 }
 
 interface IAppData {
+    points: number;
     consent: ReturnType<typeof resettableStore<boolean>>;
     words: ReturnType<typeof resettableStore<string[]>>;
     isAnimating: Writable<boolean>;

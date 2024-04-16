@@ -7,6 +7,7 @@ import { generateExampleBalls } from "../scripts/generateExampleBalls";
 import { writable } from "svelte/store";
 
 export const defaultAppData: IAppData = {
+    points: 0,
     consent: resettableStore<boolean>(() => false),
     words: resettableStore<string[]>(() => generateRandomWords()),
     isAnimating: writable(false),
