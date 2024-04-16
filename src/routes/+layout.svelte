@@ -12,3 +12,9 @@
 <main>
 	<slot />
 </main>
+
+<style>
+	main {
+		font-family: Verdana, Geneva, Tahoma, sans-serif;
+	}
+</style>
