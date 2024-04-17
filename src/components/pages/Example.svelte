@@ -1,13 +1,10 @@
 <script lang="ts">
 	import Stage from '../Stage.svelte';
-	import { defaultNextLabel } from '$lib/constants';
-	import Button from '../Button.svelte';
+	import NextButton from '../NextButton.svelte';
 	import ExampleTask from '../tasks/ExampleTask.svelte';
 	import { getAppState } from '$lib/state.svelte';
 
 	const taskState = getAppState().taskData.exampleTask;
-
-	export let fallbackFn: () => void;
 
 	$: if ($taskState.data.every((ball) => ball.completed)) {
 		taskState.update((v) => ({ ...v, completed: true }));
@@ -25,5 +22,5 @@
 		<ExampleTask bind:balls={$taskState.data} />
 	</span>
 
-	<Button slot="next" active={$taskState.completed} fn={fallbackFn}>{defaultNextLabel}</Button>
+	<NextButton active={$taskState.completed} slot="next"></NextButton>
 </Stage>

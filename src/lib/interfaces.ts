@@ -27,6 +27,11 @@ interface IButtonElement extends IElement {
     function?: () => void;
 }
 
+interface IPos {
+    left: number;
+    top: number;
+}
+
 interface ITimestamp {
     name: string,
     hour: number;
@@ -50,13 +55,10 @@ interface IHands {
 
 interface IMarker {
     id: number,
-    DOMElement: undefined | HTMLElement,
-    initialDOMElement: undefined | HTMLElement,
-    x: number,
-    y: number,
-    active: boolean,
+    pos: IPos,
     pointsAt: number,
     angle: number,
+    distFromCenter: number,
     completed: boolean,
 }
 
@@ -71,9 +73,12 @@ interface IEmoji {
     name: string;
     char: string;
 }
+
 interface IEmojiPool {
     correct: IEmoji[];
     pool: IEmoji[];
+    guesses: IEmoji[];
+    removed: IEmoji[];
 }
 
 interface IResettableStore<T> extends Writable<T> {
@@ -96,8 +101,9 @@ interface ITaskData<T> {
 interface ITasks {
     markers: ReturnType<typeof resettableTaskStore<IMarker[]>>;
     hands: ReturnType<typeof resettableTaskStore<IHands>>;
-    shortRecall: ReturnType<typeof resettableTaskStore<IEmoji[]>>;
-    longRecall: ReturnType<typeof resettableTaskStore<IEmoji[]>>;
+    itemRegistration: ReturnType<typeof resettableTaskStore<boolean>>;
+    shortRecall: ReturnType<typeof resettableTaskStore<IEmojiPool>>;
+    longRecall: ReturnType<typeof resettableTaskStore<IEmojiPool>>;
     exampleTask: ReturnType<typeof resettableTaskStore<IBall[]>>;
     [key: string]: ReturnType<typeof resettableTaskStore<unknown>>;
 }
@@ -106,7 +112,7 @@ interface IAppData {
     pageIndex: Writable<number>;
     points: Writable<number>;
     consent: ReturnType<typeof resettableStore<boolean>>;
-    recallItems: ReturnType<typeof resettableStore<IEmojiPool>>;
+    recallItems: ReturnType<typeof resettableStore<IEmoji[]>>;
     isAnimating: Writable<boolean>;
     taskData: ITasks;
 }
@@ -121,4 +127,4 @@ interface IAppData {
 // }
 
 
-export type { IEmojiPool, IEmoji, IAppData, IHand, IMarker, IResettableStore, IElement, IButtonElement, IStage, ITimestamp, IHands, ITaskData, ITasks, IResettableTaskStore, IBall }
+export type { IEmojiPool, IEmoji, IAppData, IHand, IMarker, IResettableStore, IElement, IButtonElement, IStage, ITimestamp, IHands, ITaskData, ITasks, IResettableTaskStore, IBall, IPos }

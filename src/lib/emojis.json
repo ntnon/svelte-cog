@@ -8,16 +8,8 @@
         "char": "🍕"
     },
     {
-        "name": "birthday cake",
-        "char": "🎂"
-    },
-    {
         "name": "thumbs up",
         "char": "👍"
-    },
-    {
-        "name": "thumbs down",
-        "char": "👎"
     },
     {
         "name": "fire",
@@ -56,14 +48,6 @@
         "char": "📷"
     },
     {
-        "name": "guitar",
-        "char": "🎸"
-    },
-    {
-        "name": "microphone",
-        "char": "🎤"
-    },
-    {
         "name": "paintbrush",
         "char": "🖌️"
     },
@@ -76,32 +60,28 @@
         "char": "🌍"
     },
     {
-        "name": "train",
-        "char": "🚆"
+        "name": "bus",
+        "char": "🚌"
     },
     {
         "name": "bicycle",
         "char": "🚲"
     },
     {
-        "name": "saxophone",
-        "char": "🎷"
-    },
-    {
         "name": "teddy bear",
         "char": "🧸"
     },
     {
-        "name": "laptop",
-        "char": "💻"
+        "name": "dice",
+        "char": "🎲"
     },
     {
         "name": "telephone",
         "char": "☎️"
     },
     {
-        "name": "briefcase",
-        "char": "💼"
+        "name": "tent",
+        "char": "⛺"
     },
     {
         "name": "clock",
@@ -112,7 +92,55 @@
         "char": "☂️"
     },
     {
-        "name": "watch",
-        "char": "⌚"
+        "name": "sun",
+        "char": "☀️"
+    },
+    {
+        "name": "moon",
+        "char": "🌙"
+    },
+    {
+        "name": "cloud",
+        "char": "☁️"
+    },
+    {
+        "name": "flower",
+        "char": "🌸"
+    },
+    {
+        "name": "tree",
+        "char": "🌳"
+    },
+    {
+        "name": "cactus",
+        "char": "🌵"
+    },
+    {
+        "name": "mushroom",
+        "char": "🍄"
+    },
+    {
+        "name": "snowflake",
+        "char": "❄️"
+    },
+    {
+        "name": "mountain",
+        "char": "⛰️"
+    },
+    {
+        "name": "comet",
+        "char": "☄️"
+    },
+    {
+        "name": "books",
+        "char": "📚"
+    },
+    {
+        "name": "gift",
+        "char": "🎁"
+    },
+    {
+        "name": "musical note",
+        "char": "🎵"
     }
 ]

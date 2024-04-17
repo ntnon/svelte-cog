@@ -3,8 +3,9 @@
 	import { fade, fly } from 'svelte/transition';
 
 	let points = getAppState().points;
-	const isAnimating = getAppState().isAnimating;
 	let view: HTMLElement;
+	// in:fly={{ x: view.clientWidth, duration: 700, opacity: 100 }}
+	// out:fly={{ x: view.clientWidth * -1, duration: 700, opacity: 100 }}
 </script>
 
 <div
@@ -13,7 +14,7 @@
 	bind:this={view}
 	class="container absolute h-[100dvh] w-full text-xl"
 >
-	<span class="name center font-bold">
+	<span class="name center font-bold p-4">
 		<slot name="name" />
 	</span>
 
@@ -21,22 +22,22 @@
 		{$points} points
 	</span>
 
-	<span class="info center p-4">
+	<span class="info center p-4 nb">
 		<slot name="info" />
 	</span>
 
-	<span class="task size-full p-4 text-3xl">
+	<span class="task size-full p-4">
 		<slot name="component" />
 	</span>
 
-	<span class="navbar center flex-row"> <slot name="next" /></span>
+	<span class="navbar px-6 py-3"> <slot name="next" /></span>
 </div>
 
 <style>
 	.container {
 		display: grid;
 		grid-template-columns: 1fr 1fr 1fr;
-		grid-template-rows: 10% 10% 70% 10%;
+		grid-template-rows: 10% 15% 65% 10%;
 		grid-template-areas:
 			'name name progress'
 			'info info info'

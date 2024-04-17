@@ -17,9 +17,6 @@
     src: url('/src/fonts/Horizon-updated/Horizon-updated/NEW_UPDATED_VERSION/horizon.otf') format('opentype');
 }
 
-button {
-    padding: 4vh;
-}
 
 .hand {
     height: 3.5vh;
@@ -81,6 +78,7 @@ button {
     justify-content: center;
     box-sizing: border-box;
     background-color: #f4ebec;
+    transition: transform 0.5s ease-in-out;
 }
 
 .circle {
@@ -102,6 +100,16 @@ button {
 
 .enabled {
     background-color: green;
+}
+
+.btnClass {
+    width: 100%;
+    height: 100%;
+    border-radius: 9999px;
+    padding: 2;
+    --tw-bg-opacity: 1;
+    background-color: rgb(34 197 94 / var(--tw-bg-opacity));
+
 }
 
 input:focus {
@@ -134,5 +142,22 @@ input:focus {
 
     100% {
         outline: solid 0.5rem #000000;
+    }
+}
+
+.nb>* {
+    animation: nb 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes nb {
+
+    0%,
+    100% {
+        scale: 1;
+    }
+
+
+    50% {
+        scale: 1.03;
     }
 }

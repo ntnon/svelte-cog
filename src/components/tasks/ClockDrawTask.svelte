@@ -1,118 +1,43 @@
 <script lang="ts">
-	import type { IMarker, ITaskData } from '$lib/interfaces';
-	import { getAppState } from '$lib/state.svelte';
-	import type { InteractionEvent } from '$lib/types';
-	import { getClientCoordinates } from '../../scripts/getClientCoordinates';
-	import { calculateMouseDialAngle } from '../../scripts/calculateMouseDialAngle';
-	import { cssRotationToClockHours } from '../../scripts/cssRotationToClockHours';
-	import { getPagePosition } from '../../scripts/getPagePosition';
+	import type { IMarker, IPos } from '$lib/interfaces';
+
+	import { angleToClockHour } from '../../scripts/trigonometry/angleToClockHour';
+
 	import Clock from '../Clock.svelte';
+	import Draggable from '../Draggable.svelte';
+	import { getRectCenter } from '../../scripts/getRectCenter';
+	import { calcAngle } from '../../scripts/trigonometry/calcAngle';
+	import { adjustClockwiseDistance } from '../../scripts/trigonometry/adjustClockwiseDistance';
 
 	export let markers: IMarker[];
 
-	let activeMarker: IMarker | undefined = undefined;
-
-	let mouseOffsetX = 0;
-	let mouseOffsetY = 0;
-
 	let dial: HTMLElement;
 	let clock: HTMLElement;
+	let dialPos: IPos;
 
-	const isMarkerInCircle = (marker: IMarker) => {
-		if (!clock) {
-			console.warn('no clock');
-			return false;
-		}
-		if (!marker.DOMElement) {
-			console.warn('no marker');
-			return false;
-		}
-		const markerPosition = getPagePosition(marker.DOMElement);
+	$: if (dial) {
+		let rect = dial.getBoundingClientRect();
+		dialPos = { left: rect.left, top: rect.top };
+	}
 
-		const clockPosition = getPagePosition(clock);
-
-		const clockRadius = clock.offsetWidth / 2;
-		const dx = clockPosition.offsetX - markerPosition.offsetX;
-		const dy = clockPosition.offsetY - markerPosition.offsetY;
-		const distance = Math.sqrt(dx * dx + dy * dy);
-		const overlap = distance <= clockRadius;
-		console.log(overlap);
-		return overlap;
+	const calcDistFromCenter = (pos: IPos) => {
+		const mid = getRectCenter(dial);
+		const dx = pos.left - mid.left;
+		const dy = pos.top - mid.top;
+		console.log(Math.sqrt(dx * dx + dy * dy));
+		return Math.sqrt(dx * dx + dy * dy);
 	};
 
-	const handleMouseMove = (e: InteractionEvent, touch: boolean = false) => {
-		if (!touch) {
-			e.preventDefault();
-		}
-
-		if (!activeMarker || !activeMarker.initialDOMElement) {
-			return;
-		}
-
-		const { clientX, clientY } = getClientCoordinates(e);
-		const { offsetX, offsetY } = getPagePosition(activeMarker.initialDOMElement);
-		// Adjust the marker position
-
-		activeMarker = {
-			...activeMarker,
-			x: clientX - offsetX - mouseOffsetX,
-			y: clientY - offsetY - mouseOffsetY,
-			angle: calculateMouseDialAngle(dial, clientX, clientY),
-			pointsAt: cssRotationToClockHours(activeMarker.angle)
+	const updateMarker = (pos: IPos, m: IMarker) => {
+		if (!dialPos) return m;
+		let newAngle = calcAngle(dialPos, pos);
+		return {
+			...m,
+			calcDistFromMid: calcDistFromCenter(pos),
+			angle: newAngle,
+			pointsAt: angleToClockHour(newAngle),
+			completed: true
 		};
-
-		markers = markers.map((m: IMarker) => {
-			if (m.id === activeMarker!.id) {
-				return activeMarker!;
-			}
-			return m;
-		});
-	};
-
-	const handleMouseUp = () => {
-		if (activeMarker) {
-			activeMarker = {
-				...activeMarker,
-				completed: true //isMarkerInCircle(activeMarker)
-			};
-			markers = markers.map((m: IMarker) => {
-				if (m.id === activeMarker!.id) {
-					return activeMarker!;
-				}
-				return m;
-			});
-		}
-		activeMarker = undefined;
-	};
-
-	// const handleMouseDown = (e: InteractionEvent, marker: IMarker) => {
-	// 	activeMarker = marker;
-	// 	if (!activeMarker.DOMElement) {
-	// 		console.warn('no DOM element');
-	// 		return;
-	// 	}
-
-	// 	const rect = activeMarker.DOMElement.getBoundingClientRect();
-	// 	offsetX = rect.x;
-	// 	offsetY = rect.y;
-
-	// 	e.preventDefault();
-	// };
-
-	const handleMouseDown = (e: InteractionEvent, marker: IMarker) => {
-		activeMarker = marker;
-		if (!activeMarker.DOMElement) {
-			console.warn('no DOM element');
-			return;
-		}
-		const { clientX, clientY } = getClientCoordinates(e);
-
-		const { offsetX, offsetY } = getPagePosition(activeMarker.DOMElement);
-
-		mouseOffsetX = clientX - offsetX;
-		mouseOffsetY = clientY - offsetY;
-
-		e.preventDefault();
 	};
 </script>
 
@@ -120,28 +45,11 @@
 	<Clock bind:clock>
 		<span class="dial" bind:this={dial} />
 	</Clock>
-	<span class="markers w-[100%] flex flex-row justify-center items-center flex-wrap"
+	<span class="markers w-[100%] flex flex-row justify-center items-center"
 		>{#each markers as marker}
-			<span bind:this={marker.initialDOMElement}>
-				<div
-					bind:this={marker.DOMElement}
-					role="button"
-					tabindex="0"
-					id="marker-{marker.id}"
-					class="marker size-[7vh]"
-					style="top: {marker.y}px; left: {marker.x}px;"
-					on:mousedown={(e) => handleMouseDown(e, marker)}
-					on:touchstart={(e) => handleMouseDown(e, marker)}
-				>
-					{marker.id}
-				</div>
-			</span>
+			<Draggable on:positionChange={(e) => (marker = updateMarker(e.detail.newPosition, marker))}
+				><span class="size-[7vh] marker">{marker.id}</span></Draggable
+			>
 		{/each}</span
 	>
 </span>
-<svelte:window
-	on:mouseup={handleMouseUp}
-	on:touchend={handleMouseUp}
-	on:mousemove={handleMouseMove}
-	on:touchmove={(e) => handleMouseMove(e, true)}
-/>

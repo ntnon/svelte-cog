@@ -1,17 +1,24 @@
 <script lang="ts">
-	import type { IHand, IHands } from '$lib/interfaces';
-	import { getAppState } from '$lib/state.svelte';
+	import type { IHand, IHands, IPos } from '$lib/interfaces';
 	import type { InteractionEvent } from '$lib/types';
-	import { calculateMouseDialAngle } from '../../scripts/calculateMouseDialAngle';
-	import { cssRotationToClockHours } from '../../scripts/cssRotationToClockHours';
+	import { calcAngle } from '../../scripts/trigonometry/calcAngle';
+	import { angleToClockHour } from '../../scripts/trigonometry/angleToClockHour';
 	import { getClientCoordinates } from '../../scripts/getClientCoordinates';
 	import Clock from '../Clock.svelte';
 
 	export let hands: IHands;
 
-	let dial: HTMLElement;
 	let initialMouseAngle: number;
 	let activeHand: IHand | null = null;
+
+	let dial: HTMLElement;
+	let clock: HTMLElement;
+	let dialPos: IPos;
+
+	$: if (dial) {
+		let rect = dial.getBoundingClientRect();
+		dialPos = { left: rect.left, top: rect.top };
+	}
 
 	const handleMouseMove = (e: InteractionEvent, touch: boolean = false) => {
 		if (!activeHand) {
@@ -20,11 +27,14 @@
 		if (!touch) {
 			e.preventDefault();
 		}
-		const { clientX, clientY } = getClientCoordinates(e);
-		const newAngle = calculateMouseDialAngle(dial, clientX, clientY);
+		const interactionPos = getClientCoordinates(e);
+		if (!dialPos) return;
+		if (!interactionPos) return;
+
+		const newAngle = calcAngle(dialPos, interactionPos);
 
 		activeHand.angle = newAngle - initialMouseAngle;
-		activeHand.pointsAt = cssRotationToClockHours(newAngle);
+		activeHand.pointsAt = angleToClockHour(newAngle);
 		if (activeHand.name === 'hour') {
 			hands.hour = activeHand;
 		}
@@ -52,29 +62,16 @@
 		hand.completed = true;
 		activeHand = hand;
 
-		const { clientX, clientY } = getClientCoordinates(e);
-		const currentAngle = calculateMouseDialAngle(dial, clientX, clientY);
-		initialMouseAngle = currentAngle - hand.angle;
+		const interactionPos = getClientCoordinates(e);
+		if (!interactionPos) return;
+
+		const angle = calcAngle(interactionPos, dialPos);
+
+		initialMouseAngle = angle - hand.angle;
 	};
 </script>
 
-<!-- <Clock>
-	<span class="">
-		{#each data as hand}
-			<div
-				class={'hand hand-' + hand.name}
-				role="button"
-				tabindex="0"
-				on:mousedown={(e) => handleMouseDown(e, hand)}
-				on:touchstart={(e) => handleMouseDown(e, hand)}
-				style={'transform: translate(-50%, -50%) rotate(' + hand.angle + 'deg) translate(50%, 0%);'}
-			/>
-		{/each}
-		<span class="dial" bind:this={dial} />
-	</span>
-</Clock> -->
-
-<Clock>
+<Clock bind:clock>
 	{#each [hands.hour, hands.minute] as hand}
 		<div
 			class="{'hand hand-' + hand.name} {hand.completed ? '' : 'opacity-55'}"

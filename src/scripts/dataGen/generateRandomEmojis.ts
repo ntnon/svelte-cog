@@ -1,11 +1,13 @@
-import settings from "../lib/settings.json";
+import settings from "../../lib/settings.json";
 import emojis from '$lib/emojis.json';
 import type { IEmoji, IEmojiPool } from "$lib/interfaces";
+import { fisherYates } from "../FisherYates";
 
-export const generateRandomEmojis = (): IEmojiPool => {
-
+export const generateRandomEmojis = (priorEmojis: IEmoji[] = []): IEmojiPool => {
+    console.log("generating... base: ", priorEmojis)
     const totalWords = emojis.length;
-    const pool = new Set<IEmoji>();
+    const pool = new Set<IEmoji>(priorEmojis);
+
     while (pool.size < settings.itemRecallPoolSize) {
         const randomIndex = Math.floor(Math.random() * totalWords);
         pool.add(emojis[randomIndex] as IEmoji);
@@ -13,13 +15,13 @@ export const generateRandomEmojis = (): IEmojiPool => {
 
     const poolArray = Array.from(pool);
 
-    const correct = new Set<IEmoji>();
+    const correct = new Set<IEmoji>(priorEmojis);
 
     while (correct.size < settings.itemRecallCount) {
         const randomIndex = Math.floor(Math.random() * pool.size);
         correct.add(poolArray[randomIndex] as IEmoji);
     }
-    console.log({ correct, pool })
 
-    return { correct: Array.from(correct), pool: Array.from(pool) } as IEmojiPool
+
+    return { correct: Array.from(correct), pool: fisherYates(Array.from(pool)), guesses: [], removed: [] } as IEmojiPool
 }

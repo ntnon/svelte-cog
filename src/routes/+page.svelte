@@ -19,10 +19,7 @@
 	];
 	let index = 0;
 
-	const animating = getAppState().isAnimating;
-
 	const fallbackFn = () => {
-		animating.set(true);
 		index = (index + 1) % pages.length;
 		page = pages[index];
 	};
@@ -30,4 +27,4 @@
 	let page = pages[index];
 </script>
 
-<svelte:component this={pages[$pageId]} />
+<svelte:component this={pages[$pageId % pages.length]} />

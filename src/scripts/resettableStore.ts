@@ -2,28 +2,28 @@ import { writable } from "svelte/store";
 import type { IResettableStore, ITaskData, IResettableTaskStore } from "$lib/interfaces";
 
 
-export const resettableTaskStore = <T>(generator: () => T): IResettableTaskStore<ITaskData<T>> => {
-    const data = generator();
+export const resettableTaskStore = <T>(data: T): IResettableTaskStore<ITaskData<T>> => {
+
     const { set, update, subscribe } = writable<ITaskData<T>>({
         data,
         completed: false,
         score: 0,
-        hints: 0
+        errors: 0
     });
 
     const resetData = () => update(
-        (v) => ({ ...v, data: generator() }) // Call generator() immediately
+        (v) => ({ ...v, data: data }) // Call generator() immediately
     );
 
     const reset = () => set({
-        data: generator(),
+        data: data,
         completed: false,
         score: 0,
-        hints: 0
+        errors: 0
     });
 
     const incrementHint = () => update(
-        (v) => ({ ...v, hints: v.hints + 1 })
+        (v) => ({ ...v, hints: v.errors + 1 })
     );
 
     const complete = (bool: boolean) => update(
@@ -42,11 +42,11 @@ export const resettableTaskStore = <T>(generator: () => T): IResettableTaskStore
     }
 }
 
-export const resettableStore = <T>(generator: () => T): IResettableStore<T> => {
-    const { subscribe, set, update } = writable<T>(generator());
+export const resettableStore = <T>(data: T): IResettableStore<T> => {
+    const { subscribe, set, update } = writable<T>(data);
     const reset = () => {
         console.log("resetting");
-        set(generator());
+        set(data);
     }
     return {
         subscribe,
