@@ -11,12 +11,15 @@ export const generateRandomEmojis = (): IEmojiPool => {
         pool.add(emojis[randomIndex] as IEmoji);
     }
 
+    const poolArray = Array.from(pool);
+
     const correct = new Set<IEmoji>();
 
     while (correct.size < settings.itemRecallCount) {
         const randomIndex = Math.floor(Math.random() * pool.size);
-        correct.add(emojis[randomIndex] as IEmoji);
+        correct.add(poolArray[randomIndex] as IEmoji);
     }
+    console.log({ correct, pool })
 
     return { correct: Array.from(correct), pool: Array.from(pool) } as IEmojiPool
 }
