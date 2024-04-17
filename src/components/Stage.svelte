@@ -10,12 +10,8 @@
 <div
 	in:fly={{ x: view.clientWidth, duration: 700, opacity: 100 }}
 	out:fly={{ x: view.clientWidth * -1, duration: 700, opacity: 100 }}
-	on:introstart={() => isAnimating.set(true)}
-	on:introend={() => isAnimating.set(false)}
-	on:outrostart={() => isAnimating.set(true)}
-	on:outroend={() => isAnimating.set(false)}
 	bind:this={view}
-	class="container absolute h-[100dvh] w-full text-lg"
+	class="container absolute h-[100dvh] w-full text-xl"
 >
 	<span class="name center font-bold">
 		<slot name="name" />
@@ -29,17 +25,11 @@
 		<slot name="info" />
 	</span>
 
-	<span class="task size-full p-4">
-		{#if !$isAnimating}
-			<span in:fade={{ duration: 500 }} out:fade={{ duration: 500 }}>
-				<slot name="component" />
-			</span>
-		{/if}
+	<span class="task size-full p-4 text-3xl">
+		<slot name="component" />
 	</span>
 
-	<span class="navbar flex">
-		<span class="next center navbtn mb-5 w-60 mx-auto"><slot name="next" /></span>
-	</span>
+	<span class="navbar center flex-row"> <slot name="next" /></span>
 </div>
 
 <style>
