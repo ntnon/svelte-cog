@@ -2,17 +2,6 @@ import type { SvelteComponent } from "svelte";
 import type { Writable } from "svelte/store";
 import type { resettableStore, resettableTaskStore } from "../scripts/resettableStore";
 
-interface IResettableStore<T> extends Writable<T> {
-    reset: () => void;
-}
-
-interface IResettableTaskStore<T> extends Writable<T> {
-    resetData: () => void;
-    reset: () => void;
-    incrementHint: () => void;
-    complete: (T: boolean) => void;
-}
-
 interface IStage {
     completed: boolean;
     name: IElement;
@@ -78,14 +67,6 @@ interface IBall {
     completed: boolean;
 }
 
-interface ITaskData<T> {
-    score: number;
-    completed: boolean;
-    data: T;
-    hints: number;
-
-}
-
 interface IEmoji {
     name: string;
     char: string;
@@ -93,6 +74,23 @@ interface IEmoji {
 interface IEmojiPool {
     correct: IEmoji[];
     pool: IEmoji[];
+}
+
+interface IResettableStore<T> extends Writable<T> {
+    reset: () => void;
+}
+
+interface IResettableTaskStore<T> extends Writable<T> {
+    resetData: () => void;
+    reset: () => void;
+    incrementHint: () => void;
+    complete: (T: boolean) => void;
+}
+interface ITaskData<T> {
+    score: number;
+    completed: boolean;
+    data: T;
+    errors: number;
 }
 
 interface ITasks {
@@ -105,6 +103,7 @@ interface ITasks {
 }
 
 interface IAppData {
+    pageIndex: Writable<number>;
     points: Writable<number>;
     consent: ReturnType<typeof resettableStore<boolean>>;
     recallItems: ReturnType<typeof resettableStore<IEmojiPool>>;
