@@ -1,7 +1,7 @@
 {
     "version": "1.0",
     "itemRecallCount": 3,
-    "itemRecallPoolSize": 9,
+    "itemRecallPoolSize": 25,
     "language": "english",
     "key": "nydon-website/",
     "defaultHelpLabel": "Help",
