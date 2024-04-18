@@ -29,8 +29,8 @@
 		}
 	};
 
-	$: if ($taskState.data.guesses.length) {
-		$taskState.completed = $taskState.data.guesses.length >= $taskState.data.correct.length;
+	$: if ($taskState.data.guesses) {
+		$taskState.completed = $taskState.data.guesses.length === $taskState.data.correct.length;
 	}
 </script>
 

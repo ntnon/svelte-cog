@@ -7,7 +7,7 @@
 <button
 	class="btnClass size-full border-5 border-solid rounded-full box-border {active
 		? ' '
-		: 'bg-slate-400 opacity-30'}"
+		: 'inactive'}"
 	on:click={fn}
 >
 	<slot />

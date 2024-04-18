@@ -29,8 +29,8 @@
 		}
 	};
 
-	$: if ($taskState.data.guesses.length >= $taskState.data.correct.length) {
-		$taskState.completed = true;
+	$: if ($taskState.data.guesses) {
+		$taskState.completed = $taskState.data.guesses.length === $taskState.data.correct.length;
 	}
 
 	const makeInvisible = () => {
@@ -73,11 +73,9 @@
 	<div slot="component" class="grid grid-cols-5 gap-1 w-full h-full text-5xl">
 		{#each $taskState.data.pool as e}
 			<button
-				class="{$taskState.data.guesses.includes(e)
-					? ' bg-slate-200 border-5 border-solid rounded-full box-border'
-					: 'border-5 border-solid rounded-full box-border'} {$taskState.data.removed.includes(e)
-					? 'opacity-35 pointer-events-none'
-					: ''}"
+				class="border-5 border-solid rounded-full box-border {$taskState.data.guesses.includes(e)
+					? ' bg-slate-200 '
+					: ''} {$taskState.data.removed.includes(e) ? 'opacity-0' : ''}"
 				on:click={() => toggleGuess(e)}>{e.char}</button
 			>
 		{/each}
