@@ -16,7 +16,7 @@
 	let dialPos: IPos;
 
 	$: if (dial) {
-		let rect = dial.getBoundingClientRect();
+		let rect = getRectCenter(dial);
 		dialPos = { left: rect.left, top: rect.top };
 	}
 
@@ -35,7 +35,7 @@
 			...m,
 			calcDistFromMid: calcDistFromCenter(pos),
 			angle: newAngle,
-			pointsAt: angleToClockHour(newAngle),
+			pointsAt: (angleToClockHour(newAngle) + 6) % 12, //0.15 is a slight adjustment to a bug
 			completed: true
 		};
 	};
@@ -48,7 +48,9 @@
 	<span class="markers w-[100%] flex flex-row justify-center items-center"
 		>{#each markers as marker}
 			<Draggable on:positionChange={(e) => (marker = updateMarker(e.detail.newPosition, marker))}
-				><span class="size-[7vh] marker">{marker.id}</span></Draggable
+				><span class="size-[7vh] marker"
+					>{marker.id}_{(Math.round(marker.pointsAt * 100) / 100).toFixed(2)}</span
+				></Draggable
 			>
 		{/each}</span
 	>
