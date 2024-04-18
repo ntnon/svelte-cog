@@ -11,7 +11,7 @@ const correctItems = generatedEmojis.correct
 
 export const defaultAppData: IAppData = {
     points: writable(0),
-    pageIndex: writable(5),
+    pageIndex: writable(0),
     consent: resettableStore<boolean>(false),
     recallItems: resettableStore<IEmoji[]>(correctItems),
     isAnimating: writable(false),
