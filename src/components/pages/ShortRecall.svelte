@@ -21,6 +21,14 @@
 		});
 	};
 
+	const toggleGuess = (e: IEmoji) => {
+		if ($taskState.data.guesses.includes(e)) {
+			removeGuess(e);
+		} else {
+			addGuess(e);
+		}
+	};
+
 	$: if ($taskState.data.guesses.length >= $taskState.data.correct.length) {
 		$taskState.completed = true;
 	}
@@ -34,14 +42,12 @@
 	>
 	<div slot="component" class="grid grid-cols-5 gap-1 w-full h-full text-5xl">
 		{#each $taskState.data.pool as e}
-			{#if $taskState.data.guesses.includes(e)}
-				<button
-					class="item bg-slate-200 border-green-600 border-5 border-solid rounded-full box-border"
-					on:click={() => removeGuess(e)}>{e.char}</button
-				>
-			{:else}
-				<button class="item" on:click={() => addGuess(e)}>{e.char}</button>
-			{/if}
+			<button
+				class={$taskState.data.guesses.includes(e)
+					? ' bg-slate-200 border-green-600 border-5 border-solid rounded-full box-border'
+					: 'border-5 border-solid rounded-full box-border'}
+				on:click={() => toggleGuess(e)}>{e.char}</button
+			>
 		{/each}
 	</div>
 	<div slot="next" class="flex flex-row size-full gap-3">
