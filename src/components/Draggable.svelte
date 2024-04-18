@@ -1,10 +1,9 @@
 <script lang="ts">
+	import { getClientCoordinates } from '../scripts/getClientCoordinates';
 	import { getRectCenter } from '../scripts/getRectCenter';
-
 	import { createEventDispatcher } from 'svelte';
 
 	let container: HTMLElement;
-
 	let elementTop: number;
 	let elementLeft: number;
 	let moving = false;
@@ -18,14 +17,6 @@
 		dispatch('positionChange', { newPosition });
 	}
 
-	function getClientCoordinates(e: MouseEvent | TouchEvent) {
-		if (e instanceof TouchEvent && e.touches.length > 0) {
-			return { clientX: e.touches[0].clientX, clientY: e.touches[0].clientY };
-		} else {
-			return { clientX: e.clientX, clientY: e.clientY };
-		}
-	}
-
 	function onMouseUp(e: MouseEvent | TouchEvent) {
 		if (moving) {
 			dispatchPosition();
@@ -35,17 +26,19 @@
 
 	function onMouseDown(e: MouseEvent | TouchEvent) {
 		moving = true;
-		const { clientX, clientY } = getClientCoordinates(e);
-		offsetX = clientX - (elementLeft || 0);
-		offsetY = clientY - (elementTop || 0);
+		const pos = getClientCoordinates(e);
+		if (!pos) return;
+		offsetX = pos.left - (elementLeft || 0);
+		offsetY = pos.top - (elementTop || 0);
 	}
 
 	function onMouseMove(e: MouseEvent | TouchEvent) {
 		if (moving) {
-			const { clientX, clientY } = getClientCoordinates(e);
-			elementLeft = clientX - offsetX;
-			elementTop = clientY - offsetY;
-			// dispatchPosition();
+			const pos = getClientCoordinates(e);
+			if (!pos) return;
+			elementLeft = pos.left - offsetX;
+			elementTop = pos.top - offsetY;
+
 			e.preventDefault();
 		}
 	}
