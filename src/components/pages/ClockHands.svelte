@@ -14,10 +14,12 @@
 
 <Stage>
 	<span slot="name">Clock Hands</span>
-	<span slot="info">Move the clock hands to adjust the</span>
-	<span slot="component" class="size-full"
-		><span class="btn center">{$taskState.data.timestamp.name}</span>
-		<ClockHandsTask bind:hands={$taskState.data} /></span
+	<span slot="info">Adjust the clock to display <b><i>{$taskState.data.timestamp.name}</i></b></span
+	>
+	<span slot="component" class="size-full">
+		<div class="flex flex-grow-1 size-full">
+			<ClockHandsTask bind:hands={$taskState.data} />
+		</div></span
 	>
 	<NextButton active={$taskState.completed} slot="next"></NextButton>
 </Stage>
