@@ -6,6 +6,8 @@
 	import { getClientCoordinates } from '../../scripts/getClientCoordinates';
 	import Clock from '../Clock.svelte';
 
+	import { getRectCenter } from '../../scripts/getRectCenter';
+
 	export let hands: IHands;
 
 	let initialMouseAngle: number;
@@ -15,11 +17,6 @@
 	let clock: HTMLElement;
 	let dialPos: IPos;
 
-	$: if (dial) {
-		let rect = dial.getBoundingClientRect();
-		dialPos = { left: rect.left, top: rect.top };
-	}
-
 	const handleMouseMove = (e: InteractionEvent, touch: boolean = false) => {
 		if (!activeHand) {
 			return;
@@ -27,6 +24,8 @@
 		if (!touch) {
 			e.preventDefault();
 		}
+
+		const dialPos = getRectCenter(dial);
 		const interactionPos = getClientCoordinates(e);
 		if (!dialPos) return;
 		if (!interactionPos) return;
@@ -62,6 +61,7 @@
 		hand.completed = true;
 		activeHand = hand;
 
+		const dialPos = getRectCenter(dial);
 		const interactionPos = getClientCoordinates(e);
 		if (!interactionPos) return;
 
@@ -74,12 +74,13 @@
 <Clock bind:clock>
 	{#each [hands.hour, hands.minute] as hand}
 		<button
-			class="{'hand hand-' + hand.name} {hand.completed ? '' : 'opacity-55'}"
+			class="{'hand hand-' + hand.name} {hand.completed ? '' : 'opacity-50'}"
 			tabindex="0"
 			on:mousedown={(e) => handleMouseDown(e, hand)}
 			on:touchstart={(e) => handleMouseDown(e, hand)}
 			style={'transform: translate(-50%, -50%) rotate(' + hand.angle + 'deg) translate(50%, 0%);'}
-		/>
+		>
+		</button>
 	{/each}
 	<span class="dial" bind:this={dial} /></Clock
 >

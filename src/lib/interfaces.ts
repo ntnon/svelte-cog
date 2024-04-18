@@ -60,6 +60,7 @@ interface IMarker {
     angle: number,
     distFromCenter: number,
     completed: boolean,
+    moving: boolean,
 }
 
 interface IBall {
