@@ -12,14 +12,14 @@
 
 	const dispatch = createEventDispatcher();
 
-	function dispatchPosition() {
+	function dispatchPosition(type: string) {
 		let newPosition = getRectCenter(container);
-		dispatch('positionChange', { newPosition });
+		dispatch(type, { newPosition });
 	}
 
 	function onMouseUp(e: MouseEvent | TouchEvent) {
 		if (moving) {
-			dispatchPosition();
+			dispatchPosition('mouseUp');
 			moving = false;
 		}
 	}
@@ -30,6 +30,7 @@
 		if (!pos) return;
 		offsetX = pos.left - (elementLeft || 0);
 		offsetY = pos.top - (elementTop || 0);
+		dispatchPosition('mouseDown');
 	}
 
 	function onMouseMove(e: MouseEvent | TouchEvent) {
@@ -38,7 +39,7 @@
 			if (!pos) return;
 			elementLeft = pos.left - offsetX;
 			elementTop = pos.top - offsetY;
-
+			dispatchPosition('mouseMove');
 			e.preventDefault();
 		}
 	}
