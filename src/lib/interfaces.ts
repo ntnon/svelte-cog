@@ -2,17 +2,6 @@ import type { SvelteComponent } from "svelte";
 import type { Writable } from "svelte/store";
 import type { resettableStore, resettableTaskStore } from "../scripts/resettableStore";
 
-interface IResettableStore<T> extends Writable<T> {
-    reset: () => void;
-}
-
-interface IResettableTaskStore<T> extends Writable<T> {
-    resetData: () => void;
-    reset: () => void;
-    incrementHint: () => void;
-    complete: (T: boolean) => void;
-}
-
 interface IStage {
     completed: boolean;
     name: IElement;
@@ -38,6 +27,11 @@ interface IButtonElement extends IElement {
     function?: () => void;
 }
 
+interface IPos {
+    left: number;
+    top: number;
+}
+
 interface ITimestamp {
     name: string,
     hour: number;
@@ -61,14 +55,12 @@ interface IHands {
 
 interface IMarker {
     id: number,
-    DOMElement: undefined | HTMLElement,
-    initialDOMElement: undefined | HTMLElement,
-    x: number,
-    y: number,
-    active: boolean,
+    pos: IPos,
     pointsAt: number,
     angle: number,
+    distFromCenter: number,
     completed: boolean,
+    moving: boolean,
 }
 
 interface IBall {
@@ -78,27 +70,50 @@ interface IBall {
     completed: boolean;
 }
 
+interface IEmoji {
+    name: string;
+    char: string;
+}
+
+interface IEmojiPool {
+    correct: IEmoji[];
+    pool: IEmoji[];
+    guesses: IEmoji[];
+    removed: IEmoji[];
+}
+
+interface IResettableStore<T> extends Writable<T> {
+    reset: () => void;
+}
+
+interface IResettableTaskStore<T> extends Writable<T> {
+    resetData: () => void;
+    reset: () => void;
+    incrementHint: () => void;
+    complete: (T: boolean) => void;
+}
 interface ITaskData<T> {
     score: number;
     completed: boolean;
     data: T;
-    hints: number;
-
+    errors: number;
 }
 
 interface ITasks {
     markers: ReturnType<typeof resettableTaskStore<IMarker[]>>;
     hands: ReturnType<typeof resettableTaskStore<IHands>>;
-    recallGuesses: ReturnType<typeof resettableTaskStore<string[]>>;
-    registrationGuesses: ReturnType<typeof resettableTaskStore<string[]>>;
+    itemRegistration: ReturnType<typeof resettableTaskStore<boolean>>;
+    shortRecall: ReturnType<typeof resettableTaskStore<IEmojiPool>>;
+    longRecall: ReturnType<typeof resettableTaskStore<IEmojiPool>>;
     exampleTask: ReturnType<typeof resettableTaskStore<IBall[]>>;
     [key: string]: ReturnType<typeof resettableTaskStore<unknown>>;
 }
 
 interface IAppData {
-    points: number;
+    pageIndex: Writable<number>;
+    points: Writable<number>;
     consent: ReturnType<typeof resettableStore<boolean>>;
-    words: ReturnType<typeof resettableStore<string[]>>;
+    recallItems: ReturnType<typeof resettableStore<IEmoji[]>>;
     isAnimating: Writable<boolean>;
     taskData: ITasks;
 }
@@ -113,4 +128,4 @@ interface IAppData {
 // }
 
 
-export type { IAppData, IHand, IMarker, IResettableStore, IElement, IButtonElement, IStage, ITimestamp, IHands, ITaskData, ITasks, IResettableTaskStore, IBall }
+export type { IEmojiPool, IEmoji, IAppData, IHand, IMarker, IResettableStore, IElement, IButtonElement, IStage, ITimestamp, IHands, ITaskData, ITasks, IResettableTaskStore, IBall, IPos }

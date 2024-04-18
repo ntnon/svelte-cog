@@ -5,7 +5,5 @@ export const getRectCenter = (e: HTMLElement) => {
     return {
         left: rect.left + rect.width / 2 + scrollLeft,
         top: rect.top + rect.height / 2 + scrollTop,
-        x: rect.x,
-        y: rect.y
     } as DOMRect;
 }

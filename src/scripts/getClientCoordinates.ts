@@ -1,8 +1,10 @@
-import type { InteractionEvent } from '../oldLib/types';
+import type { IPos } from '$lib/interfaces';
 
-export const getClientCoordinates = (e: InteractionEvent) => {
+export const getClientCoordinates = (e: MouseEvent | TouchEvent): IPos | null => {
 	if (e instanceof TouchEvent && e.touches.length > 0) {
-		return { clientX: e.touches[0].clientX, clientY: e.touches[0].clientY };
+		return { left: e.touches[0].clientX, top: e.touches[0].clientY };
 	}
-	return { clientX: e.clientX, clientY: e.clientY };
+	if (e instanceof MouseEvent)
+		return { left: e.clientX, top: e.clientY };
+	else return null
 };

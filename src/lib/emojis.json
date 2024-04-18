@@ -1,0 +1,146 @@
+[
+    {
+        "name": "rocket",
+        "char": "🚀"
+    },
+    {
+        "name": "pizza",
+        "char": "🍕"
+    },
+    {
+        "name": "thumbs up",
+        "char": "👍"
+    },
+    {
+        "name": "fire",
+        "char": "🔥"
+    },
+    {
+        "name": "rainbow",
+        "char": "🌈"
+    },
+    {
+        "name": "sunflower",
+        "char": "🌻"
+    },
+    {
+        "name": "taco",
+        "char": "🌮"
+    },
+    {
+        "name": "unicorn",
+        "char": "🦄"
+    },
+    {
+        "name": "ice cream",
+        "char": "🍦"
+    },
+    {
+        "name": "sushi",
+        "char": "🍣"
+    },
+    {
+        "name": "doughnut",
+        "char": "🍩"
+    },
+    {
+        "name": "camera",
+        "char": "📷"
+    },
+    {
+        "name": "paintbrush",
+        "char": "🖌️"
+    },
+    {
+        "name": "basketball",
+        "char": "🏀"
+    },
+    {
+        "name": "globe",
+        "char": "🌍"
+    },
+    {
+        "name": "bus",
+        "char": "🚌"
+    },
+    {
+        "name": "bicycle",
+        "char": "🚲"
+    },
+    {
+        "name": "teddy bear",
+        "char": "🧸"
+    },
+    {
+        "name": "dice",
+        "char": "🎲"
+    },
+    {
+        "name": "telephone",
+        "char": "☎️"
+    },
+    {
+        "name": "tent",
+        "char": "⛺"
+    },
+    {
+        "name": "clock",
+        "char": "🕰️"
+    },
+    {
+        "name": "umbrella",
+        "char": "☂️"
+    },
+    {
+        "name": "sun",
+        "char": "☀️"
+    },
+    {
+        "name": "moon",
+        "char": "🌙"
+    },
+    {
+        "name": "cloud",
+        "char": "☁️"
+    },
+    {
+        "name": "flower",
+        "char": "🌸"
+    },
+    {
+        "name": "tree",
+        "char": "🌳"
+    },
+    {
+        "name": "cactus",
+        "char": "🌵"
+    },
+    {
+        "name": "mushroom",
+        "char": "🍄"
+    },
+    {
+        "name": "snowflake",
+        "char": "❄️"
+    },
+    {
+        "name": "mountain",
+        "char": "⛰️"
+    },
+    {
+        "name": "comet",
+        "char": "☄️"
+    },
+    {
+        "name": "books",
+        "char": "📚"
+    },
+    {
+        "name": "gift",
+        "char": "🎁"
+    },
+    {
+        "name": "musical note",
+        "char": "🎵"
+    }
+]
