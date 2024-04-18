@@ -31,7 +31,7 @@
 		if (!dialPos) return;
 		if (!interactionPos) return;
 
-		const newAngle = calcAngle(dialPos, interactionPos);
+		const newAngle = calcAngle(interactionPos, dialPos);
 
 		activeHand.angle = newAngle - initialMouseAngle;
 		activeHand.pointsAt = angleToClockHour(newAngle);
@@ -73,9 +73,8 @@
 
 <Clock bind:clock>
 	{#each [hands.hour, hands.minute] as hand}
-		<div
+		<button
 			class="{'hand hand-' + hand.name} {hand.completed ? '' : 'opacity-55'}"
-			role="button"
 			tabindex="0"
 			on:mousedown={(e) => handleMouseDown(e, hand)}
 			on:touchstart={(e) => handleMouseDown(e, hand)}
