@@ -21,6 +21,14 @@
 		});
 	};
 
+	const toggleGuess = (e: IEmoji) => {
+		if ($taskState.data.guesses.includes(e)) {
+			removeGuess(e);
+		} else {
+			addGuess(e);
+		}
+	};
+
 	$: if ($taskState.data.guesses.length >= $taskState.data.correct.length) {
 		$taskState.completed = true;
 	}
@@ -28,9 +36,10 @@
 	const makeInvisible = () => {
 		const toRemove = new Set<IEmoji>($taskState.data.removed);
 		const target = toRemove.size + 2;
-
+		//If there are nothing more to remove, return early
 		if ($taskState.data.pool.length - toRemove.size <= 0) return;
 
+		//Finds random items from pool that are not correct answers
 		while (toRemove.size < target) {
 			const remainingPool = $taskState.data.pool.filter((candidate) => !toRemove.has(candidate));
 			if (remainingPool.every((candidate) => $taskState.data.correct.includes(candidate))) {
@@ -44,11 +53,14 @@
 			}
 		}
 
+		//a new guesses list where all items that also appear in toRemove are filtered out
+		const guesses = $taskState.data.guesses.filter((g) => !toRemove.has(g));
+
+		//updates the store
 		taskState.update((v) => {
 			const removed = Array.from(toRemove);
-			return { ...v, data: { ...v.data, removed } };
+			return { ...v, data: { ...v.data, removed, guesses } };
 		});
-		console.log($taskState.data.removed);
 	};
 </script>
 
@@ -60,16 +72,14 @@
 	>
 	<div slot="component" class="grid grid-cols-5 gap-1 w-full h-full text-5xl">
 		{#each $taskState.data.pool as e}
-			{#if $taskState.data.guesses.includes(e)}
-				<button
-					class="item bg-slate-200 border-green-600 border-5 border-solid rounded-full box-border"
-					on:click={() => removeGuess(e)}>{e.char}</button
-				>
-			{:else if $taskState.data.removed.includes(e)}
-				<button class="item opacity-35">{e.char}</button>
-			{:else}
-				<button class="item" on:click={() => addGuess(e)}>{e.char}</button>
-			{/if}
+			<button
+				class="{$taskState.data.guesses.includes(e)
+					? ' bg-slate-200 border-5 border-solid rounded-full box-border'
+					: 'border-5 border-solid rounded-full box-border'} {$taskState.data.removed.includes(e)
+					? 'opacity-35 pointer-events-none'
+					: ''}"
+				on:click={() => toggleGuess(e)}>{e.char}</button
+			>
 		{/each}
 	</div>
 	<div slot="next" class="flex flex-row size-full gap-3">

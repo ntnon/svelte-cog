@@ -112,7 +112,7 @@
 }
 
 button {
-    transition: background-color 0.5s ease-in-out, color 0.2s ease-in-out;
+    transition: background-color 0.5s ease-in-out, color 0.2s ease-in-out, opacity 0.5s ease-in-out;
 }
 
 input:focus {
@@ -129,7 +129,7 @@ input:focus {
 
 .inactive {
     opacity: 0.5;
-    background-color: gray;
+
     pointer-events: none;
     cursor: none;
 }
