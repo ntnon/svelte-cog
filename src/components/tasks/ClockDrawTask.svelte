@@ -7,7 +7,6 @@
 	import Draggable from '../Draggable.svelte';
 	import { getRectCenter } from '../../scripts/getRectCenter';
 	import { calcAngle } from '../../scripts/trigonometry/calcAngle';
-	import { adjustClockwiseDistance } from '../../scripts/trigonometry/adjustClockwiseDistance';
 
 	export let markers: IMarker[];
 
