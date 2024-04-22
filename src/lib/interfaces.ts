@@ -1,6 +1,7 @@
 import type { SvelteComponent } from "svelte";
 import type { Writable } from "svelte/store";
-import type { resettableStore, resettableTaskStore } from "../scripts/resettableStore";
+import type { resettableStore, resettableTaskStore, rewardStore } from "../scripts/stores";
+
 
 interface IStage {
     completed: boolean;
@@ -92,11 +93,29 @@ interface IResettableTaskStore<T> extends Writable<T> {
     incrementHint: () => void;
     complete: (T: boolean) => void;
 }
+
+interface IRewards<T> {
+    options: T[];
+    selected: T[];
+    locked: T[];
+    maxRewards: number;
+    validSelection: boolean;
+}
+
+interface IRewardStore<T> extends Writable<IRewards<T>> {
+    select: (item: T) => void;
+    deselect: (item: T) => void;
+    lock: () => void;
+
+}
+
 interface ITaskData<T> {
     score: number;
     completed: boolean;
     data: T;
     errors: number;
+    choices: string[];
+    reward: string;
 }
 
 interface ITasks {
@@ -110,8 +129,8 @@ interface ITasks {
 }
 
 interface IAppData {
-    pageIndex: Writable<number>;
-    points: Writable<number>;
+    page: Writable<number>;
+    rewards: ReturnType<typeof rewardStore<IEmoji>>;
     consent: ReturnType<typeof resettableStore<boolean>>;
     recallItems: ReturnType<typeof resettableStore<IEmoji[]>>;
     isAnimating: Writable<boolean>;
@@ -128,4 +147,4 @@ interface IAppData {
 // }
 
 
-export type { IEmojiPool, IEmoji, IAppData, IHand, IMarker, IResettableStore, IElement, IButtonElement, IStage, ITimestamp, IHands, ITaskData, ITasks, IResettableTaskStore, IBall, IPos }
+export type { IEmojiPool, IEmoji, IAppData, IHand, IMarker, IResettableStore, IElement, IButtonElement, IStage, ITimestamp, IHands, ITaskData, ITasks, IResettableTaskStore, IBall, IPos, IRewardStore, IRewards }

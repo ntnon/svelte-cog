@@ -1,5 +1,5 @@
 import type { IAppData, IHands, IMarker, IEmojiPool, IEmoji } from "./interfaces";
-import { resettableStore, resettableTaskStore } from "../scripts/resettableStore";
+import { resettableStore, resettableTaskStore, rewardStore } from "../scripts/stores";
 import { generateClockMarkers } from "../scripts/dataGen/generateClockMarkers";
 import { generateClockHands } from "../scripts/dataGen/generateClockHands";
 import { generateRandomEmojis } from "../scripts/dataGen/generateRandomEmojis";
@@ -10,8 +10,9 @@ const generatedEmojis = generateRandomEmojis();
 const correctItems = generatedEmojis.correct
 
 export const defaultAppData: IAppData = {
-    points: writable(0),
-    pageIndex: writable(0),
+    rewards: rewardStore(),
+    page: writable(1
+    ),
     consent: resettableStore<boolean>(false),
     recallItems: resettableStore<IEmoji[]>(correctItems),
     isAnimating: writable(false),
