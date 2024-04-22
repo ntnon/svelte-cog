@@ -36,7 +36,7 @@
 
 <Stage>
 	<span slot="name">Emoji-logger</span>
-	<span slot="info"
+	<span slot="info" class={enableNext ? 'showInfoText' : 'opacity-0'}
 		>Do you remember? <br />Tap the correct icons {$taskState.data.guesses.length}/{$taskState.data
 			.correct.length}</span
 	>
