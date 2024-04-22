@@ -8,7 +8,7 @@
 
 <Stage>
 	<span slot="name">Hooray!!!</span>
-	<span slot="info" class="text-6xl">✨🎖️✨</span>
+	<span slot="info" class="showInfoText text-6xl">✨🎖️✨</span>
 
 	{#each keyValueArray as t}
 		<span class="text-6xl">{t}f</span>

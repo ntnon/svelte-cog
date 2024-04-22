@@ -4,8 +4,10 @@
 </script>
 
 <Stage>
-	<span slot="name">Welcome to the online MCI test!</span>
-	<span slot="info">Complete the tasks, earn points. There are 6 unique tasks</span>
+	<span slot="name"> </span>
+	<span slot="info" class={enableNext ? 'showInfoText' : 'opacity-0'}
+		>Complete the tasks, earn points. There are 6 unique tasks</span
+	>
 	<span slot="component" class=" size-full flex-col center space-y-10 text-xl p-16">
 		<p>
 			Mild Cognitive Impairment <i>can</i> lead to worsening cognitive health, but in most cases it does
@@ -16,7 +18,6 @@
 		<b>
 			If you are concerned about your cognitive health, please consult a healthcare professional.
 		</b>
-
 		<p>The first task is to press the 'next' button when you are ready to move on!</p>
 	</span>
 	<NextButton label="ok" slot="next" />
