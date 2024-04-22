@@ -32,7 +32,7 @@
 
 <Stage>
 	<span slot="name">Word Registration</span>
-	<span slot="info" class="nb">Remember the words below!</span>
+	<span slot="info" class="showInfoText">Remember the words below!</span>
 	<input class="larger-checkbox" type="checkbox" />
 	<span class="space-y-10" slot="component">
 		<div class="flex-col justify-between center space-y-10 mt-20 text-3xl">
