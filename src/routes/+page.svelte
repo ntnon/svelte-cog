@@ -7,12 +7,15 @@
 	import LongRecall from '../components/pages/LongRecall.svelte';
 	import ShortRecall from '../components/pages/ShortRecall.svelte';
 	import Results from '../components/pages/Results.svelte';
+	import Beginning from '../components/pages/Beginning.svelte';
 
 	import { getAppState } from '$lib/state.svelte';
-	let pageId = getAppState().pageIndex;
+	let page = getAppState().page;
+
 	const pages = [
 		Introduction,
 		//Example
+		Beginning,
 		ItemRegistration,
 		ShortRecall,
 		ClockDraw,
@@ -20,6 +23,8 @@
 		LongRecall,
 		Results
 	];
+
+	let f = false;
 </script>
 
-<svelte:component this={pages[$pageId % pages.length]} />
+<svelte:component this={pages[$page]} />
