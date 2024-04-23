@@ -1,5 +1,5 @@
 import type { IAppData, IHands, IMarker, IEmojiPool, IEmoji } from "./interfaces";
-import { resettableStore, resettableTaskStore, rewardStore } from "../scripts/stores";
+import { resettableStore, resettablePageStore, rewardStore } from "../scripts/stores";
 import { generateClockMarkers } from "../scripts/dataGen/generateClockMarkers";
 import { generateClockHands } from "../scripts/dataGen/generateClockHands";
 import { generateRandomEmojis } from "../scripts/dataGen/generateRandomEmojis";
@@ -11,18 +11,17 @@ const correctItems = generatedEmojis.correct
 
 export const defaultAppData: IAppData = {
     rewards: rewardStore(),
-    page: writable(1
-    ),
+    page: writable(1),
     consent: resettableStore<boolean>(false),
     recallItems: resettableStore<IEmoji[]>(correctItems),
-    isAnimating: writable(false),
-    taskData: {
-        markers: resettableTaskStore<IMarker[]>(generateClockMarkers()),
-        hands: resettableTaskStore<IHands>(generateClockHands()),
-        itemRegistration: resettableTaskStore<boolean>(false),
-        shortRecall: resettableTaskStore<IEmojiPool>(generateRandomEmojis(correctItems)),
-        longRecall: resettableTaskStore<IEmojiPool>(generateRandomEmojis(correctItems)),
-        exampleTask: resettableTaskStore(generateExampleBalls(4))
+    pageData: {
+        beginning: resettablePageStore<string>(""),
+        markers: resettablePageStore<IMarker[]>(generateClockMarkers()),
+        hands: resettablePageStore<IHands>(generateClockHands()),
+        itemRegistration: resettablePageStore<boolean>(false),
+        shortRecall: resettablePageStore<IEmojiPool>(generateRandomEmojis(correctItems)),
+        longRecall: resettablePageStore<IEmojiPool>(generateRandomEmojis(correctItems)),
+        exampleTask: resettablePageStore(generateExampleBalls(4))
         //expandable
     }
     //expandable
