@@ -1,57 +1,126 @@
 <script lang="ts">
 	import { getAppState } from '$lib/state.svelte';
+	import Recall from '../tasks/Recall.svelte';
 	import Stage from '../Stage.svelte';
-	import NextButton from '../NextButton.svelte';
-	import BackButton from '../BackButton.svelte';
-	import type { IEmoji } from '$lib/interfaces';
+	import type { SvelteComponent } from 'svelte';
+	import NextStage from '../NextStage.svelte';
+	import { narrator, wizard, guy, doctor } from '$lib/characters';
+	import Dialog from '../Dialog.svelte';
+	import Reward from '../Reward.svelte';
 
-	export let taskState = getAppState().taskData.shortRecall;
+	const previousPage = getAppState().pageData.itemRegistration;
 
-	const addGuess = (e: IEmoji) => {
-		taskState.update((v) => {
-			const guesses = Array.from(new Set([...v.data.guesses, e]));
-			return { ...v, data: { ...v.data, guesses } };
-		});
-	};
+	const page = getAppState().pageData.shortRecall;
+	let correctGuesses = 0;
 
-	const removeGuess = (e: IEmoji) => {
-		taskState.update((v) => {
-			const guesses = v.data.guesses.filter((g) => g.char !== e.char);
-			return { ...v, data: { ...v.data, guesses } };
-		});
-	};
-
-	const toggleGuess = (e: IEmoji) => {
-		if ($taskState.data.guesses.includes(e)) {
-			removeGuess(e);
-		} else {
-			addGuess(e);
-		}
-	};
-
-	$: if ($taskState.data.guesses) {
-		$taskState.completed = $taskState.data.guesses.length === $taskState.data.correct.length;
+	$: if (page) {
+		correctGuesses = $page.data.correct.filter((item) => $page.data.guesses.includes(item)).length;
 	}
+
+	page.showNav();
+	page.showInfo();
+
+	let recall: SvelteComponent;
+
+	const t = $previousPage.choices.find((r) => r.key === 'shortRecall')?.content ?? 'wizard';
 </script>
 
-<Stage>
-	<span slot="name">Emoji-logger</span>
-	<span slot="info" class={enableNext ? 'showInfoText' : 'opacity-0'}
-		>Do you remember? <br />Tap the correct icons {$taskState.data.guesses.length}/{$taskState.data
-			.correct.length}</span
-	>
-	<div slot="component" class="grid grid-cols-5 gap-1 w-full h-full text-5xl">
-		{#each $taskState.data.pool as e}
-			<button
-				class={$taskState.data.guesses.includes(e)
-					? ' bg-slate-200 border-green-600 border-5 border-solid rounded-full box-border'
-					: 'border-5 border-solid rounded-full box-border'}
-				on:click={() => toggleGuess(e)}>{e.char}</button
+{#if $page.currentStage === 'initial'}
+	<Stage {page}>
+		<span slot="name"></span>
+		<span slot="info"
+			>Select the correct items {$page.data.guesses.length}/{$page.data.correct.length}</span
+		>
+		<Recall bind:this={recall} slot="component" {page} />
+		<span slot="next" class="multiNav">
+			<button class="btn w-[50vw]" on:click={() => recall.makeInvisible()}>Hint</button>
+			<NextStage inactive={$page.completed} {page} nextStage="reward">zzzz</NextStage>
+		</span>
+	</Stage>
+{/if}
+{#if t === 'wizard'}
+	{#if $page.currentStage === 'reward'}
+		<Stage {page}>
+			<span slot="name" class="emoji">{doctor.char}</span>
+			<span slot="info">You have unlocked the Wizard!</span>
+			<span slot="component">
+				<b>{doctor.char}: </b><Dialog
+					on:complete={() => {
+						page.showReward();
+					}}
+					speed={doctor.talkingSpeed}
+					htmlString="Hello again Froggie!<pause /><br />I see you have been busy!<pause /><br />You managed to collect {correctGuesses} out of {$page
+						.data.correct.length} items.  {correctGuesses === 0
+						? "That's not a lot, but look! I found some items lying around, I can still turn you back into a human! "
+						: correctGuesses === 1
+							? 'That is not great, but I guess there were many items to pick from. Anway, I can still turn you back into a human!'
+							: correctGuesses < 4
+								? 'That is plenty of items! With these I can turn you into a human again!'
+								: 'That is excellent! I can turn you back into a human!'} Hold still..."
+				></Dialog></span
 			>
-		{/each}
-	</div>
-	<div slot="next" class="flex flex-row size-full gap-3">
-		<BackButton>See words</BackButton>
-		<NextButton active={$taskState.completed}></NextButton>
-	</div>
-</Stage>
+			<Reward
+				on:complete={() => page.showNav()}
+				slot="reward"
+				options={[
+					{ name: 'crutch', char: '🩼' },
+					{
+						name: 'stethoscope',
+						char: '🩺'
+					},
+					{ name: 'thermometer', char: '🌡️' },
+					{ name: 'bandage', char: '🩹' },
+					{ name: 'microscope', char: '🔬' }
+				]}
+			/>
+			<NextStage {page} nextStage="reward2">Continue</NextStage>
+		</Stage>
+	{/if}
+	{#if $page.currentStage === 'reward2'}
+		<Stage {page}>
+			<span slot="name">Knight</span>
+			<span slot="info">You have unlocked the Knight!</span>
+			<span slot="component"> fffff</span></Stage
+		>
+	{/if}
+{/if}
+
+{#if t !== 'wizard'}
+	{#if $page.currentStage === 'reward'}
+		<Stage {page}>
+			<span slot="name" class="emoji">{doctor.char}</span>
+			<span slot="info">You have unlocked the Wizard!</span>
+			<span slot="component">
+				<b>{doctor.char}: </b><Dialog
+					on:complete={() => {
+						page.showReward();
+					}}
+					speed={doctor.talkingSpeed}
+					htmlString="Oh you made it! Did you remember any of the items that my friend likes?<pause /><br />I see you have been busy!<pause /><br />You managed to collect {correctGuesses} out of {$page
+						.data.correct.length} items.  {correctGuesses === 0
+						? "That's not a lot, but look! I found some items lying around, I can still turn you back into a human! "
+						: correctGuesses === 1
+							? 'That is not great, but I guess there were many items to pick from. Anway, I can still turn you back into a human!'
+							: correctGuesses < 4
+								? 'That is plenty of items! With these I can turn you into a human again!'
+								: 'That is excellent! I can turn you back into a human!'} Hold still..."
+				></Dialog></span
+			>
+			<Reward
+				on:complete={() => page.showNav()}
+				slot="reward"
+				options={[
+					{ name: 'crutch', char: '🩼' },
+					{
+						name: 'stethoscope',
+						char: '🩺'
+					},
+					{ name: 'thermometer', char: '🌡️' },
+					{ name: 'bandage', char: '🩹' },
+					{ name: 'microscope', char: '🔬' }
+				]}
+			/>
+			<NextStage {page} nextStage="reward2">Continue</NextStage>
+		</Stage>
+	{/if}
+{/if}
