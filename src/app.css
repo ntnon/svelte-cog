@@ -17,12 +17,23 @@
     src: url('/src/fonts/Horizon-updated/Horizon-updated/NEW_UPDATED_VERSION/horizon.otf') format('opentype');
 }
 
-.info>span {
+.emoji {
+    font-size: 3.75rem
+        /* 60px */
+    ;
+    line-height: 1;
+}
+
+.nb>span {
     transition: all 0.5s ease-in-out;
 }
 
-.hand {
-    height: 3.5vh;
+.hideChildren>* {
+    opacity: 0;
+}
+
+.ease {
+    transition: all 0.5s ease-in-out;
 }
 
 .center {
