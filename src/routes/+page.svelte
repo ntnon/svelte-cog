@@ -23,8 +23,6 @@
 		LongRecall,
 		Results
 	];
-
-	let f = false;
 </script>
 
 <svelte:component this={pages[$page]} />
