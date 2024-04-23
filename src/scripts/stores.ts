@@ -1,13 +1,19 @@
 import { writable } from "svelte/store";
-import type { IResettableStore, ITaskData, IResettableTaskStore, IRewardStore, IRewards } from "$lib/interfaces";
+import type { IResettableStore, IPageData, IResettablePageStore, IRewardStore, IRewards, IEmoji, IChoice } from "$lib/interfaces";
 
-export const resettableTaskStore = <T>(data: T): IResettableTaskStore<ITaskData<T>> => {
+export const resettablePageStore = <T>(data: T): IResettablePageStore<IPageData<T>> => {
 
-    const { set, update, subscribe } = writable<ITaskData<T>>({
+    const { set, update, subscribe } = writable<IPageData<T>>({
         data,
         completed: false,
         score: 0,
-        errors: 0
+        errors: 0,
+        choices: [],
+        currentStage: "initial",
+        rewards: [],
+        showNav: false,
+        showInfo: false,
+        showReward: false,
     });
 
     const resetData = () => update(
@@ -18,9 +24,19 @@ export const resettableTaskStore = <T>(data: T): IResettableTaskStore<ITaskData<
         data: data,
         completed: false,
         score: 0,
-        errors: 0
+        errors: 0,
+        choices: [],
+        currentStage: "initial",
+        rewards: [],
+        showNav: false,
+        showInfo: false,
+        showReward: false,
     });
 
+    const addReward = (reward: IEmoji | IEmoji[]) => update((v) => ({
+        ...v,
+        rewards: Array.isArray(reward) ? [...v.rewards, ...reward] : [...v.rewards, reward]
+    }));
     const incrementHint = () => update(
         (v) => ({ ...v, hints: v.errors + 1 })
     );
@@ -28,6 +44,33 @@ export const resettableTaskStore = <T>(data: T): IResettableTaskStore<ITaskData<
     const complete = (bool: boolean) => update(
         (v) => ({ ...v, completed: bool })
     );
+
+    const changeStage = (stage: string) => update((v) => ({
+        ...v,
+        currentStage: stage,
+        enableNextStage: false
+    }));
+
+    const addChoice = (choice: IChoice) => update((v) => ({ ...v, choices: [...v.choices, choice] }));
+
+    const enableNext = () => update((v) => ({ ...v, enableNextStage: true }));
+
+    const disableNext = () => update((v) => ({ ...v, enableNextStage: false }));
+
+    const softReset = () => update((v) => ({
+        ...v, showNav: false,
+        showInfo: false,
+        showReward: false
+    }));
+
+    const showNav = () => update((v) => ({ ...v, showNav: true }));
+    const showInfo = () => update((v) => ({ ...v, showInfo: true }));
+    const showReward = () => update((v) => ({ ...v, showReward: true }));
+
+    const ready = () => {
+        showNav();
+        showInfo();
+    }
 
 
     return {
@@ -37,7 +80,17 @@ export const resettableTaskStore = <T>(data: T): IResettableTaskStore<ITaskData<
         resetData,
         incrementHint,
         reset,
-        complete: (bool: boolean) => complete(bool)
+        changeStage,
+        complete: (bool: boolean) => complete(bool),
+        disableNext,
+        enableNext,
+        addChoice,
+        addReward,
+        softReset,
+        showNav,
+        showInfo,
+        showReward,
+        ready
     }
 }
 
