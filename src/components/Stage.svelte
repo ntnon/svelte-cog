@@ -1,9 +1,13 @@
 <script lang="ts">
 	import { getAppState } from '$lib/state.svelte';
-	import { fade, fly } from 'svelte/transition';
+	import { fly } from 'svelte/transition';
 	import RewardView from './RewardView.svelte';
+	import type { IResettablePageStore } from '$lib/interfaces';
+
+	export let page: IResettablePageStore<any>;
 
 	let points = getAppState().rewards;
+
 	let view: HTMLElement;
 	// in:fly={{ x: view.clientWidth, duration: 700, opacity: 100 }}
 	// out:fly={{ x: view.clientWidth * -1, duration: 700, opacity: 100 }}
@@ -23,15 +27,18 @@
 		<RewardView />
 	</span>
 
-	<span class="info center p-4 nb">
+	<span class="info center p-4 nb {$page.showInfo ? '' : 'hideChildren'}">
 		<slot name="info" />
 	</span>
 
 	<span class="task size-full p-4 flex flex-col">
 		<slot name="component" />
+		{#if $page.showReward}
+			<span class="h-full {$page.showReward ? '' : 'hideChildren'}"> <slot name="reward" /></span>
+		{/if}
 	</span>
 
-	<span class="navbar px-6 py-3"> <slot name="next" /></span>
+	<span class="navbar px-6 py-3 {$page.showNav ? '' : 'hideChildren'}"> <slot name="next" /></span>
 </div>
 
 <style>
