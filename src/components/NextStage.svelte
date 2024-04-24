@@ -1,36 +1,36 @@
 <script lang="ts">
 	import NavButton from './NavButton.svelte';
 	import { getAppState } from '$lib/state.svelte';
-	import type { IChoice, IEmoji, IPageData, IResettablePageStore } from '$lib/interfaces';
+	import type { IChoice, IPageData, IResettablePageStore } from '$lib/interfaces';
 
 	const pageStore = getAppState().page;
 	const inventory = getAppState().rewards;
+	const choices = getAppState().choices;
 
-	export let inactive: boolean = false;
 	export let page: IResettablePageStore<IPageData<any>>;
-	export let nextStage: string;
+	export let nextStage: string | null = null;
 	export let choice: IChoice | null = null;
 	export let nextPage: boolean = false;
 	export const fn: () => void = () => {};
 </script>
 
-<span class="ease size-full {$page.showNav ? '' : 'opacity-0'} {inactive ? 'inactive' : ''}">
-	<NavButton
-		fn={() => {
-			if (fn) {
-				console.log('CCCCHCHCHCHH');
-				fn();
-			}
-			inventory.lock();
+<button
+	class={'ease size-full btnClass bg-green-500 border-5 border-solid rounded-full box-border border-green-500 ' +
+		($page.showNav ? '' : '')}
+	on:click={() => {
+		inventory.lock();
+		if (nextStage) {
 			page.changeStage(nextStage);
-			if (choice) {
-				page.addChoice(choice);
-			}
-			page.disableNext();
-			page.softReset();
-			if (nextPage) {
-				pageStore.update((v) => v + 1);
-			}
-		}}><slot /></NavButton
-	>
-</span>
+		}
+		if (choice) {
+			choices.update((v) => (choice ? [...v, choice] : v));
+		}
+		page.disableNext();
+		page.softReset();
+		if (nextPage) {
+			pageStore.update((v) => v + 1);
+		}
+	}}
+>
+	<slot />
+</button>

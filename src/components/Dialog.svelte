@@ -1,9 +1,12 @@
 <script lang="ts">
+	import { narrator } from '$lib/characters';
+	import type { ICharacter } from '$lib/interfaces';
 	import { createEventDispatcher } from 'svelte';
 	import { onDestroy } from 'svelte';
+
 	const dispatch = createEventDispatcher();
 
-	export let speed: number = 100;
+	export const speed: number = 100;
 
 	export let htmlString =
 		'<i>I am getting married, but I am afraid things are going awfully wrong. Will you help me?</i>'; // Your HTML string
@@ -13,12 +16,19 @@
 	let index = 0;
 	let inTag = false;
 	let tag = '';
-	export let delay: number = 1000; // Delay in milliseconds
+	const pauseDuration = 1;
+	export let delay = 850;
 
-	const delayed = setTimeout(() => {
-		const interval = setInterval(() => {
+	export let character: ICharacter = narrator;
+
+	console.log(character);
+
+	let interval: number | undefined;
+
+	const delayer = setTimeout(() => {
+		interval = setInterval(() => {
 			if (remainingPauseTime > 0) {
-				remainingPauseTime -= speed; // Decrement remaining pause time
+				remainingPauseTime -= 1; // Decrement remaining pause time
 				return; // Skip execution during pause
 			}
 
@@ -29,18 +39,13 @@
 				} else if (htmlString[index] === '>') {
 					inTag = false;
 					tag += '>';
-
-					if (tag.startsWith('<pause')) {
-						const match = tag.match(/<pause\s+(\d+)\s*\/?>/);
-						if (match) {
-							const pauseDelay = parseInt(match[1], 10);
-							remainingPauseTime = pauseDelay; // Set remaining pause time
-
-							tag = ''; // Reset tag after processing pause
-						}
-					} else {
-						displayString += tag;
+					console.log(tag);
+					// Check if the tag is a pause tag
+					if (tag === '<pause/>' || tag === '<pause />') {
+						remainingPauseTime += pauseDuration; // Set the remaining pause time
 					}
+					// Add the tag to the display string
+					displayString += tag;
 				} else if (!inTag) {
 					displayString += htmlString[index];
 				} else {
@@ -51,10 +56,34 @@
 				clearInterval(interval);
 				dispatch('complete', true);
 			}
-		}, speed); // Change to "speed" when not debugging
-	}, delay); // Adjust the interval duration as needed
+		}, character.talkingSpeed);
+	}, delay);
 
+	onDestroy(() => {
+		clearTimeout(delayer);
+		clearInterval(interval);
+	});
 	// Clean up interval on component destroy
 </script>
 
-{@html displayString}
+<span class="bubble flex flex-row">
+	<span class="w-auto font-bold text-xl">{character.char}: </span>
+	<div class="0 m-4">
+		{@html displayString}
+	</div>
+</span>
+
+<style>
+	.bubble {
+		border-radius: 10px;
+		padding: 10px;
+		display: flex;
+		flex-direction: column; /* Arrange children in a column */
+		justify-content: flex-start; /* Align children to the start of the column */
+		margin: 20px; /* Add this line */
+	}
+
+	.bubble::after {
+		content: '';
+	}
+</style>
