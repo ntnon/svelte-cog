@@ -1,11 +1,10 @@
 <script lang="ts">
 	import type { IEmoji, IEmojiPool, IPageData, IResettablePageStore } from '$lib/interfaces';
-	import { getAppState } from '$lib/state.svelte';
 
 	export let page: IResettablePageStore<IPageData<IEmojiPool>>;
 
 	$: if ($page.data.guesses.length >= $page.data.correct.length) {
-		$page.completed = true;
+		$page.completed = $page.data.guesses.length >= $page.data.correct.length;
 	}
 
 	export const addGuess = (e: IEmoji) => {
@@ -28,11 +27,11 @@
 		} else {
 			addGuess(e);
 		}
+		page.update((V) => ({
+			...V,
+			showNav: $page.data.guesses.length === $page.data.correct.length
+		}));
 	};
-
-	$: if ($page.data.guesses) {
-		$page.completed = $page.data.guesses.length === $page.data.correct.length;
-	}
 
 	export const makeInvisible = () => {
 		const toRemove = new Set<IEmoji>($page.data.removed);
