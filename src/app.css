@@ -17,18 +17,35 @@
     src: url('/src/fonts/Horizon-updated/Horizon-updated/NEW_UPDATED_VERSION/horizon.otf') format('opentype');
 }
 
+main {
+    line-height: 1.2rem;
+    letter-spacing: 0.05rem;
+}
+
 .emoji {
-    font-size: 3.75rem
-        /* 60px */
-    ;
-    line-height: 1;
+    font-size: 3.75rem;
+
+
+
+}
+
+/* When the viewport is 640px or smaller */
+@media (max-width: 640px) {
+    .emoji {
+        font-size: 2.2rem;
+
+    }
+
+    main {
+        line-height: 1rem;
+    }
 }
 
 .nb>span {
     transition: all 0.5s ease-in-out;
 }
 
-.hideChildren>* {
+.hideChildren>span {
     opacity: 0;
 }
 
