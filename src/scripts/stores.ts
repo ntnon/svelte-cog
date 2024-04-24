@@ -53,9 +53,9 @@ export const resettablePageStore = <T>(data: T): IResettablePageStore<IPageData<
 
     const addChoice = (choice: IChoice) => update((v) => ({ ...v, choices: [...v.choices, choice] }));
 
-    const enableNext = () => update((v) => ({ ...v, enableNextStage: true }));
+    const enableNext = () => update((v) => ({ ...v, showNav: true }));
 
-    const disableNext = () => update((v) => ({ ...v, enableNextStage: false }));
+    const disableNext = () => update((v) => ({ ...v, showNav: false }));
 
     const softReset = () => update((v) => ({
         ...v,
