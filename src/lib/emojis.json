@@ -8,20 +8,16 @@
         "char": "🍕"
     },
     {
-        "name": "thumbs up",
-        "char": "👍"
+        "name": "ghost",
+        "char": "👻"
     },
     {
-        "name": "fire",
-        "char": "🔥"
+        "name": "bee",
+        "char": "🐝"
     },
     {
         "name": "rainbow",
         "char": "🌈"
-    },
-    {
-        "name": "sunflower",
-        "char": "🌻"
     },
     {
         "name": "taco",
@@ -30,18 +26,6 @@
     {
         "name": "unicorn",
         "char": "🦄"
-    },
-    {
-        "name": "ice cream",
-        "char": "🍦"
-    },
-    {
-        "name": "sushi",
-        "char": "🍣"
-    },
-    {
-        "name": "doughnut",
-        "char": "🍩"
     },
     {
         "name": "camera",
@@ -100,10 +84,6 @@
         "char": "🌙"
     },
     {
-        "name": "cloud",
-        "char": "☁️"
-    },
-    {
         "name": "flower",
         "char": "🌸"
     },
@@ -124,10 +104,6 @@
         "char": "❄️"
     },
     {
-        "name": "mountain",
-        "char": "⛰️"
-    },
-    {
         "name": "comet",
         "char": "☄️"
     },
@@ -136,11 +112,15 @@
         "char": "📚"
     },
     {
-        "name": "gift",
-        "char": "🎁"
-    },
-    {
         "name": "musical note",
         "char": "🎵"
+    },
+    {
+        "name": "heart",
+        "char": "❤️"
+    },
+    {
+        "name": "star",
+        "char": "⭐"
     }
 ]
