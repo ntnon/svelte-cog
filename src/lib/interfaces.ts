@@ -129,6 +129,7 @@ interface ICharacter {
     name: string;
     char: string;
     talkingSpeed: number;
+    symbol: string;
 }
 
 
@@ -146,7 +147,7 @@ interface IPageData<T> {
 }
 
 interface IPages {
-    beginning: ReturnType<typeof resettablePageStore<string>>;
+    default: ReturnType<typeof resettablePageStore<string>>;
     itemRegistration: ReturnType<typeof resettablePageStore<boolean>>;
     shortRecall: ReturnType<typeof resettablePageStore<IEmojiPool>>;
     markers: ReturnType<typeof resettablePageStore<IMarker[]>>;
@@ -156,6 +157,7 @@ interface IPages {
 }
 
 interface IAppData {
+    choices: Writable<IChoice[]>;
     page: Writable<number>;
     rewards: ReturnType<typeof rewardStore<IEmoji>>;
     consent: ReturnType<typeof resettableStore<boolean>>;

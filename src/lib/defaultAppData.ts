@@ -10,12 +10,13 @@ const generatedEmojis = generateRandomEmojis();
 const correctItems = generatedEmojis.correct
 
 export const defaultAppData: IAppData = {
+    choices: writable([]),
     rewards: rewardStore(),
-    page: writable(1),
+    page: writable(0),
     consent: resettableStore<boolean>(false),
     recallItems: resettableStore<IEmoji[]>(correctItems),
     pageData: {
-        beginning: resettablePageStore<string>(""),
+        default: resettablePageStore<string>(""),
         markers: resettablePageStore<IMarker[]>(generateClockMarkers()),
         hands: resettablePageStore<IHands>(generateClockHands()),
         itemRegistration: resettablePageStore<boolean>(false),
