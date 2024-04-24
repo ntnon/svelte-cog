@@ -2,15 +2,24 @@
 	import Stage from '../Stage.svelte';
 	import { getAppState } from '$lib/state.svelte';
 
-	const taskState = getAppState().taskData;
-	const keyValueArray = Object.entries(taskState);
+	const page = getAppState().pageData.default;
+	const rewards = getAppState().rewards;
+
+	const shortRecall = getAppState().pageData.shortRecall;
+	const longRecall = getAppState().pageData.longRecall;
+	const clockDraw = getAppState().pageData.markers;
+	const clockHands = getAppState().pageData.hands;
+	const beginning = getAppState().pageData.default;
+	const itemRegistration = getAppState().pageData.itemRegistration;
 </script>
 
-<Stage>
+<Stage {page}>
 	<span slot="name">Hooray!!!</span>
-	<span slot="info" class="text-6xl">✨🎖️✨</span>
-
-	{#each keyValueArray as t}
-		<span class="text-6xl">{t}f</span>
-	{/each}
-</Stage>
+	<p slot="info" class="emoji">✨🎖️✨</p>
+	<span slot="component">
+		<p>You have completed the game!</p>
+		{#each $rewards.locked as reward}
+			<p>{reward.name}: {reward.char}</p>
+		{/each}
+	</span></Stage
+>

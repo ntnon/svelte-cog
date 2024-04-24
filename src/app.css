@@ -17,9 +17,43 @@
     src: url('/src/fonts/Horizon-updated/Horizon-updated/NEW_UPDATED_VERSION/horizon.otf') format('opentype');
 }
 
+main {
+    font: 1.5rem;
+    line-height: 2.1rem;
+    letter-spacing: 0.02rem;
 
-.hand {
-    height: 3.5vh;
+
+}
+
+.emoji {
+    font-size: 3.75rem;
+
+}
+
+/* When the viewport is 640px or smaller */
+@media (max-width: 640px) {
+    .emoji {
+        font-size: 2.2rem;
+
+    }
+
+    main {
+        line-height: 1rem;
+        line-height: 1.7rem;
+        letter-spacing: 0.08rem;
+    }
+}
+
+.nb>span {
+    transition: all 0.5s ease-in-out;
+}
+
+.hideChildren>span {
+    opacity: 0;
+}
+
+.ease {
+    transition: all 0.5s ease-in-out;
 }
 
 .center {
@@ -28,18 +62,8 @@
     align-items: center;
 }
 
-.input-field {
-    background-color: #f4ebec;
-    text-align: center;
-}
 
-.clock {
-    border: solid 2vh #e37951;
-    border-radius: 50%;
-    position: relative;
-    align-self: center;
-    display: inline-block;
-}
+
 
 .dial {
     position: absolute;
@@ -51,6 +75,82 @@
     transform: translate(-50%, -50%);
     --tw-bg-opacity: 1;
     background-color: rgb(227 121 81 / var(--tw-bg-opacity));
+}
+
+
+
+.multiNav {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    width: 100%;
+    height: 100%;
+    transition: background-color 0.5s ease-in-out, color 0.2s ease-in-out, opacity 0.5s ease-in-out;
+}
+
+
+
+
+.btnClass {
+    width: 100%;
+    height: 100%;
+    border-radius: 9999px;
+    padding: 2;
+    transition: background-color 0.5s ease-in-out, color 0.2s ease-in-out, opacity 0.5s ease-in-out;
+}
+
+.btnClass:active {
+    transform: scale(0.95);
+}
+
+.reward {
+    transition-property: all;
+    transition-duration: 0.5s;
+    transition-timing-function: ease-in-out;
+}
+
+
+.inactive {
+    opacity: 0.35;
+
+    pointer-events: none;
+    cursor: none;
+}
+
+.nb>* {
+    animation: nb 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.nb2 {
+    animation: nb2 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes nb {
+
+    0%,
+    100% {
+        scale: 1;
+    }
+
+    50% {
+        scale: 1.03;
+    }
+}
+
+@keyframes nb2 {
+
+    0%,
+    100% {
+        scale: 1;
+    }
+
+    50% {
+        scale: 1.75;
+    }
+}
+
+ol {
+    list-style-type: decimal;
 }
 
 .clickable {
@@ -81,11 +181,6 @@
     transition: transform 0.5s ease-in-out;
 }
 
-.circle {
-    border-radius: 50%;
-    border: solid 1rem #e37951;
-}
-
 .btn {
     background-color: rgb(216, 132, 77);
     border: none;
@@ -94,73 +189,20 @@
     padding: 1rem;
 }
 
-.disabled {
-    background-color: red;
+.circle {
+    border-radius: 50%;
+    border: solid 1rem #e37951;
 }
 
-.enabled {
-    background-color: green;
+.clock {
+    border: solid 2vh #e37951;
+    border-radius: 50%;
+    position: relative;
+    align-self: center;
+    display: inline-block;
 }
 
-.btnClass {
-    width: 100%;
-    height: 100%;
-    border-radius: 9999px;
-    padding: 2;
-    --tw-bg-opacity: 1;
-    background-color: rgb(34 197 94 / var(--tw-bg-opacity));
-}
-
-button {
-    transition: background-color 0.5s ease-in-out, color 0.2s ease-in-out, opacity 0.5s ease-in-out;
-}
-
-input:focus {
-    outline: solid 0.5rem #000000;
-    animation: pulse 2s infinite;
-    z-index: 4;
-}
-
-.highlight {
-    outline: solid #000000;
-    animation: pulse 2s infinite;
-    z-index: 4;
-}
-
-.inactive {
-    opacity: 0.5;
-
-    pointer-events: none;
-    cursor: none;
-}
-
-@keyframes pulse {
-    0% {
-        outline: solid 0.5rem #000000;
-    }
-
-    50% {
-        outline: solid 0.7rem #000000;
-    }
-
-    100% {
-        outline: solid 0.5rem #000000;
-    }
-}
-
-.nb>* {
-    animation: nb 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-@keyframes nb {
-
-    0%,
-    100% {
-        scale: 1;
-    }
-
-
-    50% {
-        scale: 1.03;
-    }
+.input-field {
+    background-color: #f4ebec;
+    text-align: center;
 }

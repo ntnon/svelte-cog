@@ -7,6 +7,7 @@
 	import Clock from '../Clock.svelte';
 
 	import { getRectCenter } from '../../scripts/getRectCenter';
+	import { createEventDispatcher } from 'svelte';
 
 	export let hands: IHands;
 
@@ -79,7 +80,7 @@
 			on:mousedown={(e) => handleMouseDown(e, hand)}
 			on:touchstart={(e) => handleMouseDown(e, hand)}
 			style={'transform: translate(-50%, -50%) rotate(' + hand.angle + 'deg) translate(50%, 0%);'}
-		>
+			><p>he</p>
 		</button>
 	{/each}
 	<span class="dial" bind:this={dial} /></Clock
@@ -101,6 +102,10 @@
 		position: absolute;
 		transform: translate(0%, -50%);
 		user-select: none;
+	}
+
+	p {
+		opacity: 0;
 	}
 
 	.hand-minute {
