@@ -58,7 +58,8 @@ export const resettablePageStore = <T>(data: T): IResettablePageStore<IPageData<
     const disableNext = () => update((v) => ({ ...v, enableNextStage: false }));
 
     const softReset = () => update((v) => ({
-        ...v, showNav: false,
+        ...v,
+        showNav: false,
         showInfo: false,
         showReward: false
     }));
@@ -123,6 +124,11 @@ export const rewardStore = <T>(): IRewardStore<T> => {
     const removeFromArray = (arr: T[], item: T) => arr.filter((i) => i !== item);
 
     const select = (item: T) => update((v) => {
+        if (v.locked.includes(item) || v.selected.includes(item)) return ({
+            ...v,
+            options: removeFromArray(v.options, item),
+        })
+
         const options = Array.from(new Set(removeFromArray(v.options, item)))
         const selected = Array.from(new Set([...v.selected, item]))
         const validSelection = selected.length === v.maxRewards
