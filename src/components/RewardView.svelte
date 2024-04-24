@@ -6,21 +6,15 @@
 	let rewards = getAppState().rewards;
 </script>
 
-<div class="flex">
-	{#each $rewards.locked as item}
-		<div class="flex flex-col">
-			<span>{item.char}</span>
-		</div>
-	{/each}
-	{#each $rewards.selected as item (item.name)}
-		<button
+<div class="grid grid-cols-5 gap-5 text-5xl">
+	{#each [...$rewards.locked, ...$rewards.selected] as item (item.name)}
+		<span
 			animate:flip={{ duration: 300 }}
 			in:receive|global={{ key: item.name }}
 			out:send|global={{ key: item.name }}
-			class="flex flex-col"
-			on:click={() => rewards.deselect(item)}
+			class="flex flex-col justify-center items-center -m-4"
 		>
 			{item.char}
-		</button>
+		</span>
 	{/each}
 </div>
