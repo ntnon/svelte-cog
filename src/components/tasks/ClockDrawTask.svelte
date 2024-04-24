@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { IMarker, IPos } from '$lib/interfaces';
+	import type { IMarker, IPageData, IPos, IResettablePageStore } from '$lib/interfaces';
 
 	import { angleToClockHour } from '../../scripts/trigonometry/angleToClockHour';
 
@@ -8,6 +8,7 @@
 	import { getRectCenter } from '../../scripts/getRectCenter';
 	import { calcAngle } from '../../scripts/trigonometry/calcAngle';
 
+	export let page: IResettablePageStore<IPageData<IMarker[]>>;
 	export let markers: IMarker[];
 
 	let dial: HTMLElement;
@@ -31,13 +32,13 @@
 		if (!dialPos) return m;
 		let newAngle = calcAngle(dialPos, pos);
 		let pointsAt = (angleToClockHour(newAngle) + 6) % 12;
+
 		return {
 			...m,
 			calcDistFromMid: calcDistFromCenter(pos),
 			angle: newAngle,
 			pointsAt: pointsAt,
-			score: Math.abs(pointsAt - m.id),
-			completed: true
+			score: Math.abs(pointsAt - m.id)
 		};
 	};
 </script>
@@ -50,7 +51,11 @@
 		>{#each markers as marker}
 			<Draggable
 				on:mouseUp={(e) =>
-					(marker = { ...updateMarker(e.detail.newPosition, marker), moving: false })}
+					(marker = {
+						...updateMarker(e.detail.newPosition, marker),
+						moving: false,
+						completed: true
+					})}
 				on:mouseDown={() => (marker = { ...marker, moving: true })}
 				on:mouseDown={() => (marker = { ...marker, moving: true })}
 				><span class="size-[7vh] marker text-3xl {marker.moving ? 'scale-[175%] ' : ''}"
