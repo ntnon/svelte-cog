@@ -29,7 +29,6 @@
 
 {#if $page.currentStage === 'initial'}
 	<Stage {page}>
-		<span slot="name"></span>
 		<span slot="info"
 			>Select the correct items {$page.data.guesses.length}/{$page.data.correct.length}</span
 		>
@@ -44,8 +43,6 @@
 {#if $page.currentStage === 'reward'}
 	{#if t === 'wizard'}
 		<Stage {page}>
-			<span slot="name" class="emoji">{doctor.char}</span>
-			<span slot="info"><b>ribbit ribbit ribbit</b></span>
 			<span slot="component">
 				<Dialog
 					character={doctor}
@@ -66,8 +63,6 @@
 		</Stage>
 	{:else}
 		<Stage {page}>
-			<span slot="name" class="emoji">{guy.char}</span>
-			<span slot="info">Continue your journey</span>
 			<span slot="component">
 				<Dialog
 					character={guy}
@@ -96,8 +91,6 @@
 
 {#if $page.currentStage === 'reward2'}
 	<Stage {page}>
-		<span slot="name" class="emoji">{doctor.char}</span>
-		<span slot="info">Continue your journey</span>
 		<span slot="component">
 			<Dialog
 				character={doctor}

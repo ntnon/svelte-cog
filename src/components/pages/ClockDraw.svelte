@@ -20,7 +20,6 @@
 
 {#if $page.currentStage === 'task'}
 	<Stage {page}>
-		<span slot="name" class="emoji">☀️</span>
 		<p slot="info">Drag all the numbers to their correct place on the clock</p>
 		<span slot="component" class="size-full flex flex-grow-1">
 			<ClockDrawTask {page} bind:markers={$page.data}></ClockDrawTask>
@@ -31,8 +30,6 @@
 
 {#if $page.currentStage === 'initial'}
 	<Stage {page}>
-		<span slot="name" class="emoji">{academic.char}</span>
-		<span slot="info"> Will you go on an adventure with the academic?</span>
 		<span slot="component"
 			><Dialog
 				character={academic}
@@ -66,10 +63,6 @@
 
 {#if $page.currentStage === 'yes'}
 	<Stage {page}>
-		<span slot="name" class="flex flex-row center"
-			><span class="emoji">{academic.char}</span>
-		</span>
-		<span slot="info"> Will you help the academic?</span>
 		<span slot="component">
 			<Dialog
 				character={academic}
@@ -85,8 +78,6 @@
 
 {#if $page.currentStage === 'no'}
 	<Stage {page}>
-		<span slot="name" class="emoji">{academic.char}</span>
-		<span slot="info"> Continue your journey</span>
 		<span slot="component">
 			<Dialog
 				character={academic}
@@ -100,8 +91,6 @@
 {/if}
 {#if $page.currentStage === 'no2'}
 	<Stage {page}>
-		<span slot="name" class="emoji">{narrator.char}</span>
-		<span slot="info"> Do you keep the watch?</span>
 		<span slot="component">
 			<Dialog
 				on:complete={() => page.ready()}
@@ -133,8 +122,6 @@
 
 {#if $page.currentStage === 'found-watch'}
 	<Stage {page}>
-		<span slot="name" class="emoji">{narrator.char}</span>
-		<span slot="info"></span>
 		<span slot="component">
 			<Dialog
 				on:complete={() => page.ready()}
@@ -150,8 +137,6 @@
 {#if $page.currentStage === 'dinosaur'}
 	<div in:scale={{ duration: 1500, delay: 0, start: 0.2, easing: quintIn }}>
 		<Stage {page}>
-			<span slot="name" class="emoji">{academic.char}</span>
-			<span slot="info"> </span>
 			<span slot="component" class="size-full flex space-between flex-col space-y-10">
 				<Jurrasic />
 				<span class="">
@@ -159,24 +144,36 @@
 						character={academic}
 						on:complete={() => page.ready()}
 						delay={1000}
-						htmlString="Welcome to <b> the jurassic era!</b><br><pause />
-						wow...<pause />
-						They are beautiful creatures! So majestic...<pause /><pause />
-						<b>OH NO!!!</b><pause />
-						The clock is broken!!! We are <b>stuck</b> unless we fix it.<pause /> I don't want to be eaten by a dinosaur!!!!"
+						htmlString="Welcome to <b> the jurassic era!</b>"
 					></Dialog>
 				</span>
 			</span>
-			<NextStage slot="next" {page} nextStage={'task'}>Fix the magical clock</NextStage>
+			<NextStage slot="next" {page} nextStage={'dinosaur2'}>Continue</NextStage>
 		</Stage>
 	</div>
+{/if}
+
+{#if $page.currentStage === 'dinosaur2'}
+	<Stage {page}>
+		<span slot="component" class="size-full flex space-between flex-col space-y-10">
+			<span class="">
+				<Dialog
+					character={academic}
+					on:complete={() => page.ready()}
+					delay={1000}
+					htmlString="
+						<b>OH NO!!!</b><pause />
+						The clock is broken!!! We are <b>stuck</b> unless we fix it.<pause /> I don't want to be eaten by a dinosaur!!!!"
+				></Dialog>
+			</span>
+		</span>
+		<NextStage slot="next" {page} nextStage={'task'}>Fix the magical clock</NextStage>
+	</Stage>
 {/if}
 
 {#if $page.currentStage === 'reward'}
 	{#if $choices.find((choice) => choice.key === 'adventure' && choice.content === 'yes')}
 		<Stage {page}>
-			<span slot="name" class="emoji">{academic.char}</span>
-			<span slot="info"> </span>
 			<span slot="component" class="size-full">
 				<Dialog
 					character={academic}
@@ -193,8 +190,6 @@
 		</Stage>
 	{:else if $choices.find((choice) => choice.key === 'watch')?.content === 'keep-watch'}
 		<Stage {page}>
-			<span slot="name" class="emoji">{narrator.char}</span>
-			<span slot="info"></span>
 			<span slot="component">
 				<Dialog on:complete={() => page.showReward()} htmlString="You keep the academic's watch."
 				></Dialog>
@@ -208,8 +203,6 @@
 		</Stage>
 	{:else}
 		<Stage {page}>
-			<span slot="name" class="emoji">{academic.char}</span>
-			<span slot="info"></span>
 			<span slot="component" class="size-full">
 				<Dialog
 					character={academic}

@@ -5,7 +5,7 @@
 	import ClockHandsTask from '../tasks/ClockHandsTask.svelte';
 	import { getAppState } from '$lib/state.svelte';
 	import Reward from '../Reward.svelte';
-	import { mayor, narrator } from '$lib/characters';
+	import { mayor } from '$lib/characters';
 	const choices = getAppState().choices;
 	const page = getAppState().pageData.hands;
 
@@ -19,18 +19,19 @@
 
 {#if $page.currentStage === 'task'}
 	<Stage {page}>
-		<span slot="name" class="emoji">☀️</span>
-		<p slot="info">Adjust the clock to display <b><i>{$page.data.timestamp.name}</i></b></p>
-		<span slot="component" class="flex flex-grow-1 size-full">
-			<ClockHandsTask bind:hands={$page.data} />
+		<span slot="component" class="size-full">
+			<div class="h-[80%]">
+				<ClockHandsTask bind:hands={$page.data} />
+			</div>
+			<div class="h-[20%]">
+				Adjust the clock to display <b><i>{$page.data.timestamp.name}</i></b>
+			</div>
 		</span>
 		<NextStage slot="next" {page} nextStage={'reward'}>Continue</NextStage>
 	</Stage>
 {/if}
 {#if $page.currentStage === 'initial'}
 	<Stage {page}>
-		<span slot="name" class="emoji">{mayor.char}</span>
-		<span slot="info"> Will you climb the city hall building? </span>
 		<span slot="component">
 			<Dialog
 				character={mayor}
@@ -63,8 +64,6 @@
 {/if}
 {#if $page.currentStage === 'no'}
 	<Stage {page}>
-		<span slot="name" class="emoji">{mayor.char}</span>
-		<span slot="info"> Adjust your watch </span>
 		<span slot="component">
 			<Dialog
 				character={mayor}
@@ -77,7 +76,6 @@
 {/if}
 {#if $page.currentStage === 'yes'}
 	<Stage {page}>
-		<span slot="name" class="emoji">{mayor.char}</span>
 		<span slot="info">
 			Will you help the {mayor.name}?
 		</span>
@@ -89,17 +87,13 @@
 			></Dialog></span
 		>
 
-		<NextStage slot="next" {page} nextStage={'task'}>Climb</NextStage>
+		<NextStage slot="next" {page} nextStage={'task'}>Adjust clock</NextStage>
 	</Stage>
 {/if}
 
 {#if $page.currentStage === 'reward'}
 	{#if $choices.find((c) => c.key === 'climb')?.content === 'yes'}
 		<Stage {page}>
-			<span slot="name" class="emoji">{mayor.char}</span>
-			<span slot="info">
-				Will you help the {mayor.name}?
-			</span>
 			<span slot="component">
 				<Dialog
 					character={mayor}
@@ -119,8 +113,6 @@
 		</Stage>
 	{:else}
 		<Stage {page}>
-			<span slot="name" class="emoji">{narrator.char}</span>
-			<span slot="info">Continue your journey!</span>
 			<span slot="component"
 				><Dialog
 					on:complete={() => page.ready()}

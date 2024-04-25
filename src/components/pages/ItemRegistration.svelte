@@ -18,8 +18,6 @@
 
 {#if $page.currentStage === 'initial'}
 	<Stage {page}>
-		<span slot="name" class="emoji">☀️</span>
-		<span slot="info">Which path do you choose?</span>
 		<span slot="component"
 			><Dialog
 				on:complete={() => page.ready()}
@@ -45,8 +43,6 @@
 
 {#if $page.currentStage === 'wizard'}
 	<Stage {page}>
-		<span slot="name" class="emoji">{wizard.char}</span>
-		<span slot="info">ribbit ribbit</span>
 		<span slot="component"
 			><Dialog
 				character={wizard}
@@ -62,8 +58,6 @@
 
 {#if $page.currentStage === 'wizard2'}
 	<Stage {page}>
-		<span slot="name" class="emoji">{narrator.char}</span>
-		<span slot="info">ribbit ribbit</span>
 		<span slot="component"
 			><Dialog
 				on:complete={() => page.ready()}
@@ -80,8 +74,6 @@
 
 {#if $page.currentStage === 'doctor'}
 	<Stage {page}>
-		<span slot="name" class="emoji">{doctor.char}</span>
-		<span slot="info">Remember the ingredients</span>
 		<span slot="component"
 			><Dialog
 				character={doctor}
@@ -96,8 +88,6 @@
 
 {#if $page.currentStage === 'guy'}
 	<Stage {page}>
-		<span slot="name" class="emoji">{guy.char}</span>
-		<span slot="info">What do you do?</span>
 		<span slot="component"
 			><Dialog
 				character={guy}
@@ -130,8 +120,6 @@
 
 {#if $page.currentStage === 'other-path'}
 	<Stage {page}>
-		<span slot="name" class="emoji">☀️</span>
-		<span slot="info">The other route it is!</span>
 		<span slot="component"
 			><Dialog
 				on:complete={() => page.ready()}
@@ -154,8 +142,6 @@
 
 {#if $page.currentStage === 'guy2'}
 	<Stage {page}>
-		<span slot="name" class="emoji">{guy.char}</span>
-		<span slot="info">Remember the items!</span>
 		<span slot="component"
 			><Dialog
 				character={guy}
@@ -173,10 +159,9 @@
 
 {#if $page.currentStage === 'task'}
 	<Stage {page}>
-		<span slot="name" class="emoji">☀️</span>
 		<span slot="info">You need to remember these items! You will be asked to recall them later</span
 		>
-		<span slot="component" class="flex-col justify-between center space-y-10 mt-20 text-3xl">
+		<span slot="component" class="flex-col justify-between center space-y-10 text-3xl">
 			{#each $recallItems as item, index}
 				<div
 					in:fade|global={{ duration: 1000, delay: offset + timeBetweenItems * index + 1 }}

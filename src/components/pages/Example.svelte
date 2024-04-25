@@ -12,7 +12,6 @@
 </script>
 
 <Stage {page}>
-	<span slot="name">Example task</span>
 	<span slot="info" class={enableNext ? 'showInfoText' : 'opacity-0'}>
 		Let us begin with an example task, to get you started! Tap all the <span class="inline-block"
 			><span class="clickable size-[1rem]"></span></span

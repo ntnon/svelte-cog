@@ -20,7 +20,6 @@
 
 {#if $page.currentStage === 'task'}
 	<Stage {page}>
-		<span slot="name">Recall the items</span>
 		<p slot="info">
 			Select the correct items {$page.data.guesses.length}/{$page.data.correct.length}
 		</p>
@@ -35,8 +34,6 @@
 {#if $page.currentStage === 'initial'}
 	{#if $choices.find((c) => c.key === 'shortRecall')?.content === 'guy'}
 		<Stage {page}>
-			<span slot="name" class="emoji">{guy.char}</span>
-			<span slot="info">Help the guy... again</span>
 			<span slot="component">
 				<Dialog
 					character={guy}
@@ -48,8 +45,6 @@
 		</Stage>
 	{:else}
 		<Stage {page}>
-			<span slot="name" class="emoji">{narrator.char}</span>
-			<span slot="info">Find the necessary items again</span>
 			<span slot="component">
 				<Dialog
 					on:complete={() => {
@@ -66,8 +61,6 @@
 {#if $page.currentStage === 'reward'}
 	{#if $choices.find((c) => c.key === 'shortRecall')?.content === 'guy'}
 		<Stage {page}>
-			<span slot="name" class="emoji">{guy.char}</span>
-			<span slot="info">Pick up all the birthday stuff!</span>
 			<span slot="component">
 				<Dialog
 					character={guy}
@@ -89,8 +82,6 @@
 		</Stage>
 	{:else if correctGuesses > 3}
 		<Stage {page}>
-			<span slot="name" class="emoji">{king.char}</span>
-			<span slot="info">Receive the gift</span>
 			<span slot="component">
 				<Dialog
 					character={king}
@@ -109,8 +100,6 @@
 		</Stage>
 	{:else}
 		<Stage {page}>
-			<span slot="name" class="emoji">{narrator.char}</span>
-			<span slot="info">Continue your journey</span>
 			<span slot="component">
 				<Dialog
 					on:complete={() => page.ready()}

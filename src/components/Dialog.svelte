@@ -66,9 +66,9 @@
 	// Clean up interval on component destroy
 </script>
 
+<span class="w-auto font-bold text-3xl">{character.char}: </span>
 <span class="bubble flex flex-row">
-	<span class="w-auto font-bold text-xl">{character.char}: </span>
-	<div class="0 m-4">
+	<div class="">
 		{@html displayString}
 	</div>
 </span>
@@ -76,7 +76,6 @@
 <style>
 	.bubble {
 		border-radius: 10px;
-		padding: 10px;
 		display: flex;
 		flex-direction: column; /* Arrange children in a column */
 		justify-content: flex-start; /* Align children to the start of the column */
