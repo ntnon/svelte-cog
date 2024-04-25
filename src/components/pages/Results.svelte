@@ -14,7 +14,6 @@
 </script>
 
 <Stage {page}>
-	<span slot="name">Hooray!!!</span>
 	<p slot="info" class="emoji">✨🎖️✨</p>
 	<span slot="component">
 		<p>You have completed the game!</p>

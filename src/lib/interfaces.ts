@@ -147,7 +147,8 @@ interface IPageData<T> {
 }
 
 interface IPages {
-    default: ReturnType<typeof resettablePageStore<string>>;
+    introduction: ReturnType<typeof resettablePageStore<string>>;
+    beginning: ReturnType<typeof resettablePageStore<string>>;
     itemRegistration: ReturnType<typeof resettablePageStore<boolean>>;
     shortRecall: ReturnType<typeof resettablePageStore<IEmojiPool>>;
     markers: ReturnType<typeof resettablePageStore<IMarker[]>>;

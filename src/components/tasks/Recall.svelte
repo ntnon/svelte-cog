@@ -59,7 +59,20 @@
 		//updates the store
 		page.update((v) => {
 			const removed = Array.from(toRemove);
-			return { ...v, data: { ...v.data, removed, guesses, errors: v.errors + 1 } };
+			const newValue = {
+				...v,
+				data: {
+					...v.data,
+					removed,
+					guesses,
+					errors: v.errors + 1
+				}
+			};
+
+			return {
+				...newValue,
+				showNav: newValue.data.guesses.length === newValue.data.correct.length
+			};
 		});
 	};
 </script>
@@ -68,9 +81,15 @@
 	{#each $page.data.pool as e}
 		<button
 			class="border-5 border-solid rounded-full box-border {$page.data.guesses.includes(e)
-				? ' bg-slate-200 '
+				? 'selected'
 				: ''} {$page.data.removed.includes(e) ? 'opacity-0' : ''}"
 			on:click={() => toggleGuess(e)}>{e.char}</button
 		>
 	{/each}
 </div>
+
+<style>
+	.selected {
+		background-color: rgb(183, 155, 17);
+	}
+</style>

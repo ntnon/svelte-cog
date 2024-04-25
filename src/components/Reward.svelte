@@ -24,7 +24,7 @@
 	}
 </script>
 
-<div class="ease size-full center text-6xl flex flex-end nb">
+<div class="ease size-full center text-6xl flex flex-end">
 	{#each $rewards.options as item (item.name)}
 		<button
 			class="reward nb2"
