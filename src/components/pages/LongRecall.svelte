@@ -21,8 +21,8 @@
 {#if $page.currentStage === 'task'}
 	<Stage {page} displayRewards={false}>
 		<span slot="info">
-			Select the items you were asked to remember {$page.data.guesses.length}/{$page.data.correct
-				.length}
+			Select the same items you were asked to remember earlier {$page.data.guesses.length}/{$page
+				.data.correct.length}
 		</span>
 		<Recall bind:this={recall} slot="component" {page} />
 		<p slot="next" class="multiNav">
@@ -39,7 +39,7 @@
 				<Dialog
 					character={guy}
 					on:complete={() => page.ready()}
-					htmlString="Hey, I am the guy from before! I messed up again!!<pause /> You remember the items you got for me? I put them all next to other gifts, and I lost track of which ones you got!<pause /> What were the items again?"
+					htmlString="Hey, I am the guy from before, but I have less balloons now!<pause /> I messed up again!<pause /> You remember the items you got for me?<pause /> I put them all next to other gifts and I lost track of which ones you got. What were the items again"
 				></Dialog>
 			</span>
 			<NextStage slot="next" {page} nextStage="task">Recall the items</NextStage>
@@ -51,10 +51,10 @@
 					on:complete={() => {
 						page.ready();
 					}}
-					htmlString="You see a frog and a crown on top of a rock. It looks at you with big eyes. <pause /> Maybe the frog used to be human! <pause /> Recall all the items, maybe the frog will turn into a human again!"
+					htmlString="You see a frog on top of a rock. <pause /> Next to it is a crown.<pause /> 🐸👑 <pause /><i>crrooak...</i><pause /> The frog looks at you with big eyes.<pause /> Maybe it used to be human! <pause /> You remember how the doctor turned you into a human, if you only had the same items as before, maybe you could help this frog!"
 				></Dialog>
 			</span>
-			<NextStage slot="next" {page} nextStage="task">Find items</NextStage>
+			<NextStage slot="next" {page} nextStage="task">Find the ingredients again</NextStage>
 		</Stage>
 	{/if}
 {/if}
@@ -104,7 +104,7 @@
 			<span slot="component">
 				<Dialog
 					on:complete={() => page.ready()}
-					htmlString="Hmm, you didn't get all the items right.<pause /> It is probably just a regular frog anyway!"
+					htmlString="Hmm, you didn't get the items right.<pause /> It is probably just a regular frog anyway!"
 				></Dialog>
 			</span>
 			<NextStage slot="next" {page} nextPage={true}>Continue</NextStage>

@@ -4,42 +4,92 @@
 	import NextStage from '../NextStage.svelte';
 	import Reward from '../Reward.svelte';
 	import Dialog from '../Dialog.svelte';
-	import { allCharacters, narrator } from '$lib/characters';
+	import { allCharacters } from '$lib/characters';
+
 	const choices = getAppState().choices;
-	const page = getAppState().pageData.default;
+	const page = getAppState().pageData.end;
+
+	const shortRecall = getAppState().pageData.shortRecall;
+	const longRecall = getAppState().pageData.longRecall;
+	const clockDraw = getAppState().pageData.markers;
+	const clockHands = getAppState().pageData.hands;
+	const beginning = getAppState().pageData.beginning;
+	const itemRegistration = getAppState().pageData.itemRegistration;
 
 	const preference =
-		$choices.find((c) => c.key === 'preference')?.content === 'bagel' ? 'ice cream' : 'bagel';
+		$choices.find((c) => c.key === 'preference')?.content === 'bagel' ? 'bagel' : 'cream';
 	console.log($choices);
 
 	const loc =
-		$choices.find((c) => c.key === 'preference')?.content === 'bagel' ? 'ice cream shop' : 'bakery';
+		$choices.find((c) => c.key === 'preference')?.content === 'bagel' ? 'bakery' : 'ice cream shop';
 
 	const finalReward = preference === 'bagel' ? '🥯' : '🍨';
 
 	page.showInfo();
 </script>
 
-<Stage {page}>
-	<p slot="info">
-		<span class=" flex flex-wrap">
+{#if $page.currentStage === 'initial'}
+	<Stage {page}>
+		<span slot="info" class=" flex flex-nowrap">
 			{#each allCharacters as c}
-				<span class="emoji">{c.symbol}</span>
+				{c.symbol}
 			{/each}
 		</span>
-	</p>
-	<span slot="component">
-		<Dialog
-			on:complete={() => {
-				page.showReward();
-			}}
-			htmlString="There is a long line! Even I want one of these! You deserve it!"
-		></Dialog>
-	</span>
-	<Reward
-		slot="reward"
-		on:complete={() => page.showNav()}
-		options={[{ name: 'ice-cream', char: finalReward }]}
-	/>
-	<NextStage slot="next" {page} nextPage={true}>Continue</NextStage>
-</Stage>
+		<span slot="component">
+			<div class="text-4xl p-4 flex-nowrap">
+				{#each allCharacters as c}
+					{c.symbol}
+				{/each}
+			</div>
+			<Dialog
+				on:complete={() => {
+					page.showNav();
+				}}
+				htmlString="You finally arive at the {loc}.<pause /> There is a long line! Even I want one of these!<pause /> Your reward at last!<pause /> Enjoy!!"
+			></Dialog>
+		</span>
+		<NextStage slot="next" {page} nextStage={'reward'}>Complete game</NextStage>
+	</Stage>
+{/if}
+{#if $page.currentStage === 'reward'}
+	<Stage {page}>
+		<Reward
+			slot="component"
+			on:complete={() => page.showNav()}
+			options={[{ name: 'ice-cream', char: finalReward }]}
+		/>
+		<NextStage slot="next" {page} nextStage={'statistics'}>See statistics</NextStage>
+	</Stage>
+{/if}
+{#if $page.currentStage === 'statistics'}
+	<Stage {page}>
+		<div slot="component">
+			<div>Clock drawing score: {'idk'}</div>
+			<div>
+				Clock hands goal: {$clockHands.data.timestamp.hour}:{$clockHands.data.timestamp.minute}
+			</div>
+			<div>
+				Your clock hands: {$clockHands.data.hour.target}:{$clockHands.data.minute.target * 5}
+			</div>
+			<div>
+				Item recall score: {$shortRecall.data.correct.filter((i) =>
+					$shortRecall.data.guesses.includes(i)
+				).length -
+					$shortRecall.errors * 0.5}
+			</div>
+			<div>
+				Delayed recall score: {$longRecall.data.correct.filter((i) =>
+					$longRecall.data.guesses.includes(i)
+				).length -
+					$longRecall.errors * 0.5}
+			</div>
+			<br />
+
+			<div>Overall score: {'idk'}</div>
+			<br />
+			Remember to actively engage in activities that promote brain health!<br />
+			<br />
+			Thank you for playing!
+		</div>
+	</Stage>
+{/if}

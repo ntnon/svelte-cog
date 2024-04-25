@@ -3,7 +3,7 @@
 	import Dialog from '../Dialog.svelte';
 	import { getAppState } from '$lib/state.svelte';
 	import NextStage from '../NextStage.svelte';
-	import { narrator, wizard, guy, doctor } from '$lib/characters';
+	import { narrator, wizard, guyBalloon, doctor } from '$lib/characters';
 	import { fade } from 'svelte/transition';
 	import type { IPageData, IResettablePageStore } from '$lib/interfaces';
 
@@ -13,7 +13,7 @@
 	const recallItems = getAppState().recallItems;
 
 	const offset = 800;
-	const timeBetweenItems = 500;
+	const timeBetweenItems = 800;
 </script>
 
 {#if $page.currentStage === 'initial'}
@@ -23,7 +23,7 @@
 				on:complete={() => page.ready()}
 				htmlString="Looking at your usual route to the 	{$choices.find((r) => r.key === 'preference')
 					?.location ?? 'bakery'}, you see a wizard standing in the middle of the road.<pause /> 
-				What a strange sight!<pause /> You could take the other route, but there is a guy in tuxedo, looking very anxious.<pause /> "
+				What a strange sight!<pause /> You could take the other route, but there is a guy in tuxedo, holding many ballons and looking somewhat anxious."
 			></Dialog></span
 		>
 		<span slot="next" class="multiNav">
@@ -36,7 +36,7 @@
 				}}
 				nextStage="wizard">{wizard.char}</NextStage
 			>
-			<NextStage {page} nextStage="guy">{guy.char}</NextStage>
+			<NextStage {page} nextStage="guy">{guyBalloon.char}</NextStage>
 		</span>
 	</Stage>
 {/if}
@@ -78,10 +78,9 @@
 			><Dialog
 				character={doctor}
 				on:complete={() => page.ready()}
-				htmlString="So you're telling me a wizard turned you into a frog?<pause /> That is very strange.<pause /> I thought the wizard was on vacation!<pause />Luckily I know a bit of magic, but I am very busy. You will have to find the necessary ingredients yourself.<pause /> Here is the list of the items that we need --- remember them!"
+				htmlString="So you're telling me a wizard turned you into a frog?<pause /> That is very strange.<pause /> I thought the wizard was on vacation!<pause /> Luckily I know a bit of magic, but I am very busy. You will have to find the necessary ingredients yourself.<pause /> Here is the list of the items that we need --- remember them!"
 			></Dialog></span
 		>
-
 		<NextStage slot="next" {page} nextStage="task">I am ready</NextStage>
 	</Stage>
 {/if}
@@ -90,9 +89,9 @@
 	<Stage {page}>
 		<span slot="component"
 			><Dialog
-				character={guy}
+				character={guyBalloon}
 				on:complete={() => page.ready()}
-				htmlString="It's my friend's birthday today, and I told him I could plan his party. I planned everything, and it is perfect, but I totally forgot to get him a present!<pause /> I am so embarrassed. I don't know what to do!"
+				htmlString="It's my friend's birthday today and I told him I could plan his party and I planned everything and it is perfect, but I totally forgot to get him a present!<pause /> I am so embarrassed and I don't know what to do!"
 			></Dialog></span
 		>
 		<span slot="next" class="multiNav">
@@ -144,11 +143,11 @@
 	<Stage {page}>
 		<span slot="component"
 			><Dialog
-				character={guy}
+				character={guyBalloon}
 				on:complete={() => {
 					page.ready();
 				}}
-				htmlString="Thank you so much!<pause /> I'll tell you what he likes, so you know what to get from the shop! ok?"
+				htmlString="Thank you so much!<pause /> I'll tell you what my friend likes, so you know what to look for in the shop! ok?"
 			></Dialog>
 		</span>
 		<span slot="next" class="multiNav">

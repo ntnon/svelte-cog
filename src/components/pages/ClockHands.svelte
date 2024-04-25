@@ -34,7 +34,7 @@
 			<Dialog
 				character={mayor}
 				on:complete={() => page.ready()}
-				htmlString="Good day!<pause /> You look like you could climb the city hall building! It would really help me out..."
+				htmlString="Good day.<pause /> You look like you could climb the city hall building.<pause /> Would you it for me?"
 			></Dialog></span
 		>
 		<span slot="next" class="multiNav">
@@ -55,7 +55,7 @@
 					text: 'you decided to help the mayor'
 				}}
 				{page}
-				nextStage={'yes'}>Climb</NextStage
+				nextStage={'yes'}>Sure</NextStage
 			>
 		</span>
 	</Stage>
@@ -66,7 +66,7 @@
 			<Dialog
 				character={mayor}
 				on:complete={() => page.ready()}
-				htmlString="Well at least you are honest! <pause /> By the way, your watch shows the wrong time.<pause /> Anyway I have to go, don't forget to vote for me!"
+				htmlString="Well at least you are honest. <pause /> By the way, your watch shows the wrong time.<pause /> Anyway I have to. <b>Don't forget to vote for me!!!</b>"
 			></Dialog></span
 		>
 		<NextStage slot="next" {page} nextStage={'task'}>Adjust watch</NextStage>
@@ -81,7 +81,7 @@
 			<Dialog
 				character={mayor}
 				on:complete={() => page.ready()}
-				htmlString="Lovely! <pause />The town clock on top of city hall displays the wrong time. I need you to adjust it!"
+				htmlString="Lovely. <pause />The town clock on top of city hall displays the wrong time.<pause /> I need you to adjust it.<pause /> Thank you."
 			></Dialog></span
 		>
 
@@ -99,7 +99,7 @@
 						page.showInfo();
 						page.showReward();
 					}}
-					htmlString="Wonderful! Please have my pen, really, I insist!<pause /> Don't forget to vote!"
+					htmlString="Thank you again. Please have my pen.<pause />  Really, I insist.<pause /> Don't forget to vote!"
 				></Dialog>
 			</span>
 			<Reward

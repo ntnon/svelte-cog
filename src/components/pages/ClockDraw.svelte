@@ -125,11 +125,11 @@
 		<span slot="component">
 			<Dialog
 				on:complete={() => page.ready()}
-				htmlString="The watch broke as it fell to the ground, but you can easily fix it!"
+				htmlString="The watch is broken, but it looks easy to repair it!"
 			></Dialog></span
 		>
 		<span class="multiNav" slot="next">
-			<NextStage {page} nextStage={'task'}>Fix the watch</NextStage>
+			<NextStage {page} nextStage={'task'}>Repair the watch</NextStage>
 		</span>
 	</Stage>
 {/if}
@@ -163,11 +163,11 @@
 					delay={1000}
 					htmlString="
 						<b>OH NO!!!</b><pause />
-						The clock is broken!!! We are <b>stuck</b> unless we fix it.<pause /> I don't want to be eaten by a dinosaur!!!!"
+						The clock is broken!!! We are <b>stuck in the past</b> unless we repair it.<pause /> I don't want to be eaten by a dinosaur!!!!<pause /> Or by anything else for that matter......"
 				></Dialog>
 			</span>
 		</span>
-		<NextStage slot="next" {page} nextStage={'task'}>Fix the magical clock</NextStage>
+		<NextStage slot="next" {page} nextStage={'task'}>Repair the magical clock</NextStage>
 	</Stage>
 {/if}
 
@@ -178,7 +178,7 @@
 				<Dialog
 					character={academic}
 					on:complete={() => page.showReward()}
-					htmlString="Thank you for everything!<pause /> I want you to have this, as a memory!"
+					htmlString="Whatever you did, it worked!<pause /> I thought we were toast for sure!<pause /> I want you to have this, as a memory!"
 				></Dialog>
 			</span>
 			<Reward
@@ -207,7 +207,7 @@
 				<Dialog
 					character={academic}
 					on:complete={() => page.showReward()}
-					htmlString="Wow thanks, you even fixed my watch! Please have this as a token of my gratitude!"
+					htmlString="Wow thanks, you even repaired my watch! Please have this as a token of my gratitude!"
 				></Dialog>
 			</span>
 			<Reward

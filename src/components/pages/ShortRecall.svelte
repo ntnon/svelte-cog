@@ -4,7 +4,7 @@
 	import Stage from '../Stage.svelte';
 	import type { SvelteComponent } from 'svelte';
 	import NextStage from '../NextStage.svelte';
-	import { guy, doctor } from '$lib/characters';
+	import { guyBalloon, doctor } from '$lib/characters';
 	import Dialog from '../Dialog.svelte';
 	import Reward from '../Reward.svelte';
 
@@ -30,8 +30,8 @@
 {#if $page.currentStage === 'initial'}
 	<Stage {page} displayRewards={false}>
 		<span slot="info"
-			>Select the 5 you were asked to remember earlier {$page.data.guesses.length}/{$page.data
-				.correct.length}</span
+			>Select the 5 you were asked to remember {$page.data.guesses.length}/{$page.data.correct
+				.length}</span
 		>
 		<Recall bind:this={recall} slot="component" {page} />
 		<span slot="next" class="multiNav">
@@ -66,11 +66,11 @@
 		<Stage {page}>
 			<span slot="component">
 				<Dialog
-					character={guy}
+					character={guyBalloon}
 					on:complete={() => {
 						page.showReward();
 					}}
-					htmlString="Hey, that's great!<pause /> I think these are the correct items... I forgot, but I'm sure they are fine! Thanks again, have some ballons!"
+					htmlString="Hey, that's great!<pause /> I think these are the correct items... I forgot, but I'm sure they are fine! Thanks again and have some ballons!"
 				></Dialog>
 			</span>
 			<Reward
