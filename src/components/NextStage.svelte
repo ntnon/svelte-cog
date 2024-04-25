@@ -1,12 +1,11 @@
 <script lang="ts">
-	import NavButton from './NavButton.svelte';
 	import { getAppState } from '$lib/state.svelte';
 	import type { IChoice, IPageData, IResettablePageStore } from '$lib/interfaces';
 
 	const pageStore = getAppState().page;
 	const inventory = getAppState().rewards;
 	const choices = getAppState().choices;
-
+	export let active: boolean = false;
 	export let page: IResettablePageStore<IPageData<any>>;
 	export let nextStage: string | null = null;
 	export let choice: IChoice | null = null;
@@ -16,7 +15,7 @@
 
 <button
 	class={'ease size-full btnClass bg-green-500 border-5 border-solid rounded-full box-border border-green-500 ' +
-		($page.showNav ? '' : '')}
+		($page.showNav || active ? 'nb' : 'opacity-20')}
 	on:click={() => {
 		inventory.lock();
 		if (nextStage) {

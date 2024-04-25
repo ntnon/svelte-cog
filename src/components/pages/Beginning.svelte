@@ -5,9 +5,9 @@
 	import { getAppState } from '$lib/state.svelte';
 	import NextStage from '../NextStage.svelte';
 	import { neighbor } from '$lib/characters';
-	import { fade, fly } from 'svelte/transition';
+	import { fade } from 'svelte/transition';
 
-	const page = getAppState().pageData.default;
+	const page = getAppState().pageData.beginning;
 	page.softReset();
 </script>
 
@@ -24,8 +24,6 @@
 {/if}
 {#if $page.currentStage === 'wake-up'}
 	<Stage {page}>
-		<span slot="name" class="emoji">☀️</span>
-		<span slot="info"> Tap the button to continue!</span>
 		<span slot="component"
 			><Dialog
 				delay={1500}
@@ -41,8 +39,6 @@
 
 {#if $page.currentStage === 'reward'}
 	<Stage {page}>
-		<span slot="name" class="emoji">☀️</span>
-		<span slot="info">Pick up the items!</span>
 		<span slot="component" class="size-full"
 			><Dialog
 				on:complete={() => {
@@ -67,8 +63,6 @@
 
 {#if $page.currentStage === 'neighbor'}
 	<Stage {page}>
-		<span slot="name" class="emoji">{neighbor.char}</span>
-		<span slot="info">Do you speak with him?</span>
 		<span slot="component"
 			><Dialog
 				on:complete={() => page.ready()}
@@ -102,8 +96,6 @@
 {/if}
 {#if $page.currentStage === 'ice-cream'}
 	<Stage {page}>
-		<span slot="name" class="emoji">🍨{neighbor.char}</span>
-		<span slot="info">Do you want to get the free bagel or the extra large ice cream?</span>
 		<span slot="component"
 			><Dialog
 				character={neighbor}

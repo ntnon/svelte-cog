@@ -21,7 +21,6 @@
 </script>
 
 <Stage {page}>
-	<span slot="name">The {loc}</span>
 	<p slot="info">
 		<span class=" flex flex-wrap">
 			{#each allCharacters as c}

@@ -1,11 +1,15 @@
 <script lang="ts">
 	let container: HTMLElement;
+
 	export let clock: HTMLElement | null = null;
+
 	let size: number = 0;
+
 	const handleResize = () => {
 		let rect = container.getBoundingClientRect();
 		size = Math.min(rect.width, rect.height);
 	};
+
 	$: if (container) {
 		handleResize();
 	}

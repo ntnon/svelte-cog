@@ -16,7 +16,8 @@ export const defaultAppData: IAppData = {
     consent: resettableStore<boolean>(false),
     recallItems: resettableStore<IEmoji[]>(correctItems),
     pageData: {
-        default: resettablePageStore<string>(""),
+        introduction: resettablePageStore<string>(""),
+        beginning: resettablePageStore<string>(""),
         markers: resettablePageStore<IMarker[]>(generateClockMarkers()),
         hands: resettablePageStore<IHands>(generateClockHands()),
         itemRegistration: resettablePageStore<boolean>(false),
