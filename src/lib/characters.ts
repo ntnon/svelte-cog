@@ -47,6 +47,12 @@ export const guy: ICharacter = {
     talkingSpeed: 35,
     symbol: '🤵🏾‍♂️'
 };
+export const guyBalloon: ICharacter = {
+    name: 'Guy',
+    char: '🎈🤵🏾‍♂️🎈Guy',
+    talkingSpeed: 35,
+    symbol: '🎈🤵🏾‍♂️🎈'
+};
 
 export const doctor: ICharacter = {
     name: 'Doctor',
@@ -62,7 +68,34 @@ export const scientist: ICharacter = {
     symbol: '🧑🏼‍🔬'
 }
 
+export const farmer: ICharacter = {
+    name: 'Farmer',
+    char: '👩🏻‍🌾Farmer',
+    talkingSpeed: 35,
+    symbol: '👩🏻‍🌾'
+}
+
+export const detective: ICharacter = {
+    name: 'Detective',
+    char: '🕵️‍♂️Detective',
+    talkingSpeed: 35,
+    symbol: '🕵️‍♂️'
+}
+
+export const artist: ICharacter = {
+    name: 'Artist',
+    char: '👨🏾‍🎨Artist',
+    talkingSpeed: 35,
+    symbol: '👨🏾‍🎨'
+}
+
+export const chef: ICharacter = {
+    name: 'Chef',
+    char: '🧑🏻‍🍳Chef',
+    talkingSpeed: 35,
+    symbol: '🧑🏻‍🍳'
+}
 
 export const allCharacters: ICharacter[] = [
-    king, academic, mayor, neighbor, narrator, wizard, guy, doctor, scientist
+    king, chef, academic, farmer, mayor, neighbor, narrator, detective, wizard, guy, doctor, scientist, artist
 ]
