@@ -33,7 +33,7 @@
 			{/if}
 		</span>
 	</span>
-	<span class="bottom">
+	<span class="bottom pb-2">
 		<span class="flex flex-grow center p-5"> <slot name="next" /></span>
 	</span>
 </div>
