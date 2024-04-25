@@ -15,7 +15,7 @@
 
 <button
 	class={'ease size-full btnClass bg-green-500 border-5 border-solid rounded-full box-border border-green-500 ' +
-		($page.showNav || active ? 'nb' : 'opacity-20')}
+		($page.showNav || active ? 'nb' : 'inactive')}
 	on:click={() => {
 		inventory.lock();
 		if (nextStage) {
