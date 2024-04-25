@@ -155,6 +155,7 @@ interface IPages {
     hands: ReturnType<typeof resettablePageStore<IHands>>;
     longRecall: ReturnType<typeof resettablePageStore<IEmojiPool>>;
     exampleTask: ReturnType<typeof resettablePageStore<IBall[]>>;
+    end: ReturnType<typeof resettablePageStore<string>>;
 }
 
 interface IAppData {

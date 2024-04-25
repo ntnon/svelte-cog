@@ -5,7 +5,7 @@
 	import ClockHands from '../components/pages/ClockHands.svelte';
 	import LongRecall from '../components/pages/LongRecall.svelte';
 	import ShortRecall from '../components/pages/ShortRecall.svelte';
-	import Results from '../components/pages/Results.svelte';
+
 	import Beginning from '../components/pages/Beginning.svelte';
 	import End from '../components/pages/End.svelte';
 
@@ -22,8 +22,7 @@
 		ClockDraw,
 		ClockHands,
 		LongRecall,
-		End,
-		Results
+		End
 	];
 </script>
 

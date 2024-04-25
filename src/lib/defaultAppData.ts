@@ -23,7 +23,8 @@ export const defaultAppData: IAppData = {
         itemRegistration: resettablePageStore<boolean>(false),
         shortRecall: resettablePageStore<IEmojiPool>(generateRandomEmojis(correctItems)),
         longRecall: resettablePageStore<IEmojiPool>(generateRandomEmojis(correctItems)),
-        exampleTask: resettablePageStore(generateExampleBalls(4))
+        exampleTask: resettablePageStore(generateExampleBalls(4)),
+        end: resettablePageStore<string>(""),
         //expandable
     }
     //expandable
