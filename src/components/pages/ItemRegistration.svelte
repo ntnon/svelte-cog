@@ -158,9 +158,8 @@
 {/if}
 
 {#if $page.currentStage === 'task'}
-	<Stage {page}>
-		<span slot="info">You need to remember these items! You will be asked to recall them later</span
-		>
+	<Stage {page} displayRewards={false}>
+		<span slot="info">You will be asked to recall these items later!</span>
 		<span slot="component" class="flex-col justify-between center space-y-10 text-3xl">
 			{#each $recallItems as item, index}
 				<div

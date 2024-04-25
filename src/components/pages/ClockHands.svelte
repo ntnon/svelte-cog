@@ -18,15 +18,13 @@
 </script>
 
 {#if $page.currentStage === 'task'}
-	<Stage {page}>
-		<span slot="component" class="size-full">
-			<div class="h-[80%]">
-				<ClockHandsTask bind:hands={$page.data} />
-			</div>
-			<div class="h-[20%]">
-				Adjust the clock to display <b><i>{$page.data.timestamp.name}</i></b>
-			</div>
-		</span>
+	<Stage {page} displayRewards={false}>
+		<div slot="info" class="h-[20%]">
+			Adjust the clock to display <b><i>{$page.data.timestamp.name}</i></b>
+		</div>
+
+		<ClockHandsTask slot="component" bind:hands={$page.data} />
+
 		<NextStage slot="next" {page} nextStage={'reward'}>Continue</NextStage>
 	</Stage>
 {/if}

@@ -28,9 +28,10 @@
 </script>
 
 {#if $page.currentStage === 'initial'}
-	<Stage {page}>
+	<Stage {page} displayRewards={false}>
 		<span slot="info"
-			>Select the correct items {$page.data.guesses.length}/{$page.data.correct.length}</span
+			>Select the 5 you were asked to remember earlier {$page.data.guesses.length}/{$page.data
+				.correct.length}</span
 		>
 		<Recall bind:this={recall} slot="component" {page} />
 		<span slot="next" class="multiNav">

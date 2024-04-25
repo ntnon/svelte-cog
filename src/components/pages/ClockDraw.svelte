@@ -19,7 +19,7 @@
 </script>
 
 {#if $page.currentStage === 'task'}
-	<Stage {page}>
+	<Stage {page} displayRewards={false}>
 		<p slot="info">Drag all the numbers to their correct place on the clock</p>
 		<span slot="component" class="size-full flex flex-grow-1">
 			<ClockDrawTask {page} bind:markers={$page.data}></ClockDrawTask>

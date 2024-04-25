@@ -10,7 +10,7 @@ export const narrator: ICharacter = {
 export const king: ICharacter = {
     name: 'King',
     char: '🤴🏾King',
-    talkingSpeed: 35,
+    talkingSpeed: 55,
     symbol: '🤴🏾'
 }
 

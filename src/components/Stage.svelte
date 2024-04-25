@@ -3,7 +3,7 @@
 	import { fly } from 'svelte/transition';
 	import RewardView from './RewardView.svelte';
 	import type { IResettablePageStore } from '$lib/interfaces';
-
+	export let displayRewards = true;
 	export let page: IResettablePageStore<any> = getAppState().pageData.introduction;
 
 	let view: HTMLElement;
@@ -16,8 +16,14 @@
 	class="stage absolute h-[100dvh] w-full"
 >
 	<span class="top">
-		<span class="progress center p-1">
-			<RewardView />
+		<span class="progress px-4 py-2"
+			>{#if displayRewards}
+				<RewardView />
+			{:else}
+				<span class="center p-3">
+					<slot name="info" />
+				</span>
+			{/if}
 		</span>
 
 		<span class="task flex-grow p-5 flex flex-col">

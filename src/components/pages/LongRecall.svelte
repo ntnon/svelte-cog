@@ -19,10 +19,11 @@
 </script>
 
 {#if $page.currentStage === 'task'}
-	<Stage {page}>
-		<p slot="info">
-			Select the correct items {$page.data.guesses.length}/{$page.data.correct.length}
-		</p>
+	<Stage {page} displayRewards={false}>
+		<span slot="info">
+			Select the items you were asked to remember {$page.data.guesses.length}/{$page.data.correct
+				.length}
+		</span>
 		<Recall bind:this={recall} slot="component" {page} />
 		<p slot="next" class="multiNav">
 			<button class="btn w-[50vw]" on:click={() => recall.makeInvisible()}>Hint</button>
