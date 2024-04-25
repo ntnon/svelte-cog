@@ -107,7 +107,6 @@ main {
 
 .inactive {
     opacity: 0.35;
-
     pointer-events: none;
     cursor: none;
 }
@@ -128,7 +127,7 @@ main {
     }
 
     50% {
-        scale: 1.07;
+        scale: 1.05;
     }
 }
 
