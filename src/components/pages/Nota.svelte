@@ -29,11 +29,11 @@
 			</p>
 		</span>
 
-		<NextStage {page} nextStage={'2'} slot="next">Continue</NextStage>
+		<NextStage {page} nextStage={'disclaimer'} slot="next">Continue</NextStage>
 	</Stage>
 {/if}
 
-{#if $page.currentStage === '2'}
+{#if $page.currentStage === 'disclaimer'}
 	<Stage>
 		<span slot="component" class=" size-full flex-col center space-y-8 p-3">
 			<p>

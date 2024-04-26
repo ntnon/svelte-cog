@@ -17,27 +17,17 @@
     src: url('/src/fonts/Horizon-updated/Horizon-updated/NEW_UPDATED_VERSION/horizon.otf') format('opentype');
 }
 
-main {
-    font-size: 1.5rem;
-    line-height: 2.1rem;
-    letter-spacing: 0.03rem;
 
-}
 
 .emoji {
     font-size: 3.75rem;
 
 }
 
-/* When the viewport is 640px or smaller */
-@media (max-width: 340px) {
-
-    main {
-        font-size: 1.2rem;
-        line-height: 2rem;
-        letter-spacing: 0.01rem;
-
-    }
+body {
+    background-color: rgb(255, 244, 187);
+    ;
+    font-size: 5vmin;
 }
 
 .nb {
@@ -59,8 +49,6 @@ main {
 }
 
 
-
-
 .dial {
     position: absolute;
     width: 3.5vh;
@@ -73,8 +61,6 @@ main {
     background-color: rgb(227 121 81 / var(--tw-bg-opacity));
 }
 
-
-
 .multiNav {
     display: flex;
     flex-direction: row;
@@ -84,13 +70,8 @@ main {
     transition: background-color 0.5s ease-in-out, color 0.2s ease-in-out, opacity 0.5s ease-in-out;
 }
 
-
-
-
 .btnClass {
-
     border-radius: 9999px;
-    padding: 2;
     transition: background-color 0.5s ease-in-out, color 0.2s ease-in-out, opacity 0.5s ease-in-out;
 }
 
@@ -104,9 +85,8 @@ main {
     transition-timing-function: ease-in-out;
 }
 
-
 .inactive {
-    opacity: 0.35;
+    opacity: 0.10;
     pointer-events: none;
     cursor: none;
 }

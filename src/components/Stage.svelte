@@ -15,7 +15,7 @@
 	bind:this={view}
 	class="stage absolute h-[100dvh] w-full"
 >
-	<span class="top">
+	<span class="top h-[80%]">
 		<span class="progress px-4 py-2"
 			>{#if displayRewards}
 				<RewardView />
@@ -26,30 +26,27 @@
 			{/if}
 		</span>
 
-		<span class="task flex-grow p-5 flex flex-col">
+		<span class="flex-grow p-5 flex flex-col">
 			<slot name="component" />
 			{#if $page.showReward}
 				<span class="h-full {$page.showReward ? '' : 'hideChildren'}"> <slot name="reward" /></span>
 			{/if}
 		</span>
 	</span>
-	<span class="bottom pb-2">
-		<span class="flex flex-grow center p-5"> <slot name="next" /></span>
-	</span>
+
+	<span class="bottom flex flex-grow center p-5"> <slot name="next" /></span>
 </div>
 
 <style>
 	.stage {
-		background-color: rgb(255, 244, 187);
-		display: grid;
-		grid-template-columns: 1fr;
-		grid-template-rows: 80% 20%;
-		grid-template-areas:
-			'top'
-			'bottom';
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+		min-height: 375px;
 	}
 
 	.top {
+		display: sticky;
 		grid-area: top;
 		display: flex;
 		flex-direction: column;
@@ -58,13 +55,14 @@
 		grid-area: bottom;
 		display: flex;
 		flex-direction: column;
+		position: absolute; /* Position the footer absolutely */
+		bottom: 0; /* Align the footer to the bottom */
+		width: 100%;
+		height: 20dvh;
+		max-height: 8rem;
 	}
 
 	.progress {
 		grid-area: progress;
-	}
-
-	.task {
-		grid-area: task;
 	}
 </style>

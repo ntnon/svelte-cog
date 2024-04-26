@@ -13,8 +13,10 @@
 	const page = getAppState().pageData.markers;
 
 	$: if ($page.data.every((marker) => marker.completed)) {
-		page.complete(true);
-		page.showNav();
+		if ($page.currentStage === 'task') {
+			page.complete(true);
+			page.showNav();
+		}
 	}
 </script>
 
@@ -94,7 +96,7 @@
 		<span slot="component">
 			<Dialog
 				on:complete={() => page.ready()}
-				htmlString="As the academic leaves, you see he has dropped something. <pause />   a watch."
+				htmlString="As the academic leaves, you see he has dropped something.<pause /> A watch."
 			></Dialog></span
 		>
 		<span class="multiNav" slot="next">
@@ -178,7 +180,7 @@
 				<Dialog
 					character={academic}
 					on:complete={() => page.showReward()}
-					htmlString="Whatever you did, it worked!<pause /> I thought we were toast for sure!<pause /> I want you to have this, as a memory!"
+					htmlString="Whatever you did, it worked!<pause /> I thought we were toast for sure!<pause /> I want you to have this, as a souvenir!"
 				></Dialog>
 			</span>
 			<Reward
