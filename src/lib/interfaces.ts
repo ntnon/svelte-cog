@@ -62,6 +62,7 @@ interface IMarker {
     distFromCenter: number,
     completed: boolean,
     moving: boolean,
+    score: number
 }
 
 interface IBall {
