@@ -99,7 +99,7 @@ export const resettableStore = <T>(data: T): IResettableStore<T> => {
     const { subscribe, set, update } = writable<T>(data);
 
     const reset = () => {
-        console.log("resetting");
+
         set(data);
     }
     return {

@@ -21,8 +21,6 @@
 
 	export let character: ICharacter = narrator;
 
-	console.log(character);
-
 	let interval: number | undefined;
 
 	const delayer = setTimeout(() => {
@@ -39,7 +37,7 @@
 				} else if (htmlString[index] === '>') {
 					inTag = false;
 					tag += '>';
-					console.log(tag);
+
 					// Check if the tag is a pause tag
 					if (tag === '<pause/>' || tag === '<pause />') {
 						remainingPauseTime += pauseDuration; // Set the remaining pause time

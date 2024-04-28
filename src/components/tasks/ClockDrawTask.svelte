@@ -24,7 +24,7 @@
 		const mid = getRectCenter(dial);
 		const dx = pos.left - mid.left;
 		const dy = pos.top - mid.top;
-		console.log(Math.sqrt(dx * dx + dy * dy));
+
 		return Math.sqrt(dx * dx + dy * dy);
 	};
 

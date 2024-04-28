@@ -18,7 +18,6 @@
 
 	const preference =
 		$choices.find((c) => c.key === 'preference')?.content === 'bagel' ? 'bagel' : 'cream';
-	console.log($choices);
 
 	const loc =
 		$choices.find((c) => c.key === 'preference')?.content === 'bagel' ? 'bakery' : 'ice cream shop';

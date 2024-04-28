@@ -4,7 +4,7 @@ import type { IEmoji, IEmojiPool } from "$lib/interfaces";
 import { fisherYates } from "../FisherYates";
 
 export const generateRandomEmojis = (priorEmojis: IEmoji[] = []): IEmojiPool => {
-    console.log("generating... base: ", priorEmojis)
+
     const totalWords = emojis.length;
     const pool = new Set<IEmoji>(priorEmojis);
 
