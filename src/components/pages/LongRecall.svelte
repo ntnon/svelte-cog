@@ -89,7 +89,7 @@
 					on:complete={() => {
 						page.showReward();
 					}}
-					htmlString="Thank you graciously. I am the king of of a far away land, and I will never forget your kindness! <pause /> Have this train ticket, so you can visit my kingdom whenever you want<pause /> Goodbye for now!"
+					htmlString="Thank you graciously. I am the king of a far away land, and I will never forget your kindness! <pause /> Have this train ticket, so you can visit my kingdom whenever you want<pause /> Goodbye for now!"
 				></Dialog>
 			</span>
 			<Reward
