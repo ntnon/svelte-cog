@@ -8,7 +8,7 @@
 	import { getRectCenter } from '../../scripts/getRectCenter';
 	import { calcAngle } from '../../scripts/trigonometry/calcAngle';
 
-	export let page: IResettablePageStore<IPageData<IMarker[]>>;
+	// export let page: IResettablePageStore<IPageData<IMarker[]>>;
 	export let markers: IMarker[];
 
 	let dial: HTMLElement;
