@@ -35,6 +35,7 @@
 
 		activeHand.angle = newAngle - initialMouseAngle;
 		activeHand.pointsAt = angleToClockHour(newAngle);
+		console.log(activeHand.pointsAt);
 		if (activeHand.name === 'hour') {
 			hands.hour = activeHand;
 		}
