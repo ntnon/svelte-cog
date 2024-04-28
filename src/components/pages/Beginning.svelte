@@ -29,7 +29,7 @@
 				delay={1500}
 				on:complete={() => page.ready()}
 				htmlString="You wake up to rays of sunshine warming your face through the window.<pause /> 
-		A perfect day.<pause /> You remember that a new bakery opens today, and is giving out free bagels!<pause /> If you hurry, you can make it in time!"
+		A perfect day.<pause /> You remember that a new bakery opens today, and is giving out free bagels!"
 			></Dialog></span
 		>
 
@@ -45,7 +45,7 @@
 					page.showInfo();
 					page.showReward();
 				}}
-				htmlString="As you step out the front door, you find a coin and a flower on the ground!<pause /> You will find items like these throughout your journey.<pause /> To pick up an item, just tap it!<pause />
+				htmlString="As you step out the front door, you find a coin and a flower on the ground!<pause /> You will find items like these throughout your journey.<pause /> Tap the items to pick them up
 			"
 			></Dialog>
 		</span>
@@ -67,7 +67,7 @@
 			><Dialog
 				on:complete={() => page.ready()}
 				htmlString="As you step out the door, you see your neighbor eating the largest ice cream you've ever seen.<pause />
-				He seems eager to share something. Do you stop to talk with him?"
+				He seems eager to share something with you. Do you stop to talk with him?"
 			></Dialog></span
 		>
 		<span slot="next" class="multiNav">
