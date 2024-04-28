@@ -27,9 +27,9 @@
 		} else {
 			addGuess(e);
 		}
-		page.update((V) => ({
-			...V,
-			showNav: $page.data.guesses.length === $page.data.correct.length
+		page.update((v) => ({
+			...v,
+			showNav: v.data.guesses.length <= v.data.correct.length && v.data.guesses.length > 0
 		}));
 	};
 
@@ -71,7 +71,7 @@
 
 			return {
 				...newValue,
-				showNav: newValue.data.guesses.length === newValue.data.correct.length
+				showNav: v.data.guesses.length <= v.data.correct.length && v.data.guesses.length > 0
 			};
 		});
 	};
@@ -80,7 +80,7 @@
 <div class="grid grid-cols-5 size-full gap-1 text-5xl">
 	{#each $page.data.pool as e}
 		<button
-			class="border-5 border-solid rounded-full box-border {$page.data.guesses.includes(e)
+			class="emoji border-5 border-solid rounded-full box-border {$page.data.guesses.includes(e)
 				? 'selected'
 				: ''} {$page.data.removed.includes(e) ? 'opacity-0' : ''}"
 			on:click={() => toggleGuess(e)}>{e.char}</button
@@ -90,6 +90,6 @@
 
 <style>
 	.selected {
-		background-color: rgb(183, 155, 17);
+		background-color: rgb(207, 170, 49);
 	}
 </style>
