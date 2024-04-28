@@ -91,7 +91,7 @@
 			><Dialog
 				character={guyBalloon}
 				on:complete={() => page.ready()}
-				htmlString="It's my friend's birthday today and I told him I could plan his party and I planned everything and it is perfect, but I totally forgot to get him a present!<pause /> I am so embarrassed and I don't know what to do!"
+				htmlString="It's my friend's birthday today and I told him I could plan his party and I planned everything and it is perfect, but I totally forgot to get him a present and I am so embarrassed and I don't know what to do!"
 			></Dialog></span
 		>
 		<span slot="next" class="multiNav">

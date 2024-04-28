@@ -83,7 +83,7 @@
 			>
 			<NextStage
 				{page}
-				nextStage="note"
+				nextPage={true}
 				choice={{
 					key: 'preference',
 					content: 'bagel',
@@ -100,36 +100,23 @@
 			><Dialog
 				character={neighbor}
 				on:complete={() => page.ready()}
-				htmlString="Hey neighbor! You wanted to know how I got this ice cream, I reckon!!!!<pause /> I'll tell you...<pause /> No I won't...<pause /> Just kidding! <pause />
+				htmlString="Hey neighbor! I reckon you wanted to know how I got this ice cream...<pause /> I'll tell you...<pause /> No, I won't...<pause /> Just kidding!<pause />
 				Becuase of the nice weather, all the ice cream scoops are extra large today, no extra charge!<pause /> You should check it out while the weather is still nice!!"
 			></Dialog></span
 		>
 		<span slot="next" class="multiNav">
 			<NextStage
 				{page}
-				nextStage="note"
+				nextPage={true}
 				choice={{ key: 'neighbor', text: 'talked with your neighbor!' }}>🥯Bagel</NextStage
 			>
 
 			<NextStage
 				{page}
-				nextStage="note"
+				nextPage={true}
 				choice={{ key: 'neighbor', text: "you didn't have time for your neighbor" }}
 				>🍨Ice cream</NextStage
 			>
 		</span>
-	</Stage>
-{/if}
-
-{#if $page.currentStage === 'note'}
-	<Stage {page}>
-		<span slot="component"
-			><Dialog
-				on:complete={() => page.ready()}
-				htmlString="There are a lot of people in this town. Some of them might have something interesting to say or give you. <pause /> I'm sure it won't be a problem!"
-			></Dialog></span
-		>
-
-		<NextStage slot="next" {page} nextPage={true}>Continue</NextStage>
 	</Stage>
 {/if}

@@ -47,7 +47,7 @@
 					text: "you decided that you didn't have time to go on an adventure"
 				}}
 				{page}
-				nextStage={'no'}>No, I am in a hurry</NextStage
+				nextStage={'no'}>No thanks</NextStage
 			>
 
 			<NextStage
@@ -57,7 +57,7 @@
 					text: 'you went on an adventure with the academic'
 				}}
 				{page}
-				nextStage={'yes'}>Yes</NextStage
+				nextStage={'yes'}>Sure</NextStage
 			>
 		</span>
 	</Stage>
@@ -127,7 +127,7 @@
 		<span slot="component">
 			<Dialog
 				on:complete={() => page.ready()}
-				htmlString="The watch is broken, but it looks easy to repair it!"
+				htmlString="The watch is broken, but it looks easy to repair!"
 			></Dialog></span
 		>
 		<span class="multiNav" slot="next">

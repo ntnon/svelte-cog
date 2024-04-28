@@ -52,7 +52,7 @@
 			on:complete={() => page.showNav()}
 			options={[{ name: 'ice-cream', char: finalReward }]}
 		/>
-		<NextStage slot="next" {page} nextStage={'statistics'}>Scores and survey</NextStage>
+		<NextStage slot="next" {page} nextStage={'statistics'}>Results and survey</NextStage>
 	</Stage>
 {/if}
 {#if $page.currentStage === 'statistics'}
@@ -82,10 +82,6 @@
 					).length}, hints used: {$shortRecall.errors * 0.5}
 				</div>
 				<br />
-
-				<!-- <div>Overall score: {'idk'}</div>
-			<br /> -->
-				Remember to actively engage in activities that promote brain health!<br />
 			</span>
 			<br />
 			<p class="center nb text-[8vmin]">Please respond to the survey!</p>

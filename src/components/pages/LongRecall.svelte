@@ -66,7 +66,7 @@
 				<Dialog
 					character={guy}
 					on:complete={() => page.showReward()}
-					htmlString="Thank you so so much! I think that's correct, but yeah - I forgot! <pause />  Did you enjoy your balloons?<pause /> Here, have more birthday stuff, I got too much anyway!"
+					htmlString="Thank you so so much! I think that's correct...<pause /> Did you enjoy the balloons?<pause /> Here, have more birthday stuff, I got too much anyway!"
 				></Dialog>
 			</span>
 			<Reward
@@ -89,7 +89,7 @@
 					on:complete={() => {
 						page.showReward();
 					}}
-					htmlString="O thank you so much! You turned me back into a human! I am the king of of a far away land, and I will never forget your kindness! <pause />  Have this train ticket, so you can visit my kingdom whenever you want<pause /> Goodbye for now!"
+					htmlString="Thank you graciously. I am the king of of a far away land, and I will never forget your kindness! <pause /> Have this train ticket, so you can visit my kingdom whenever you want<pause /> Goodbye for now!"
 				></Dialog>
 			</span>
 			<Reward
@@ -104,7 +104,7 @@
 			<span slot="component">
 				<Dialog
 					on:complete={() => page.ready()}
-					htmlString="Hmm, you didn't get the items right.<pause /> It is probably just a regular frog anyway!"
+					htmlString="Hmm, you didn't get all the items right.<pause /> It is probably just a regular frog anyway!"
 				></Dialog>
 			</span>
 			<NextStage slot="next" {page} nextPage={true}>Continue</NextStage>
