@@ -29,13 +29,8 @@
 
 {#if $page.currentStage === 'initial'}
 	<Stage {page}>
-		<span slot="info" class=" flex flex-nowrap">
-			{#each allCharacters as c}
-				{c.symbol}
-			{/each}
-		</span>
 		<span slot="component">
-			<div class="text-4xl p-4 flex-nowrap">
+			<div class="emoji p-4 flex-nowrap">
 				{#each allCharacters as c}
 					{c.symbol}
 				{/each}
@@ -57,38 +52,53 @@
 			on:complete={() => page.showNav()}
 			options={[{ name: 'ice-cream', char: finalReward }]}
 		/>
-		<NextStage slot="next" {page} nextStage={'statistics'}>See statistics</NextStage>
+		<NextStage slot="next" {page} nextStage={'statistics'}>Scores and survey</NextStage>
 	</Stage>
 {/if}
 {#if $page.currentStage === 'statistics'}
 	<Stage {page}>
-		<div slot="component">
-			<div>Clock drawing score: {'idk'}</div>
-			<div>
-				Clock hands goal: {$clockHands.data.timestamp.hour}:{$clockHands.data.timestamp.minute}
-			</div>
-			<div>
-				Your clock hands: {$clockHands.data.hour.target}:{$clockHands.data.minute.target * 5}
-			</div>
-			<div>
-				Item recall score: {$shortRecall.data.correct.filter((i) =>
-					$shortRecall.data.guesses.includes(i)
-				).length -
-					$shortRecall.errors * 0.5}
-			</div>
-			<div>
-				Delayed recall score: {$longRecall.data.correct.filter((i) =>
-					$longRecall.data.guesses.includes(i)
-				).length -
-					$longRecall.errors * 0.5}
-			</div>
-			<br />
+		<div slot="component" class="p-5">
+			<b>Thank you for playing!</b>
+			<!-- <div>Clock drawing score: {'idk'}</div> -->
+			<span class="text-slate-600">
+				{#if $clockHands.data.hour.pointsAt && $clockHands.data.minute.pointsAt}
+					<div>
+						Clock hands goal: {$clockHands.data.timestamp.hour}:{$clockHands.data.timestamp.minute}
+					</div>
+					<div>
+						Your clock hands: {Math.round($clockHands.data.hour.pointsAt)}:{Math.round(
+							$clockHands.data.minute.pointsAt * 5
+						)}
+					</div>
+				{/if}
+				<div>
+					Item recall score: {$shortRecall.data.correct.filter((i) =>
+						$shortRecall.data.guesses.includes(i)
+					).length}, hints used: {$shortRecall.errors * 0.5}
+				</div>
+				<div>
+					Delayed recall score: {$longRecall.data.correct.filter((i) =>
+						$longRecall.data.guesses.includes(i)
+					).length}, hints used: {$shortRecall.errors * 0.5}
+				</div>
+				<br />
 
-			<div>Overall score: {'idk'}</div>
+				<!-- <div>Overall score: {'idk'}</div>
+			<br /> -->
+				Remember to actively engage in activities that promote brain health!<br />
+			</span>
 			<br />
-			Remember to actively engage in activities that promote brain health!<br />
-			<br />
-			Thank you for playing!
+			<p class="center nb text-[8vmin]">Please respond to the survey!</p>
+		</div>
+		<div slot="next" class="multiNav">
+			<button
+				class="ease size-full btnClass bg-green-500 border-5 border-solid rounded-full box-border border-green-500"
+				on:click={() => history.back()}>Return to survey</button
+			>
+			<a
+				class="center ease size-full btnClass bg-green-500 border-5 border-solid rounded-full box-border border-green-500"
+				href="https://svar.uib.no/LinkCollector?key=TJSL3WGQLN16">Start new survey</a
+			>
 		</div>
 	</Stage>
 {/if}
