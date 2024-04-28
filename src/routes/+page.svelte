@@ -14,6 +14,7 @@
 	let page = getAppState().page;
 
 	const pages = [
+		End,
 		Nota,
 		//Example
 		Beginning,
