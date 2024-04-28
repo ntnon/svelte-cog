@@ -86,15 +86,11 @@
 			<br />
 			<p class="center nb text-[8vmin]">Please respond to the survey!</p>
 		</div>
-		<div slot="next" class="multiNav">
-			<button
-				class="ease size-full btnClass bg-green-500 border-5 border-solid rounded-full box-border border-green-500"
-				on:click={() => history.back()}>Return to survey</button
-			>
-			<a
-				class="center ease size-full btnClass bg-green-500 border-5 border-solid rounded-full box-border border-green-500"
-				href="https://svar.uib.no/LinkCollector?key=TJSL3WGQLN16">Start new survey</a
-			>
-		</div>
+
+		<a
+			slot="next"
+			class="center ease size-full btnClass bg-green-500 border-5 border-solid rounded-full box-border border-green-500"
+			href="https://svar.uib.no/LinkCollector?key=TJSL3WGQLN16">Respond to survey</a
+		>
 	</Stage>
 {/if}

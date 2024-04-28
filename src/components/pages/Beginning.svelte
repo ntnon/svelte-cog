@@ -13,11 +13,11 @@
 
 {#if $page.currentStage === 'initial'}
 	<div
-		in:fade|global={{ duration: 4000, delay: 2000 }}
+		in:fade|global={{ duration: 2500, delay: 700 }}
 		class="w-[100dvw] h-[100dvh] flex center"
 		on:introend={() => page.ready()}
 	>
-		<div class="flex h-[15dvh] w-[60dvw] text-3xl">
+		<div class="flex h-[15dvh] w-[60dvw]">
 			<NextStage {page} nextStage="wake-up">Wake up</NextStage>
 		</div>
 	</div>

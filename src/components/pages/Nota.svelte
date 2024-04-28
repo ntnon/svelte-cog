@@ -22,7 +22,7 @@
 
 {#if $page.currentStage === 'initial'}
 	<Stage>
-		<span slot="component" class=" size-full flex-col center space-y-8 p-3">
+		<span slot="component" class=" size-full flex-col space-y-8 p-10">
 			<p>
 				This platform is designed to facilitate your understanding of your cognitive health through
 				interactive gameplay.
@@ -35,21 +35,22 @@
 
 {#if $page.currentStage === 'disclaimer'}
 	<Stage>
-		<span slot="component" class=" size-full flex-col center space-y-8 p-3">
+		<span slot="component" class=" size-full flex-col space-y-8 p-10">
 			<p>
 				<b>Note: </b>This platform does not have the capability to diagnose or enhance cognitive
 				health.
 			</p>
-			<b>
-				Should you have concerns regarding your health, it is recommended to seek advice from a
-				healthcare professional.
-			</b>
+			<div>
+				<b>
+					Should you have concerns regarding your health, it is recommended to seek advice from a
+					healthcare professional.</b
+				>
+			</div>
 			<div class="center gap-4">
 				<input class="w-12 h-12 nb2" type="checkbox" bind:checked />
 				I acknowledge and comprehend the above information
 			</div>
 		</span>
-
 		<NextStage {page} nextStage={'how-to-play'} slot="next">Proceed</NextStage>
 	</Stage>
 {/if}
@@ -57,11 +58,11 @@
 	<Stage {page}>
 		<p slot="info">This is a text based adventure game</p>
 
-		<ol slot="component" class=" size-full flex-col justify-center space-y-3 p-10 pr-2">
+		<ol slot="component" class=" size-full flex-col space-y-3 p-10">
 			<li>You will be presented with situations and choices</li>
 			<li>Your decisions will influence the story</li>
 			<li>Your decisions will influence your rewards</li>
-			<li>There are no right or wrong answers</li>
+			<li>There are no wrong answers</li>
 		</ol>
 
 		<NextStage active={true} {page} nextPage={true} slot="next">Begin journey</NextStage>
