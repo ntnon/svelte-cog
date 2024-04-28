@@ -165,7 +165,7 @@
 					delay={1000}
 					htmlString="
 						<b>OH NO!!!</b><pause />
-						The clock is broken!!! We are <b>stuck in the past</b> unless we repair it.<pause /> I don't want to be eaten by a dinosaur!!!!<pause /> Or by anything else for that matter......"
+						I stepped on the clock, and the numbers fell off!!!<pause /> How will we get back?<pause /> We repair the clock, I don't want to be eaten by a dinosaur!!!<pause /> Or by anything else for that matter......"
 				></Dialog>
 			</span>
 		</span>
