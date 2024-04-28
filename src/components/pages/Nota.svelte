@@ -58,7 +58,7 @@
 	<Stage {page}>
 		<p slot="info">This is a text based adventure game</p>
 
-		<ol slot="component" class=" size-full flex-col space-y-3 p-10">
+		<ol slot="component" class=" size-full flex-col space-y-3 p-16">
 			<li>You will be presented with situations and choices</li>
 			<li>Your decisions will influence the story</li>
 			<li>Your decisions will influence your rewards</li>
