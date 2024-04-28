@@ -4,7 +4,7 @@
 	import Stage from '../Stage.svelte';
 	import type { SvelteComponent } from 'svelte';
 	import NextStage from '../NextStage.svelte';
-	import { narrator, wizard, guy, doctor, king } from '$lib/characters';
+	import { guy, king } from '$lib/characters';
 	import Dialog from '../Dialog.svelte';
 	import Reward from '../Reward.svelte';
 
@@ -20,18 +20,18 @@
 
 {#if $page.currentStage === 'task'}
 	<Stage {page} displayRewards={false}>
-		<span slot="info">
-			Select the same items you were asked to remember earlier {$page.data.guesses.length}/{$page
-				.data.correct.length}
-		</span>
+		<span slot="info"
+			>Select the you same items you were asked to remember earlier, as many as you can!</span
+		>
 		<Recall bind:this={recall} slot="component" {page} />
-		<p slot="next" class="multiNav">
+		<span slot="next" class="multiNav">
 			<button class="btn w-[50vw]" on:click={() => recall.makeInvisible()}>Hint</button>
-			<NextStage {page} nextStage="reward">Continue</NextStage>
-		</p>
+			<NextStage {page} nextStage="reward"
+				>Continue ({$page.data.guesses.length}/{$page.data.correct.length})</NextStage
+			>
+		</span>
 	</Stage>
 {/if}
-
 {#if $page.currentStage === 'initial'}
 	{#if $choices.find((c) => c.key === 'shortRecall')?.content === 'guy'}
 		<Stage {page}>

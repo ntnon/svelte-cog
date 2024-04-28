@@ -29,14 +29,13 @@
 
 {#if $page.currentStage === 'initial'}
 	<Stage {page} displayRewards={false}>
-		<span slot="info"
-			>Select the 5 you were asked to remember {$page.data.guesses.length}/{$page.data.correct
-				.length}</span
-		>
+		<span slot="info">Select the you items were asked to remember, as many as you can!</span>
 		<Recall bind:this={recall} slot="component" {page} />
 		<span slot="next" class="multiNav">
 			<button class="btn w-[50vw]" on:click={() => recall.makeInvisible()}>Hint</button>
-			<NextStage {page} nextStage="reward">Continue</NextStage>
+			<NextStage {page} nextStage="reward"
+				>Continue ({$page.data.guesses.length}/{$page.data.correct.length})</NextStage
+			>
 		</span>
 	</Stage>
 {/if}

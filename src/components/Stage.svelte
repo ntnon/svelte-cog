@@ -26,10 +26,10 @@
 			{/if}
 		</span>
 
-		<span class="flex-grow p-5 flex flex-col">
+		<span class="size-full flex-grow flex flex-col">
 			<slot name="component" />
 			{#if $page.showReward}
-				<span class="h-full {$page.showReward ? '' : 'hideChildren'}"> <slot name="reward" /></span>
+				<span class=" {$page.showReward ? '' : 'hideChildren'}"> <slot name="reward" /></span>
 			{/if}
 		</span>
 	</span>

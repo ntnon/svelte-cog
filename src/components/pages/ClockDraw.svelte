@@ -24,7 +24,7 @@
 	<Stage {page} displayRewards={false}>
 		<p slot="info">Drag all the numbers to their correct place on the clock</p>
 		<span slot="component" class="size-full flex flex-grow-1">
-			<ClockDrawTask {page} bind:markers={$page.data}></ClockDrawTask>
+			<ClockDrawTask bind:markers={$page.data}></ClockDrawTask>
 		</span>
 		<NextStage slot="next" {page} nextStage={'reward'}>Continue</NextStage>
 	</Stage>
@@ -165,11 +165,11 @@
 					delay={1000}
 					htmlString="
 						<b>OH NO!!!</b><pause />
-						I stepped on the clock, and the numbers fell off!!!<pause /> How will we get back?<pause /> We repair the clock, I don't want to be eaten by a dinosaur!!!<pause /> Or by anything else for that matter......"
+						I stepped on the clock, and the numbers fell off!!!<pause /> How will we get back?<pause /> We have to repair the clock, I don't want to be eaten by a dinosaur!!!<pause /> Or by anything else for that matter......"
 				></Dialog>
 			</span>
 		</span>
-		<NextStage slot="next" {page} nextStage={'task'}>Repair the magical clock</NextStage>
+		<NextStage slot="next" {page} nextStage={'task'}>Repair the time travel clock</NextStage>
 	</Stage>
 {/if}
 

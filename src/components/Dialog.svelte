@@ -64,8 +64,8 @@
 	// Clean up interval on component destroy
 </script>
 
-<span class="w-auto font-bold text-3xl">{character.char}: </span>
-<span class="bubble flex flex-row">
+<span class="p-3 w-auto font-bold text-[7vmin]">{character.char}: </span>
+<span class="bubble flex flex-row p-4">
 	<div class="">
 		{@html displayString}
 	</div>
