@@ -9,8 +9,6 @@
 	<link rel="manifest" href="src/manifest.json" />
 </svelte:head>
 
-<main>
-	<body>
-		<slot />
-	</body>
-</main>
+<body>
+	<slot />
+</body>
