@@ -72,13 +72,8 @@
 		>
 		<span slot="next" class="multiNav">
 			<NextStage
+				choice={{ key: 'neighbor', text: 'you talked with your neighbor' }}
 				{page}
-				choice={{
-					key: 'preference',
-					content: 'ice cream',
-					text: 'you wanted ice cream more than the bagel',
-					location: 'ice cream shop'
-				}}
 				nextStage="ice-cream">Yes</NextStage
 			>
 			<NextStage
@@ -108,14 +103,23 @@
 			<NextStage
 				{page}
 				nextPage={true}
-				choice={{ key: 'neighbor', text: 'talked with your neighbor!' }}>🥯Bagel</NextStage
+				choice={{
+					key: 'preference',
+					content: 'bagel',
+					text: 'you really wanted a bagel',
+					location: 'bakery'
+				}}>🥯Bagel</NextStage
 			>
 
 			<NextStage
+				choice={{
+					key: 'preference',
+					content: 'ice cream',
+					text: 'you wanted ice cream instead of a bagel',
+					location: 'ice cream shop'
+				}}
 				{page}
-				nextPage={true}
-				choice={{ key: 'neighbor', text: "you didn't have time for your neighbor" }}
-				>🍨Ice cream</NextStage
+				nextPage={true}>🍨Ice cream</NextStage
 			>
 		</span>
 	</Stage>
