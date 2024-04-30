@@ -61,16 +61,6 @@
 			<b>Thank you for playing!</b>
 			<!-- <div>Clock drawing score: {'idk'}</div> -->
 			<span class="text-slate-600">
-				{#if $clockHands.data.hour.pointsAt && $clockHands.data.minute.pointsAt}
-					<div>
-						Clock hands goal: {$clockHands.data.timestamp.hour}:{$clockHands.data.timestamp.minute}
-					</div>
-					<div>
-						Your clock hands: {Math.round($clockHands.data.hour.pointsAt)}:{Math.round(
-							$clockHands.data.minute.pointsAt * 5
-						)}
-					</div>
-				{/if}
 				<div>
 					Item recall score: {$shortRecall.data.correct.filter((i) =>
 						$shortRecall.data.guesses.includes(i)
