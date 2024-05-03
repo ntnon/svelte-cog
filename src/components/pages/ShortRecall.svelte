@@ -53,7 +53,7 @@
 						.data.correct.length} items.  {correctGuesses === 0
 						? "That's not a lot, but look! I found some items lying around, I can still turn you back into a human! "
 						: correctGuesses === 1
-							? 'That is not great, but I guess there were many items to pick from. Anway, I can still turn you back into a human!'
+							? 'That is not great, but I guess there were many items to pick from. Anyway, I can still turn you back into a human!'
 							: correctGuesses < 4
 								? 'That is plenty of items! With these I can turn you into a human again!'
 								: 'That is excellent! I can turn you back into a human!'} Hold still..."

@@ -69,7 +69,7 @@
 			<Dialog
 				character={academic}
 				on:complete={() => page.ready()}
-				htmlString="<i>FANTASTIC!</i> <pause /> The local wizard gave me a magical clock that can time travel, and I really want to see the dinosaurs to study them. Let's go then!"
+				htmlString="<i>FANTASTIC!</i><pause /> The local wizard gave me a magical clock that can time travel, and I really want to see the dinosaurs to study them. Let's go then!"
 			></Dialog></span
 		>
 		<span slot="next" class="multiNav">
@@ -84,7 +84,7 @@
 			<Dialog
 				character={academic}
 				on:complete={() => page.ready()}
-				htmlString="Oh..<pause />  I understand. I will go on my own then. <pause /> "
+				htmlString="Oh..<pause /> I understand. I will go on my own then. <pause /> "
 			></Dialog></span
 		>
 

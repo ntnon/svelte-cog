@@ -39,7 +39,7 @@
 				<Dialog
 					character={guy}
 					on:complete={() => page.ready()}
-					htmlString="Hey, I am the guy from before, but I have less balloons now!<pause /> I messed up again!<pause /> You remember the items you got for me?<pause /> I put them all next to other gifts and I lost track of which ones you got. What were the items again"
+					htmlString="Hey, I am the guy from before, but I have fewer balloons now!<pause /> I messed up again!<pause /> Do you remember the items you got for me?<pause /> I put them all next to other gifts and I lost track of which ones you got. What were the items again?"
 				></Dialog>
 			</span>
 			<NextStage slot="next" {page} nextStage="task">Recall the items</NextStage>
@@ -104,7 +104,7 @@
 			<span slot="component">
 				<Dialog
 					on:complete={() => page.ready()}
-					htmlString="Hmm, you didn't get all the items right.<pause /> It is probably just a regular frog anyway!"
+					htmlString="Hmm, you didn't get all the items right.<pause /> It's probably just a regular frog anyway!"
 				></Dialog>
 			</span>
 			<NextStage slot="next" {page} nextPage={true}>Continue</NextStage>

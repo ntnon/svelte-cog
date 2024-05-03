@@ -13,7 +13,7 @@
 
 {#if $page.currentStage === 'initial'}
 	<div
-		in:fade|global={{ duration: 2500, delay: 700 }}
+		in:fade|global={{ duration: 1500, delay: 300 }}
 		class="w-[100dvw] h-[100dvh] flex center"
 		on:introend={() => page.ready()}
 	>
@@ -45,7 +45,7 @@
 					page.showInfo();
 					page.showReward();
 				}}
-				htmlString="As you step out the front door, you find a coin and a flower on the ground!<pause /> You will find items like these throughout your journey.<pause /> Tap the items to pick them up
+				htmlString="As you step out the front door, you find a coin and a flower on the ground!<pause /> You will find items like these throughout your journey.<pause /> Tap the items to pick them up.
 			"
 			></Dialog>
 		</span>
@@ -96,7 +96,7 @@
 				character={neighbor}
 				on:complete={() => page.ready()}
 				htmlString="Hey neighbor! I reckon you wanted to know how I got this ice cream...<pause /> I'll tell you...<pause /> No, I won't...<pause /> Just kidding!<pause />
-				Becuase of the nice weather, all the ice cream scoops are extra large today, no extra charge!<pause /> You should check it out while the weather is still nice!!"
+				Because of the nice weather, all the ice cream scoops are extra large today, no extra charge!<pause /> You should check it out while the weather is still nice!!"
 			></Dialog></span
 		>
 		<span slot="next" class="multiNav">

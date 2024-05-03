@@ -34,7 +34,7 @@
 		</span>
 	</span>
 
-	<span class="bottom flex flex-grow center p-5"> <slot name="next" /></span>
+	<span class="bottom flex flex-grow center p-5 absolute"> <slot name="next" /></span>
 </div>
 
 <style>

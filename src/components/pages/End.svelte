@@ -39,7 +39,7 @@
 				on:complete={() => {
 					page.showNav();
 				}}
-				htmlString="You finally arive at the {loc}.<pause /> There is a long line! Even I want one of these!<pause /> Your reward at last!<pause /> Enjoy!!"
+				htmlString="You finally arrive at the {loc}.<pause /> There is a long line!<pause /> Your reward at last!<pause /> Enjoy!!"
 			></Dialog>
 		</span>
 		<NextStage slot="next" {page} nextStage={'reward'}>Complete game</NextStage>

@@ -21,9 +21,9 @@
 		<span slot="component"
 			><Dialog
 				on:complete={() => page.ready()}
-				htmlString="Looking at your usual route to the 	{$choices.find((r) => r.key === 'preference')
+				htmlString="Looking at your usual route to the {$choices.find((r) => r.key === 'preference')
 					?.location ?? 'bakery'}, you see a wizard standing in the middle of the road.<pause /> 
-				What a strange sight!<pause /> You could take the other route, but there is a guy in tuxedo, holding many ballons and looking somewhat anxious."
+What a strange sight!<pause /> You could take the other route, but there is a guy in a tuxedo, holding many balloons and looking somewhat anxious."
 			></Dialog></span
 		>
 		<span slot="next" class="multiNav">

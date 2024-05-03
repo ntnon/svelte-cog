@@ -54,7 +54,7 @@
 				clearInterval(interval);
 				dispatch('complete', true);
 			}
-		}, character.talkingSpeed);
+		}, 20);
 	}, delay);
 
 	onDestroy(() => {

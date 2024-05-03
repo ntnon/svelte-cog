@@ -34,7 +34,7 @@
 			<Dialog
 				character={mayor}
 				on:complete={() => page.ready()}
-				htmlString="Good day.<pause /> You look like you could climb the city hall building.<pause /> Would you it for me?"
+				htmlString="Good day.<pause /> You look like you could climb the city hall building.<pause /> Would you do it for me?"
 			></Dialog></span
 		>
 		<span slot="next" class="multiNav">
@@ -66,7 +66,7 @@
 			<Dialog
 				character={mayor}
 				on:complete={() => page.ready()}
-				htmlString="Well at least you are honest. <pause /> By the way, your watch shows the wrong time.<pause /> Anyway I have to. <b>Don't forget to vote for me!!!</b>"
+				htmlString="Well at least you are honest. <pause /> By the way, your watch shows the wrong time.<pause /> Anyway I have to go. <b>Don't forget to vote for me!!!</b>"
 			></Dialog></span
 		>
 		<NextStage slot="next" {page} nextStage={'task'}>Adjust watch</NextStage>
@@ -81,7 +81,7 @@
 			<Dialog
 				character={mayor}
 				on:complete={() => page.ready()}
-				htmlString="Lovely. <pause />The town clock on top of city hall displays the wrong time.<pause /> I need you to adjust it.<pause /> Thank you."
+				htmlString="Lovely.<pause /> The town clock on top of city hall displays the wrong time.<pause /> I need you to adjust it.<pause /> Thank you."
 			></Dialog></span
 		>
 
