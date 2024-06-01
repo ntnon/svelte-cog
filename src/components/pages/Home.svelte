@@ -5,7 +5,7 @@
 
 <div class="center flex-col space-y-10 h-[100dvh] top-1/2">
 	<b>Welcome to SvelteCog</b>
-	<p class="px-12 text-xl">This game was written as a part of my master thesis</p>
+	<p class="px-12">This game was written as a part of my master thesis</p>
 	<i>"Let's Play a Cognitive Game"</i>
 	<button
 		class="center hover p-5 w-[50dvw] ease btnClass bg-green-500 border-5 border-solid rounded-full box-border border-green-500"
