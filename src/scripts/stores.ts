@@ -73,7 +73,6 @@ export const resettablePageStore = <T>(data: T): IResettablePageStore<IPageData<
         showInfo();
     }
 
-
     return {
         subscribe,
         set,

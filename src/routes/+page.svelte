@@ -9,14 +9,14 @@
 	import Beginning from '../components/pages/Beginning.svelte';
 	import End from '../components/pages/End.svelte';
 	import Survey from '../components/pages/Survey.svelte';
+	import Home from '../components/pages/Home.svelte';
 
 	import { getAppState } from '$lib/state.svelte';
 
 	let page = getAppState().page;
 
 	const pages = [
-		Survey,
-
+		Home,
 		Nota,
 		//Example
 		Beginning,

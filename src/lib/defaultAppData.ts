@@ -28,5 +28,4 @@ export const defaultAppData: IAppData = {
         //expandable
     }
     //expandable
-
 }
