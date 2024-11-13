@@ -16,12 +16,12 @@
 	let page = getAppState().page;
 
 	const pages = [
-		Home,
-		Nota,
+		//Home,
+		//Nota,
 		//Example
-		Beginning,
-		ItemRegistration,
-		ShortRecall,
+		//Beginning,
+		//ItemRegistration,
+		//ShortRecall,
 		ClockDraw,
 		ClockHands,
 		LongRecall,
