@@ -27,93 +27,13 @@
 	const t = $choices.find((r) => r.key === 'shortRecall')?.content ?? 'wizard';
 </script>
 
-{#if $page.currentStage === 'initial'}
-	<Stage {page} displayRewards={false}>
-		<span slot="info">Select the you items were asked to remember, as many as you can!</span>
-		<Recall bind:this={recall} slot="component" {page} />
-		<span slot="next" class="multiNav">
-			<button class="btn w-[50vw]" on:click={() => recall.makeInvisible()}>Hint</button>
-			<NextStage {page} nextStage="reward"
-				>Continue ({$page.data.guesses.length}/{$page.data.correct.length})</NextStage
-			>
-		</span>
-	</Stage>
-{/if}
-
-{#if $page.currentStage === 'reward'}
-	{#if t === 'wizard'}
-		<Stage {page}>
-			<span slot="component">
-				<Dialog
-					character={doctor}
-					on:complete={() => {
-						page.ready();
-					}}
-					htmlString="Hello again Froggie!<pause /> I see you have been busy!<pause /> You managed to collect {correctGuesses} out of {$page
-						.data.correct.length} items.  {correctGuesses === 0
-						? "That's not a lot, but look! I found some items lying around, I can still turn you back into a human! "
-						: correctGuesses === 1
-							? 'That is not great, but I guess there were many items to pick from. Anyway, I can still turn you back into a human!'
-							: correctGuesses < 4
-								? 'That is plenty of items! With these I can turn you into a human again!'
-								: 'That is excellent! I can turn you back into a human!'} Hold still..."
-				></Dialog></span
-			>
-			<NextStage slot="next" {page} nextStage="reward2">Turn back into a human</NextStage>
-		</Stage>
-	{:else}
-		<Stage {page}>
-			<span slot="component">
-				<Dialog
-					character={guyBalloon}
-					on:complete={() => {
-						page.showReward();
-					}}
-					htmlString="Hey, that's great!<pause /> I think these are the correct items... I forgot, but I'm sure they are fine! Thanks again and have some ballons!"
-				></Dialog>
-			</span>
-			<Reward
-				options={[
-					{ name: 'balloon1', char: '🎈' },
-					{ name: 'balloon2', char: '🎈' },
-					{ name: 'balloon3', char: '🎈' },
-					{ name: 'balloon4', char: '🎈' },
-					{ name: 'balloon5', char: '🎈' }
-				]}
-				slot="reward"
-				on:complete={() => page.showNav()}
-			/>
-
-			<NextStage slot="next" {page} nextPage={true}>Continue</NextStage>
-		</Stage>
-	{/if}
-{/if}
-
-{#if $page.currentStage === 'reward2'}
-	<Stage {page}>
-		<span slot="component">
-			<Dialog
-				character={doctor}
-				on:complete={() => {
-					page.showReward();
-				}}
-				htmlString="Usually my patients have stuffed noses and sore throats, but this was really different, and fun! I have some items lying around that I don't need, feel free to pick {rewardCount}!"
-			></Dialog></span
+<Stage {page} displayRewards={false}>
+	<span slot="info">Select the you items were asked to remember, as many as you can!</span>
+	<Recall bind:this={recall} slot="component" {page} />
+	<span slot="next" class="multiNav">
+		<button class="btn w-[50vw]" on:click={() => recall.makeInvisible()}>Hint</button>
+		<NextStage {page} nextPage={true}
+			>Continue ({$page.data.guesses.length}/{$page.data.correct.length})</NextStage
 		>
-		<Reward
-			on:complete={() => page.showNav()}
-			slot="reward"
-			options={[
-				{ name: 'crutch', char: '🩼' },
-				{ name: 'thermometer', char: '🌡️' },
-				{ name: 'bandage', char: '🩹' },
-				{
-					name: 'stethoscope',
-					char: '🩺'
-				},
-				{ name: 'microscope', char: '🔬' }
-			].slice(0, rewardCount)}
-		/>
-		<NextStage slot="next" {page} nextPage={true}>Continue</NextStage>
-	</Stage>
-{/if}
+	</span>
+</Stage>

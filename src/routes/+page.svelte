@@ -17,15 +17,15 @@
 
 	const pages = [
 		//Home,
-		//Nota,
+		Nota,
 		//Example
 		//Beginning,
-		//ItemRegistration,
-		//ShortRecall,
+		ItemRegistration,
+		ShortRecall,
 		ClockDraw,
 		ClockHands,
-		LongRecall,
-		End
+		LongRecall
+		//End
 	];
 </script>
 
